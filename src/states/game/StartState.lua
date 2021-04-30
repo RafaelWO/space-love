@@ -3,7 +3,7 @@ StartState = Class{__includes = BaseState}
 function StartState:init()
     self.name = "StartState"
     self.backgroundSounds = {'laser-1', 'laser-2', 'two-tone'}
-    Timer.every(5, 
+    self.soundTimer = Timer.every(5, 
         function () 
             local soundIdx = math.random(#self.backgroundSounds)
             print(soundIdx)
@@ -13,7 +13,11 @@ function StartState:init()
 end
 
 function StartState:update(dt)
-
+    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+        self.soundTimer:remove()
+        gStateStack:pop()
+        gStateStack:push(PlayState())
+    end
 end
 
 function StartState:render()

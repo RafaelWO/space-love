@@ -13,6 +13,7 @@ require 'src/states/StateStack'
 require 'src/states/BaseState'
 
 require 'src/states/game/StartState'
+require 'src/states/game/PlayState'
 
 gFonts = {
     ['small'] = love.graphics.newFont('SpaceShooterRedux/Bonus/kenvector_future.ttf', 8),
