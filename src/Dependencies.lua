@@ -6,8 +6,10 @@ Class = require 'lib/class'
 Event = require 'lib/knife.event'
 push = require 'lib/push'
 Timer = require 'lib/knife.timer'
+require 'lib/xmlparser'
 
 require 'src/constants'
+require 'src/Utils'
 
 require 'src/states/StateStack'
 require 'src/states/BaseState'
@@ -32,4 +34,12 @@ gSounds = {
     ['shield-up'] = love.audio.newSource('SpaceShooterRedux/Bonus/sfx_shieldUp.ogg'),
     ['two-tone'] = love.audio.newSource('SpaceShooterRedux/Bonus/sfx_twoTone.ogg'),
     ['zap'] = love.audio.newSource('SpaceShooterRedux/Bonus/sfx_zap.ogg'),
+}
+
+gTextures = {
+    ['sheet'] = love.graphics.newImage('SpaceShooterRedux/Spritesheet/sheet.png')
+}
+
+gFrames = {
+    ['sheet'] = generateQuadsFromXml('SpaceShooterRedux/Spritesheet/sheet.xml', gTextures['sheet'])
 }
