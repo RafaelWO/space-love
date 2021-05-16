@@ -18,9 +18,10 @@ function GameObject:init(def)
         -- dimensions
         self.x = def.x
         self.y = def.y
-        self.width = def.width
-        self.height = def.height
         self.scale = def.scale or 1
+
+        -- get width and height from associated Quad
+        _, _, self.width, self.height = gFrames[self.texture][self.frame]:getViewport()
     
         -- default empty collision callback
         self.onCollide = function() end

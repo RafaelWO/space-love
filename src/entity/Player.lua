@@ -21,8 +21,6 @@ function Player:shoot(dt)
             table.insert(self.level.objects, Laser {
                 x = self.x + xOffset,
                 y = self.y + 26,
-                width = 9,
-                height = 37,
                 texture = 'sheet',
                 frame = 'laserBlue07'
             })
