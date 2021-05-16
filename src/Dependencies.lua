@@ -10,12 +10,24 @@ require 'lib/xmlparser'
 
 require 'src/constants'
 require 'src/Utils'
+require 'src/Animation'
 
 require 'src/states/StateStack'
 require 'src/states/BaseState'
+require 'src/states/StateMachine'
 
 require 'src/states/game/StartState'
 require 'src/states/game/PlayState'
+
+require 'src/states/entity/EntityBaseState'
+require 'src/states/entity/EntityFlyState'
+require 'src/states/entity/EntityIdleState'
+require 'src/states/entity/PlayerFlyState'
+require 'src/states/entity/PlayerIdleState'
+
+require 'src/entity/entity_defs'
+require 'src/entity/Entity'
+require 'src/entity/Player'
 
 gFonts = {
     ['small'] = love.graphics.newFont('SpaceShooterRedux/Bonus/kenvector_future.ttf', 8),
