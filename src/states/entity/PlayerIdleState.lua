@@ -14,7 +14,7 @@ function PlayerIdleState:update(dt)
         self.entity:changeState('fly')
     end
 
-    if love.keyboard.wasPressed('space') then
-        
+    if love.keyboard.isDown('space') then
+        self.entity:shoot(dt)
     end
 end

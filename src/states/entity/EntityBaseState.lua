@@ -12,7 +12,10 @@ function EntityBaseState:init(entity)
     self.entity = entity
 end
 
-function EntityBaseState:update(dt) end
+function EntityBaseState:update(dt)
+    
+end
+
 function EntityBaseState:enter() end
 function EntityBaseState:exit() end
 function EntityBaseState:processAI(params, dt) end

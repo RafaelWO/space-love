@@ -25,8 +25,8 @@ function PlayerFlyState:update(dt)
         self.entity:changeState('idle')
     end
 
-    if love.keyboard.wasPressed('space') then
-        -- shoot
+    if love.keyboard.isDown('space') then
+        self.entity:shoot(dt)
     end
 
     -- perform base collision detection against walls

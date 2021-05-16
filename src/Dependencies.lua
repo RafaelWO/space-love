@@ -29,6 +29,11 @@ require 'src/entity/entity_defs'
 require 'src/entity/Entity'
 require 'src/entity/Player'
 
+require 'src/world/Level'
+
+require 'src/object/GameObject'
+require 'src/object/Laser'
+
 gFonts = {
     ['small'] = love.graphics.newFont('SpaceShooterRedux/Bonus/kenvector_future.ttf', 8),
     ['medium'] = love.graphics.newFont('SpaceShooterRedux/Bonus/kenvector_future.ttf', 16),
@@ -49,7 +54,12 @@ gSounds = {
 }
 
 gTextures = {
-    ['sheet'] = love.graphics.newImage('SpaceShooterRedux/Spritesheet/sheet.png')
+    ['sheet'] = love.graphics.newImage('SpaceShooterRedux/Spritesheet/sheet.png'),
+
+    ['bg_black'] = love.graphics.newImage('SpaceShooterRedux/Backgrounds/black.png'),
+    ['bg_blue'] = love.graphics.newImage('SpaceShooterRedux/Backgrounds/blue.png'),
+    ['bg_dark-purple'] = love.graphics.newImage('SpaceShooterRedux/Backgrounds/darkPurple.png'),
+    ['bg_purple'] = love.graphics.newImage('SpaceShooterRedux/Backgrounds/purple.png'),
 }
 
 gFrames = {
