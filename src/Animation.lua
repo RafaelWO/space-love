@@ -14,7 +14,12 @@ function Animation:init(def)
     self.frames = def.frames
     self.interval = def.interval
     self.texture = def.texture
-    self.looping = def.looping or true
+
+    if def.looping ~= nil then
+        self.looping = def.looping
+    else
+        self.looping = true
+    end
 
     self.timer = 0
     self.currentFrame = 1

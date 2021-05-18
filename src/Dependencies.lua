@@ -31,6 +31,7 @@ require 'src/entity/Player'
 
 require 'src/world/Level'
 
+require 'src/object/object_defs'
 require 'src/object/GameObject'
 require 'src/object/Laser'
 
