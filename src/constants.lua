@@ -15,3 +15,4 @@ METEOR_SPEED = 80
 METEOR_SPAWN_INTERVAL = {1, 5}
 METEOR_TYPES = listfiles('SpaceShooterRedux/PNG/Meteors', 4)
 
+DEBUG = true

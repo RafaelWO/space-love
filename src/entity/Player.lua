@@ -24,6 +24,8 @@ function Player:shoot(dt)
                 GAME_OBJECT_DEFS['laser-blue']
             ))
         end
+        gSounds['laser-1']:stop()
+        gSounds['laser-1']:play()
         Event.dispatch('objects-changed')
     end
 end

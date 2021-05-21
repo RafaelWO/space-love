@@ -11,6 +11,7 @@ require 'lib/xmlparser'
 require 'src/Utils'
 require 'src/constants'
 require 'src/Animation'
+require 'src/Hitbox'
 
 require 'src/states/StateStack'
 require 'src/states/BaseState'

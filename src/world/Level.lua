@@ -23,6 +23,7 @@ function Level:init()
         ['fly'] = function() return PlayerFlyState(self.player) end
     }
     self.player:changeState('idle')
+    self.gameOver = false
 
     -- Event.on('objects-changed', function()
     --     local logString = ""
@@ -60,11 +61,16 @@ function Level:update(dt)
             object:update(dt)
 
             if gtype == "lasers" then
-                for j, target in pairs(self.objects["meteors"]) do
-                    if object:collides(target) then
+                for j, meteor in pairs(self.objects["meteors"]) do
+                    if meteor:collides(object) then
                         object:changeState("hit")
                     end
                 end
+            end
+            
+            -- check player with meteor collision
+            if gtype == "meteors" and object:collides(self.player) and not self.gameOver then
+                gSounds['lose']:play()
             end
 
             if object.toRemove then
