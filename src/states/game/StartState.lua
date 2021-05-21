@@ -6,7 +6,6 @@ function StartState:init()
     self.soundTimer = Timer.every(5, 
         function () 
             local soundIdx = math.random(#self.backgroundSounds)
-            print(soundIdx)
             gSounds[self.backgroundSounds[soundIdx]]:play()
         end
     )

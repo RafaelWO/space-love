@@ -18,7 +18,7 @@ function Player:shoot(dt)
         self.shotTimer = 0
 
         for i, xOffset in ipairs({0, self.width - 9}) do 
-            table.insert(self.level.objects, Laser (
+            table.insert(self.level.objects['lasers'], Laser (
                 self.x + xOffset,
                 self.y + 26,
                 GAME_OBJECT_DEFS['laser-blue']

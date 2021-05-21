@@ -29,6 +29,6 @@ function PlayerFlyState:update(dt)
         self.entity:shoot(dt)
     end
 
-    -- perform base collision detection against walls
+    -- perform base collision detection against window borders
     EntityFlyState.update(self, dt)
 end

@@ -1,7 +1,10 @@
 Level = Class{}
 
 function Level:init()
-    self.objects = {}
+    self.objects = {
+        ['lasers'] = {},
+        ['meteors'] = {}
+    }
     self.player = Player {
         animations = ENTITY_DEFS['player'].animations,
         flySpeed = ENTITY_DEFS['player'].flySpeed,
@@ -21,32 +24,58 @@ function Level:init()
     }
     self.player:changeState('idle')
 
-    Event.on('objects-changed', function()
-        local logString = ""
-        for k, object in pairs(self.objects) do
-            logString = logString .. " | " .. object.type
-        end
-        print(logString)
-    end
-    )
+    -- Event.on('objects-changed', function()
+    --     local logString = ""
+    --     for k, object in pairs(self.objects) do
+    --         logString = logString .. " | " .. object.type
+    --     end
+    --     print(logString)
+    -- end
+    -- )
 
     self.bgOffsetY = 0
-    self.bgSpeed = 100
     self.bgScrolling = true
+
+    self.meteorSpawnTimer = 0
+    self.meteorSpawnEta = math.random(unpack(METEOR_SPAWN_INTERVAL))
 end
 
 function Level:update(dt)
-    for k, object in pairs(self.objects) do
-        object:update(dt)
+    self.meteorSpawnTimer = self.meteorSpawnTimer + dt
+    if self.meteorSpawnTimer > self.meteorSpawnEta then
+        self.meteorSpawnTimer = 0
+        self.meteorSpawnEta = math.random(unpack(METEOR_SPAWN_INTERVAL))
+        
+        local meteorDef = GAME_OBJECT_DEFS['meteor']
+        meteorDef.frame = METEOR_TYPES[math.random(#METEOR_TYPES)]
+        table.insert(self.objects['meteors'], Meteor (
+            math.random(0, VIRTUAL_WIDTH),
+            -100,
+            meteorDef
+        ))
+    end
 
-        if object.toRemove then
-            table.remove(self.objects, k)
+    for i, gtype in ipairs(GAME_OBJECT_TYPES) do
+        for k, object in pairs(self.objects[gtype]) do
+            object:update(dt)
+
+            if gtype == "lasers" then
+                for j, target in pairs(self.objects["meteors"]) do
+                    if object:collides(target) then
+                        object:changeState("hit")
+                    end
+                end
+            end
+
+            if object.toRemove then
+                table.remove(self.objects[gtype], k)
+            end
         end
     end
     self.player:update(dt)
 
     if self.bgScrolling then
-        self.bgOffsetY = self.bgOffsetY + self.bgSpeed * dt
+        self.bgOffsetY = self.bgOffsetY + BACKGROUND_SPEED * dt
     end
     
     if self.bgOffsetY >= BACKGROUND_SIZE then
@@ -61,8 +90,10 @@ function Level:render()
         end
     end
 
-    for k, object in pairs(self.objects) do
-        object:render()
+    for i, gtype in ipairs(GAME_OBJECT_TYPES) do
+        for k, object in pairs(self.objects[gtype]) do
+            object:render()
+        end
     end
     self.player:render()
 end

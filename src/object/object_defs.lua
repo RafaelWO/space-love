@@ -16,5 +16,11 @@ GAME_OBJECT_DEFS = {
                 width = 38,
             }
         }
+    },
+    ['meteor'] = {
+        type = 'meteor',
+        texture = 'sheet',
+        frame = 'OVERRIDE',
+        solid = true
     }
 }

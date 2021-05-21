@@ -26,7 +26,11 @@ function GameObject:init(x, y, def)
     self.scale = def.scale or 1
 
     -- get width and height from associated Quad
-    _, _, self.width, self.height = gFrames[self.texture][self.frame]:getViewport()
+    if def.width and def.height then
+        self.width, self.height = def.width, def.height
+    else
+        _, _, self.width, self.height = gFrames[self.texture][self.frame]:getViewport()
+    end
 
     -- default empty collision callback
     self.onCollide = function() end
@@ -40,14 +44,12 @@ function GameObject:createAnimations(animations)
     local animationsReturned = {}
 
     for k, animationDef in pairs(animations) do
-        print(k, animationDef.looping)
         animationsReturned[k] = Animation {
             texture = animationDef.texture or 'sheet',
             frames = animationDef.frames,
             interval = animationDef.interval,
             looping = animationDef.looping
         }
-        print(animationsReturned[k].looping)
     end
 
     return animationsReturned
@@ -55,7 +57,7 @@ end
 
 function GameObject:changeState(name)
     if self.states == nil then
-        return
+        return false
     end
 
     local newState = nil
@@ -65,7 +67,6 @@ function GameObject:changeState(name)
         end
     end
     if newState and newState ~= self.state then
-        print("State changed")
         self.state = newState
         self.currentAnimation = self.animations[newState]
 
@@ -77,11 +78,17 @@ function GameObject:changeState(name)
             self.y = self.y + self.height / 2 - self.states[newState].height / 2
             self.height = self.states[newState].height or self.height
         end
+
+        return newState
     end
+
+    return false
 end
 
 function GameObject:update(dt)
-    self.currentAnimation:update(dt)
+    if self.currentAnimation then
+        self.currentAnimation:update(dt)
+    end
 end
 
 --[[
