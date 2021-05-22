@@ -44,16 +44,12 @@ function printdoc(doc)
 end
 
 
-function listfiles(directory, extension_len)
-    local t, popen = {}, io.popen
-    local pfile = popen('ls -a "'..directory..'"')
-    for filename in pfile:lines() do
-        if filename ~= '.' and filename ~= '..' then
-            subbed = string.sub(filename, 1, string.len(filename) - (extension_len or 0))
-            table.insert(t, subbed)
-            -- print(subbed)
-        end
+function getFrameNamesFromSheet(sheet, name)
+    local matchedNames = {}
+    for frame, quad in pairs(gFrames['sheet']) do
+        if string.match(frame, name) then
+            table.insert(matchedNames, frame)
+        end 
     end
-    pfile:close()
-    return t
+    return matchedNames
 end

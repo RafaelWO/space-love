@@ -33,6 +33,8 @@ function love.load()
     gStateStack:push(StartState())
 
     love.keyboard.keysPressed = {}
+
+    METEOR_TYPES = getFrameNamesFromSheet('sheet', 'meteor')
 end
 
 function love.resize(w, h)

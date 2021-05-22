@@ -13,6 +13,6 @@ PLAYER_LASER_SPEED = 600
 
 METEOR_SPEED = 80
 METEOR_SPAWN_INTERVAL = {1, 5}
-METEOR_TYPES = listfiles('SpaceShooterRedux/PNG/Meteors', 4)
+METEOR_TYPES = {}       -- gets filled after load
 
 DEBUG = false
