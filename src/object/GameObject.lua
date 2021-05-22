@@ -29,7 +29,6 @@ function GameObject:init(x, y, def)
     if def.width and def.height then
         self.width, self.height = def.width, def.height
     else
-        print(self.texture, self.frame)
         _, _, self.width, self.height = gFrames[self.texture][self.frame]:getViewport()
     end
 
@@ -118,8 +117,9 @@ function GameObject:render()
         love.graphics.setColor(255, 255, 255, 255)
 
         if self.type == "meteor" then
+            local hitbox = self:getHitBox()
             love.graphics.setColor(0, 255, 255, 255)
-            love.graphics.rectangle('line', self:getHitBox())
+            love.graphics.rectangle('line', hitbox.x, hitbox.y, hitbox.width, hitbox.height)
             love.graphics.setColor(255, 255, 255, 255)
         end
     end

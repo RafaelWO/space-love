@@ -29,3 +29,10 @@ function Player:shoot(dt)
         Event.dispatch('objects-changed')
     end
 end
+
+function Player:getHitBoxes()    
+    return { 
+        Hitbox(self.x + 38, self.y, 22, self.height),
+        Hitbox(self.x + 1, self.y + 31, self.width - 2, 31),
+    }
+end

@@ -16,6 +16,8 @@ function Entity:init(def)
     self.y = def.y
 
     self.flySpeed = def.flySpeed
+
+    self.hitboxes = def.hitboxes or { Hitbox(self.x, self.y, self.width, self.height) }
 end
 
 function Entity:changeState(name)
@@ -38,6 +40,24 @@ function Entity:createAnimations(animations)
     end
 
     return animationsReturned
+end
+
+--[[
+    Simple AABB
+]]
+function Entity:collides(target)
+    local hitboxes = self:getHitBoxes()
+    local collides = false
+    for k, hitbox in pairs(hitboxes) do
+        if hitbox:collides(target) then
+            return true
+        end
+    end
+    return false
+end
+
+function Entity:getHitBoxes()    
+    return { Hitbox(self.x, self.y, self.width, self.height) }
 end
 
 --[[

@@ -69,7 +69,7 @@ function Level:update(dt)
             end
             
             -- check player with meteor collision
-            if gtype == "meteors" and object:collides(self.player) and not self.gameOver then
+            if gtype == "meteors" and self.player:collides(object:getHitBox()) and not self.gameOver then
                 gSounds['lose']:play()
             end
 

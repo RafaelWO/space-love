@@ -23,9 +23,9 @@ function Meteor:update(dt)
 end
 
 function Meteor:collides(target)
-    local x, y, width, height = self:getHitBox()
-    return not (x + width < target.x or x > target.x + target.width or
-                y + height < target.y or y > target.y + target.height)
+    local hitbox = self:getHitBox()
+    return not (hitbox.x + hitbox.width < target.x or hitbox.x > target.x + target.width or
+                hitbox.y + hitbox.height < target.y or hitbox.y > target.y + target.height)
 end
 
 function Meteor:getHitBox()
@@ -34,5 +34,5 @@ function Meteor:getHitBox()
     local width = self.width - self.hitmargin * 2
     local height = self.height - self.hitmargin * 2
     
-    return x, y, width, height
+    return { x = x, y = y, width = width, height = height }
 end
