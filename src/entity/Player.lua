@@ -1,8 +1,8 @@
 Player = Class{__includes = Entity}
 
-function Player:init(def)
-    Entity.init(self, def)
-    self.level = def.level
+function Player:init(x, y, def, level)
+    Entity.init(self, x, y, def)
+    self.level = level
     self.shotInterval = 0.4
     self.shotTimer = self.shotInterval      -- first shoot can be done immediately
 end
@@ -28,11 +28,4 @@ function Player:shoot(dt)
         gSounds['laser-1']:play()
         Event.dispatch('objects-changed')
     end
-end
-
-function Player:getHitBoxes()    
-    return { 
-        Hitbox(self.x + 38, self.y, 22, self.height),
-        Hitbox(self.x + 1, self.y + 31, self.width - 2, 31),
-    }
 end

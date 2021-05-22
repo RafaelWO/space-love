@@ -53,3 +53,8 @@ function getFrameNamesFromSheet(sheet, name)
     end
     return matchedNames
 end
+
+
+function getHitboxFromMargins(object, margin)
+    return Hitbox (object.x + margin.xOffset, object.y + margin.yOffset, margin.width, margin.height)
+end

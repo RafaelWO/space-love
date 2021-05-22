@@ -16,5 +16,6 @@ end
 
 function PlayState:render()
     self.level:render()
+    love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Playing...', 0, VIRTUAL_HEIGHT / 2 - 30, VIRTUAL_WIDTH, 'center')
 end

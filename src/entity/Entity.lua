@@ -5,19 +5,19 @@
 
 Entity = Class{}
 
-function Entity:init(def)
+function Entity:init(x, y, def)
     self.animations = self:createAnimations(def.animations)
     self.direction = 'up'
 
     self.width = def.width
     self.height = def.height
 
-    self.x = def.x
-    self.y = def.y
+    self.x = x
+    self.y = y
 
     self.flySpeed = def.flySpeed
 
-    self.hitboxes = def.hitboxes or { Hitbox(self.x, self.y, self.width, self.height) }
+    self.hitboxMargins = def.hitboxMargins
 end
 
 function Entity:changeState(name)
@@ -56,8 +56,12 @@ function Entity:collides(target)
     return false
 end
 
-function Entity:getHitBoxes()    
-    return { Hitbox(self.x, self.y, self.width, self.height) }
+function Entity:getHitBoxes()
+    local hitboxes = {}
+    for k, margin in pairs(self.hitboxMargins) do
+        table.insert(hitboxes, getHitboxFromMargins(self, margin))
+    end
+    return hitboxes
 end
 
 --[[

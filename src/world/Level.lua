@@ -5,18 +5,12 @@ function Level:init()
         ['lasers'] = {},
         ['meteors'] = {}
     }
-    self.player = Player {
-        animations = ENTITY_DEFS['player'].animations,
-        flySpeed = ENTITY_DEFS['player'].flySpeed,
-        
-        x = VIRTUAL_WIDTH / 2,
-        y = VIRTUAL_HEIGHT / 2,
-        
-        width = 99,
-        height = 75,
-
-        level = self
-    }
+    self.player = Player (
+        VIRTUAL_WIDTH / 2,
+        VIRTUAL_HEIGHT / 2,
+        ENTITY_DEFS['player'],
+        self
+    )
 
     self.player.stateMachine = StateMachine {
         ['idle'] = function() return PlayerIdleState(self.player) end,
@@ -71,6 +65,8 @@ function Level:update(dt)
             -- check player with meteor collision
             if gtype == "meteors" and self.player:collides(object:getHitBox()) and not self.gameOver then
                 gSounds['lose']:play()
+                gStateStack:pop()
+                gStateStack:push(GameOverState())
             end
 
             if object.toRemove then

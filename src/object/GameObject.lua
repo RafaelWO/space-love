@@ -70,7 +70,7 @@ function GameObject:changeState(name)
         self.state = newState
         self.currentAnimation = self.animations[newState]
 
-        -- Sometimes the sprite changes is terms of size for another state
+        -- Sometimes the sprite for the new state differs in terms of size
         if self.states[newState].width ~= nil then
             self.x = self.x + self.width / 2 - self.states[newState].width / 2
             self.width = self.states[newState].width

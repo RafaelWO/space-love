@@ -19,6 +19,7 @@ require 'src/states/StateMachine'
 
 require 'src/states/game/StartState'
 require 'src/states/game/PlayState'
+require 'src/states/game/GameOverState'
 
 require 'src/states/entity/EntityBaseState'
 require 'src/states/entity/EntityFlyState'
