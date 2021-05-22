@@ -17,6 +17,7 @@ function Level:init()
         ['fly'] = function() return PlayerFlyState(self.player) end
     }
     self.player:changeState('idle')
+    
     self.gameOver = false
 
     -- Event.on('objects-changed', function()

@@ -7,7 +7,7 @@ end
 function Laser:update(dt)
     GameObject.update(self, dt)
 
-    if self.state == "flying" then
+    if self.state == "fly" then
         self.y = self.y - PLAYER_LASER_SPEED * dt
     end
 end

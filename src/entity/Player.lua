@@ -5,12 +5,31 @@ function Player:init(x, y, def, level)
     self.level = level
     self.shotInterval = 0.4
     self.shotTimer = self.shotInterval      -- first shoot can be done immediately
+
+    local jetOffset = {
+        x = self.width / 2 - GAME_OBJECT_DEFS['jet'].width / 2,
+        y = self.height + 4
+    }
+    self.jet = Jet (
+        self.x + jetOffset.x,
+        self.y + jetOffset.y,
+        GAME_OBJECT_DEFS['jet'],
+        self,
+        jetOffset
+    )
 end
 
 function Player:update(dt)
     Entity.update(self, dt)
     
     self.shotTimer = self.shotTimer + dt
+    self.jet:update(dt)
+end
+
+function Player:changeState(name)
+    Entity.changeState(self, name)
+
+    self.jet:changeState(name)
 end
 
 function Player:shoot(dt)

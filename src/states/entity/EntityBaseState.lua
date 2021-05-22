@@ -37,4 +37,6 @@ function EntityBaseState:render()
             love.graphics.setColor(255, 255, 255, 255)
         end
     end
+
+    self.entity.jet:render()
 end

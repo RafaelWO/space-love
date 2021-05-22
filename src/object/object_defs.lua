@@ -4,9 +4,9 @@ GAME_OBJECT_DEFS = {
         texture = 'sheet',
         frame = 'laserBlue07',
         solid = false,
-        defaultState = 'flying',
+        defaultState = 'fly',
         states = {
-            ['flying'] = {
+            ['fly'] = {
                 frames = {'laserBlue07'}
             },
             ['hit'] = {
@@ -22,5 +22,22 @@ GAME_OBJECT_DEFS = {
         texture = 'sheet',
         frame = 'OVERRIDE',
         solid = true
+    },
+    ['jet'] = {
+        type = 'jet',
+        texture = 'sheet',
+        frame = 'fire06',
+        width = 14,
+        height = 31,
+        solid = false,
+        defaultState = "idle",
+        states = {
+            ['idle'] = {
+                frames = {'fire06'}
+            },
+            ['fly'] = {
+                frames = {'fire07'}
+            }
+        }
     }
 }
