@@ -26,17 +26,17 @@ GAME_OBJECT_DEFS = {
     ['jet'] = {
         type = 'jet',
         texture = 'sheet',
-        frame = 'fire06',
-        width = 14,
-        height = 31,
+        frame = 'fire09',
+        width = 16,
+        height = 40,
         solid = false,
         defaultState = "idle",
         states = {
             ['idle'] = {
-                frames = {'fire06'}
+                frames = {'fire09'}
             },
             ['fly'] = {
-                frames = {'fire07'}
+                frames = {'fire08'}
             }
         }
     }

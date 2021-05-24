@@ -21,6 +21,7 @@ function EntityBaseState:exit() end
 function EntityBaseState:processAI(params, dt) end
 
 function EntityBaseState:render()
+    self.entity.jet:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         math.floor(self.entity.x), math.floor(self.entity.y))
@@ -37,6 +38,4 @@ function EntityBaseState:render()
             love.graphics.setColor(255, 255, 255, 255)
         end
     end
-
-    self.entity.jet:render()
 end

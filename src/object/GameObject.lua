@@ -24,6 +24,7 @@ function GameObject:init(x, y, def)
     self.x = x
     self.y = y
     self.scale = def.scale or 1
+    self.rotation = def.rotation or 0
 
     -- get width and height from associated Quad
     if def.width and def.height then
@@ -104,11 +105,11 @@ function GameObject:render()
     if self.states == nil then
         frame = self.frame
         love.graphics.draw(gTextures[self.texture], gFrames[self.texture][frame],
-            math.floor(self.x), math.floor(self.y), 0, self.scale, self.scale)
+            math.floor(self.x), math.floor(self.y), self.rotation, self.scale, self.scale)
     else
         local anim = self.currentAnimation
         love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
-            math.floor(self.x), math.floor(self.y))
+            math.floor(self.x), math.floor(self.y), self.rotation, self.scale, self.scale)
     end
     
     if DEBUG then

@@ -8,7 +8,7 @@ function Player:init(x, y, def, level)
 
     local jetOffset = {
         x = self.width / 2 - GAME_OBJECT_DEFS['jet'].width / 2,
-        y = self.height + 4
+        y = self.height - 2
     }
     self.jet = Jet (
         self.x + jetOffset.x,
