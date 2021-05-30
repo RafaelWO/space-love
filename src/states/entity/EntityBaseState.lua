@@ -33,7 +33,7 @@ function EntityBaseState:render()
         love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
         love.graphics.setColor(255, 255, 255, 255)
         
-        local hitboxes = self.entity:getHitBoxes()
+        local hitboxes = self.entity:getHitboxes()
         for k, hitbox in pairs(hitboxes) do
             love.graphics.setColor(0, 255, 255, 255)
             love.graphics.rectangle('line', hitbox.x, hitbox.y, hitbox.width, hitbox.height)

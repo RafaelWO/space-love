@@ -8,6 +8,7 @@ Entity = Class{}
 function Entity:init(x, y, def)
     self.animations = self:createAnimations(def.animations)
     self.direction = 'up'
+    self.type = def.type
 
     self.width = def.width
     self.height = def.height
@@ -17,7 +18,7 @@ function Entity:init(x, y, def)
 
     self.flySpeed = def.flySpeed
 
-    self.hitboxMargins = def.hitboxMargins
+    self.hitboxDefs = def.hitboxDefs
 end
 
 function Entity:changeState(name)
@@ -47,7 +48,7 @@ end
     Simple AABB
 ]]
 function Entity:collides(target)
-    local hitboxes = self:getHitBoxes()
+    local hitboxes = self:getHitboxes()
     local collides = false
     for k, hitbox in pairs(hitboxes) do
         if hitbox:collides(target) then
@@ -57,10 +58,14 @@ function Entity:collides(target)
     return false
 end
 
-function Entity:getHitBoxes()
+function Entity:getHitboxes()
+    if not self.hitboxDefs then
+        return { Hitbox(self.x, self.y, self.width, self.height) }
+    end
+
     local hitboxes = {}
-    for k, margin in pairs(self.hitboxMargins) do
-        table.insert(hitboxes, getHitboxFromMargins(self, margin))
+    for k, def in pairs(self.hitboxDefs) do
+        table.insert(hitboxes, getHitboxFromDef(self, def))
     end
     return hitboxes
 end

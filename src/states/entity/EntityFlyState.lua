@@ -10,9 +10,19 @@ EntityFlyState = Class{__includes = EntityBaseState}
 
 function EntityFlyState:init(entity)
     self.entity = entity
+    self.entity:changeAnimation('fly')
+
+    -- used for AI control
+    self.moveDuration = 0
+    self.movementTimer = 0
+
+    -- keeps track of whether we just hit a wall
+    self.bumped = false
 end
 
 function EntityFlyState:update(dt)
+    self.bumped = false
+
     if self.entity.direction == 'left' then
         self.entity.x = self.entity.x - self.entity.flySpeed * dt
         
@@ -45,5 +55,24 @@ function EntityFlyState:update(dt)
 end
 
 function EntityFlyState:processAI(params, dt)
-    
+    local directions = {'left', 'right', 'up', 'down'}
+
+    if self.moveDuration == 0 or self.bumped then
+        
+        -- set an initial move duration and direction
+        self.moveDuration = math.random(3)
+        self.entity.direction = directions[math.random(#directions)]
+    elseif self.movementTimer > self.moveDuration then
+        self.movementTimer = 0
+
+        -- chance to go idle
+        if math.random(3) == 1 then
+            self.entity:changeState('idle')
+        else
+            self.moveDuration = math.random(5)
+            self.entity.direction = directions[math.random(#directions)]
+        end
+    end
+
+    self.movementTimer = self.movementTimer + dt
 end

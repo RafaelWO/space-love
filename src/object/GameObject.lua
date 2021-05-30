@@ -120,7 +120,7 @@ function GameObject:render()
         love.graphics.setColor(255, 255, 255, 255)
 
         if self.type == "meteor" then
-            local hitbox = self:getHitBox()
+            local hitbox = self:getHitbox()
             love.graphics.setColor(0, 255, 255, 255)
             love.graphics.rectangle('line', hitbox.x, hitbox.y, hitbox.width, hitbox.height)
             love.graphics.setColor(255, 255, 255, 255)

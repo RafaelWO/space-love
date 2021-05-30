@@ -4,6 +4,7 @@
 
 ENTITY_DEFS = {
     ['player'] = {
+        type = 'player',
         flySpeed = 400,
         width = 99,
         height = 75,
@@ -17,7 +18,7 @@ ENTITY_DEFS = {
                 texture = 'sheet'
             }
         },
-        hitboxMargins = {
+        hitboxDefs = {
             {
                 xOffset = 38, yOffset = 0, width = 22, height = 75
             },
@@ -27,6 +28,7 @@ ENTITY_DEFS = {
         }
     },
     ['enemy'] = {
+        type = 'simple_enemy',
         flySpeed = 200,
         width = 93,
         height = 84,
@@ -38,14 +40,6 @@ ENTITY_DEFS = {
             ['fly'] = {
                 frames = {'enemyBlack1'},
                 texture = 'sheet'
-            }
-        },
-        hitboxMargins = {
-            {
-                xOffset = 38, yOffset = 0, width = 22, height = 75
-            },
-            {
-                xOffset = 1, yOffset = 31, width = 97, height = 31
             }
         }
     }

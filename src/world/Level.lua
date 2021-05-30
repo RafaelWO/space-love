@@ -32,8 +32,6 @@ function Level:init()
     }
     self.enemies[1]:changeState('idle')
 
-    self.gameOver = false
-
     -- Event.on('objects-changed', function()
     --     local logString = ""
     --     for k, object in pairs(self.objects) do
@@ -75,13 +73,17 @@ function Level:update(dt)
                         object:changeState("hit")
                     end
                 end
+
+                for j, enemy in pairs(self.enemies) do
+                    if enemy:collides(object) then
+                        object:changeState("hit")
+                    end
+                end
             end
             
             -- check player with meteor collision
-            if gtype == "meteors" and self.player:collides(object:getHitBox()) and not self.gameOver then
-                gSounds['lose']:play()
-                gStateStack:pop()
-                gStateStack:push(GameOverState())
+            if gtype == "meteors" and self.player:collides(object:getHitbox()) then
+                self:gameOver()
             end
 
             if object.toRemove then
@@ -92,7 +94,14 @@ function Level:update(dt)
     self.player:update(dt)
 
     for k, enemy in pairs(self.enemies) do
+        enemy:processAI({}, dt)
         enemy:update(dt)
+
+        for j, enemyHitbox in pairs(enemy:getHitboxes()) do
+            if self.player:collides(enemyHitbox) then
+                self:gameOver()
+            end
+        end
     end
 
     if self.bgScrolling then
@@ -111,14 +120,22 @@ function Level:render()
         end
     end
 
-    for i, gtype in ipairs(GAME_OBJECT_TYPES) do
-        for k, object in pairs(self.objects[gtype]) do
-            object:render()
-        end
+    for k, object in pairs(self.objects['meteors']) do
+        object:render()
     end
     self.player:render()
 
     for k, enemy in pairs(self.enemies) do
         enemy:render()
     end
+
+    for k, object in pairs(self.objects['lasers']) do
+        object:render()
+    end
+end
+
+function Level:gameOver()
+    gSounds['lose']:play()
+    gStateStack:pop()
+    gStateStack:push(GameOverState())
 end
