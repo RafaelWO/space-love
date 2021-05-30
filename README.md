@@ -1,5 +1,5 @@
 # Space-Love
-A space shooter written with [LÖVE](https://love2d.org/) in Lua.
+A space shooter written with [LÖVE❤](https://love2d.org/) in Lua.
 
 ## Used Libraries, Art Packs, Sounds
 ### Art Pack
