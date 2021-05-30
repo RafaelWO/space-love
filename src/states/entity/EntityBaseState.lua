@@ -21,7 +21,7 @@ function EntityBaseState:exit() end
 function EntityBaseState:processAI(params, dt) end
 
 function EntityBaseState:render()
-    if self.entity.jey then
+    if self.entity.jet then
         self.entity.jet:render()
     end
     local anim = self.entity.currentAnimation
