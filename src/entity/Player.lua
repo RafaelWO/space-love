@@ -1,10 +1,8 @@
 Player = Class{__includes = Entity}
 
 function Player:init(x, y, def, level)
-    Entity.init(self, x, y, def)
-    self.level = level
+    Entity.init(self, x, y, def, level)
     self.shotInterval = 0.4
-    self.shotTimer = self.shotInterval      -- first shoot can be done immediately
 
     local jetOffset = {
         x = self.width / 2 - GAME_OBJECT_DEFS['jet'].width / 2,
@@ -22,7 +20,6 @@ end
 function Player:update(dt)
     Entity.update(self, dt)
     
-    self.shotTimer = self.shotTimer + dt
     self.jet:update(dt)
 end
 
@@ -38,15 +35,16 @@ function Player:changeState(name)
     end
 end
 
-function Player:shoot(dt)
-    if self.shotTimer > self.shotInterval then
-        self.shotTimer = 0
+function Player:shoot()
+    if self.shotIntervalTimer > self.shotInterval then
+        self.shotIntervalTimer = 0
 
         for i, xOffset in ipairs({0, self.width - 9}) do 
             table.insert(self.level.objects['lasers'], Laser (
                 self.x + xOffset,
                 self.y + 26,
-                GAME_OBJECT_DEFS['laser-blue']
+                GAME_OBJECT_DEFS['laser-blue'],
+                "up"
             ))
         end
         gSounds['laser-1']:stop()

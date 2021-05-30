@@ -5,10 +5,11 @@
 
 Entity = Class{}
 
-function Entity:init(x, y, def)
+function Entity:init(x, y, def, level)
     self.animations = self:createAnimations(def.animations)
     self.direction = 'up'
     self.type = def.type
+    self.level = level
 
     self.width = def.width
     self.height = def.height
@@ -19,6 +20,12 @@ function Entity:init(x, y, def)
     self.flySpeed = def.flySpeed
 
     self.hitboxDefs = def.hitboxDefs
+
+    self.shotInterval = 0.8
+    self.shotIntervalTimer = self.shotInterval      -- first shoot can be done immediately
+    self.shotDuration = 0
+    self.shotWaitDuration = 0
+    self.shotTimer = 0
 end
 
 function Entity:changeState(name)
@@ -79,9 +86,40 @@ end
 
 function Entity:processAI(params, dt)
     self.stateMachine:processAI(params, dt)
+
+    if self.shotDuration == 0 then
+        self.shotDuration = math.random(4)
+        self.shotWaitDuration = math.random(3)
+    elseif self.shotTimer < self.shotDuration then
+        self:shoot()
+    elseif self.shotTimer > (self.shotDuration + self.shotWaitDuration) then
+        self.shotDuration = math.random(4)
+        self.shotWaitDuration = math.random(3)
+        self.shotTimer = 0
+    end
+
+    self.shotTimer = self.shotTimer + dt
+end
+
+function Entity:shoot()
+    if self.shotIntervalTimer > self.shotInterval then
+        self.shotIntervalTimer = 0
+
+        table.insert(self.level.objects['lasers'], Laser (
+            self.x + self.width / 2,
+            self.y + self.height,
+            GAME_OBJECT_DEFS['laser-blue'],
+            "down"
+        ))
+        gSounds['laser-1']:stop()
+        gSounds['laser-1']:play()
+        Event.dispatch('objects-changed')
+    end
 end
 
 function Entity:update(dt)
+    self.shotIntervalTimer = self.shotIntervalTimer + dt
+        
     self.currentAnimation:update(dt)
     self.stateMachine:update(dt)
 end
