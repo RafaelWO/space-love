@@ -8,7 +8,7 @@ function Player:init(x, y, def, level)
 
     local jetOffset = {
         x = self.width / 2 - GAME_OBJECT_DEFS['jet'].width / 2,
-        y = self.height - 2
+        y = self.height - 5
     }
     self.jet = Jet (
         self.x + jetOffset.x,
@@ -29,7 +29,13 @@ end
 function Player:changeState(name)
     Entity.changeState(self, name)
 
-    self.jet:changeState(name)
+    if name == "fly" then
+        self.jet:changeState('pre-fly')
+        Timer.after(0.1, function () self.jet:changeState(name) end)
+    elseif name == "idle" then
+        self.jet:changeState('pre-fly')
+        Timer.after(0.1, function () self.jet:changeState(name) end)
+    end
 end
 
 function Player:shoot(dt)

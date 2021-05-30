@@ -108,8 +108,10 @@ function GameObject:render()
             math.floor(self.x), math.floor(self.y), self.rotation, self.scale, self.scale)
     else
         local anim = self.currentAnimation
-        love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
-            math.floor(self.x), math.floor(self.y), self.rotation, self.scale, self.scale)
+        if self.currentAnimation:getCurrentFrame() then
+            love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
+                math.floor(self.x), math.floor(self.y), self.rotation, self.scale, self.scale)
+        end
     end
     
     if DEBUG then

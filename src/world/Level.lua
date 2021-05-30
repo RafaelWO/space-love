@@ -18,6 +18,20 @@ function Level:init()
     }
     self.player:changeState('idle')
     
+    self.enemies = { 
+        Entity (
+            VIRTUAL_WIDTH / 2,
+            100,
+            ENTITY_DEFS['enemy'],
+            self
+        )
+    }
+    self.enemies[1].stateMachine = StateMachine {
+        ['idle'] = function() return EntityIdleState(self.enemies[1]) end,
+        ['fly'] = function() return EntityFlyState(self.enemies[1]) end
+    }
+    self.enemies[1]:changeState('idle')
+
     self.gameOver = false
 
     -- Event.on('objects-changed', function()
@@ -77,6 +91,10 @@ function Level:update(dt)
     end
     self.player:update(dt)
 
+    for k, enemy in pairs(self.enemies) do
+        enemy:update(dt)
+    end
+
     if self.bgScrolling then
         self.bgOffsetY = self.bgOffsetY + BACKGROUND_SPEED * dt
     end
@@ -99,4 +117,8 @@ function Level:render()
         end
     end
     self.player:render()
+
+    for k, enemy in pairs(self.enemies) do
+        enemy:render()
+    end
 end

@@ -21,7 +21,9 @@ function EntityBaseState:exit() end
 function EntityBaseState:processAI(params, dt) end
 
 function EntityBaseState:render()
-    self.entity.jet:render()
+    if self.entity.jey then
+        self.entity.jet:render()
+    end
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         math.floor(self.entity.x), math.floor(self.entity.y))

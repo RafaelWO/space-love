@@ -33,6 +33,9 @@ GAME_OBJECT_DEFS = {
         defaultState = "idle",
         states = {
             ['idle'] = {
+                frames = {}
+            },
+            ['pre-fly'] = {
                 frames = {'fire09'}
             },
             ['fly'] = {

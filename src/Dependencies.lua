@@ -56,7 +56,21 @@ gSounds = {
     ['shield-up'] = love.audio.newSource('SpaceShooterRedux/Bonus/sfx_shieldUp.ogg'),
     ['two-tone'] = love.audio.newSource('SpaceShooterRedux/Bonus/sfx_twoTone.ogg'),
     ['zap'] = love.audio.newSource('SpaceShooterRedux/Bonus/sfx_zap.ogg'),
+
+    ['music-title-screen'] = love.audio.newSource('sounds/music-title-screen.wav'),
+    ['music-lvl1'] = love.audio.newSource('sounds/music-lvl1.wav'),
+    ['music-lvl2'] = love.audio.newSource('sounds/music-lvl2.wav'),
+    ['music-lvl3'] = love.audio.newSource('sounds/music-lvl3.wav'),
+    ['music-ending'] = love.audio.newSource('sounds/music-ending.wav'),
 }
+
+for k, sound in pairs(gSounds) do
+    if string.match(k, "music") then
+        print(k)
+        sound:setVolume(0.5)
+    end
+end
+
 
 gTextures = {
     ['sheet'] = love.graphics.newImage('SpaceShooterRedux/Spritesheet/sheet.png'),

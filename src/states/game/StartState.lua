@@ -9,11 +9,15 @@ function StartState:init()
             gSounds[self.backgroundSounds[soundIdx]]:play()
         end
     )
+    
+    gSounds['music-title-screen']:setLooping(true)
+    gSounds['music-title-screen']:play()
 end
 
 function StartState:update(dt)
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         self.soundTimer:remove()
+        gSounds['music-title-screen']:stop()
         gStateStack:pop()
         gStateStack:push(PlayState())
     end

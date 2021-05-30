@@ -32,6 +32,7 @@ function Entity:createAnimations(animations)
     local animationsReturned = {}
 
     for k, animationDef in pairs(animations) do
+        print(k, animationDef.texture, animationDef.frames[1])
         animationsReturned[k] = Animation {
             texture = animationDef.texture or 'entities',
             frames = animationDef.frames,
