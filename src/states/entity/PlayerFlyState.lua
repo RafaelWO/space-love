@@ -26,7 +26,7 @@ function PlayerFlyState:update(dt)
     end
 
     if love.keyboard.isDown('space') then
-        self.entity:shoot()
+        self.entity:shoot("up")
     end
 
     -- perform base collision detection against window borders

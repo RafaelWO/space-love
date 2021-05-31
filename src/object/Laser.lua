@@ -1,7 +1,8 @@
 Laser = Class{__includes = GameObject}
 
-function Laser:init(x, y, def, direction)
+function Laser:init(x, y, def, direction, source)
     GameObject.init(self, x, y, def)
+    self.source = source
     self.direction = direction or "up"
     self.directionMultiplier = (self.direction == "up") and -1 or 1
 end

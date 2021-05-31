@@ -68,15 +68,25 @@ function Level:update(dt)
             object:update(dt)
 
             if gtype == "lasers" then
-                for j, meteor in pairs(self.objects["meteors"]) do
-                    if meteor:collides(object) then
-                        object:changeState("hit")
+                if object.source == "player" then
+                    -- check if player laser hits a meteor
+                    for j, meteor in pairs(self.objects["meteors"]) do
+                        if meteor:collides(object) then
+                            object:changeState("hit")
+                        end
                     end
-                end
-
-                for j, enemy in pairs(self.enemies) do
-                    if enemy:collides(object) then
+                    
+                    -- check if player laser hits an enemy
+                    for j, enemy in pairs(self.enemies) do
+                        if enemy:collides(object) then
+                            object:changeState("hit")
+                        end
+                    end
+                else
+                    -- Enemy laser hits player
+                    if self.player:collides(object) then
                         object:changeState("hit")
+                        self:gameOver()
                     end
                 end
             end
@@ -132,10 +142,14 @@ function Level:render()
     for k, object in pairs(self.objects['lasers']) do
         object:render()
     end
+
+    love.graphics.setFont(gFonts['medium'])
+    love.graphics.printf(self.player.hits, 10, 10, VIRTUAL_WIDTH, 'left')
 end
 
 function Level:gameOver()
-    gSounds['lose']:play()
-    gStateStack:pop()
-    gStateStack:push(GameOverState())
+    self.player.hits = self.player.hits + 1
+    -- gSounds['lose']:play()
+    -- gStateStack:pop()
+    -- gStateStack:push(GameOverState())
 end

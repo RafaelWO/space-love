@@ -19,10 +19,14 @@ function Entity:init(x, y, def, level)
 
     self.flySpeed = def.flySpeed
 
-    self.hitboxDefs = def.hitboxDefs
+    -- so that enemies cannot move randomly to the bottom of the screen
+    self.bottomScreenBarrier = (self.type == "player") and 0 or 200
 
-    self.shotInterval = 0.8
-    self.shotIntervalTimer = self.shotInterval      -- first shoot can be done immediately
+    self.hitboxDefs = def.hitboxDefs
+    self.laserDefs = def.laserDefs
+
+    self.shotInterval = def.shotInterval
+    self.shotIntervalTimer = 0
     self.shotDuration = 0
     self.shotWaitDuration = 0
     self.shotTimer = 0
@@ -91,7 +95,7 @@ function Entity:processAI(params, dt)
         self.shotDuration = math.random(4)
         self.shotWaitDuration = math.random(3)
     elseif self.shotTimer < self.shotDuration then
-        self:shoot()
+        self:shoot("down")
     elseif self.shotTimer > (self.shotDuration + self.shotWaitDuration) then
         self.shotDuration = math.random(4)
         self.shotWaitDuration = math.random(3)
@@ -101,16 +105,20 @@ function Entity:processAI(params, dt)
     self.shotTimer = self.shotTimer + dt
 end
 
-function Entity:shoot()
+function Entity:shoot(direction)
     if self.shotIntervalTimer > self.shotInterval then
         self.shotIntervalTimer = 0
+        
+        for i, offset in ipairs(self.laserDefs.offsets) do 
+            table.insert(self.level.objects['lasers'], Laser (
+                self.x + offset.x,
+                self.y + offset.y,
+                GAME_OBJECT_DEFS[self.laserDefs.type],
+                direction,
+                self.type
+            ))
+        end
 
-        table.insert(self.level.objects['lasers'], Laser (
-            self.x + self.width / 2,
-            self.y + self.height,
-            GAME_OBJECT_DEFS['laser-blue'],
-            "down"
-        ))
         gSounds['laser-1']:stop()
         gSounds['laser-1']:play()
         Event.dispatch('objects-changed')

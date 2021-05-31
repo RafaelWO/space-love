@@ -47,8 +47,8 @@ function EntityFlyState:update(dt)
     elseif self.entity.direction == 'down' then
         self.entity.y = self.entity.y + self.entity.flySpeed * dt
 
-        if self.entity.y + self.entity.height >= VIRTUAL_HEIGHT then
-            self.entity.y = VIRTUAL_HEIGHT - self.entity.height
+        if self.entity.y + self.entity.height >= VIRTUAL_HEIGHT - self.entity.bottomScreenBarrier then
+            self.entity.y = VIRTUAL_HEIGHT - self.entity.height - self.entity.bottomScreenBarrier
             self.bumped = true
         end
     end

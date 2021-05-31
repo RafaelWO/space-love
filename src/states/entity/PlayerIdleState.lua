@@ -15,6 +15,6 @@ function PlayerIdleState:update(dt)
     end
 
     if love.keyboard.isDown('space') then
-        self.entity:shoot()
+        self.entity:shoot("up")
     end
 end
