@@ -28,7 +28,7 @@ ENTITY_DEFS = {
             }
         },
         laserDefs = {
-            type = "laser-blue",
+            type = "laser-normal",
             offsets = {
                 {
                     x = 0, y = 26
@@ -56,7 +56,7 @@ ENTITY_DEFS = {
             }
         },
         laserDefs = {
-            type = "laser-blue",
+            type = "laser-normal",
             offsets = {
                 {
                     x = 93/2 - 9/2, y = 70
