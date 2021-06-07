@@ -68,7 +68,7 @@ function Level:update(dt)
             object:update(dt)
 
             if gtype == "lasers" then
-                if object.source == "player" then
+                if object.source.type == "player" then
                     -- check if player laser hits a meteor
                     for j, meteor in pairs(self.objects["meteors"]) do
                         if meteor:collides(object) then
@@ -78,15 +78,16 @@ function Level:update(dt)
                     
                     -- check if player laser hits an enemy
                     for j, enemy in pairs(self.enemies) do
-                        if enemy:collides(object) then
+                        if object.state == "fly" and enemy:collides(object) then
                             object:changeState("hit")
+                            enemy:reduceHealth(object.source.attack)
                         end
                     end
                 else
                     -- Enemy laser hits player
-                    if self.player:collides(object) then
+                    if object.state == "fly" and self.player:collides(object) then
                         object:changeState("hit")
-                        self:gameOver()
+                        self.player:reduceHealth(object.source.attack)
                     end
                 end
             end
@@ -111,6 +112,10 @@ function Level:update(dt)
             if self.player:collides(enemyHitbox) then
                 self:gameOver()
             end
+        end
+
+        if enemy.dead then
+            table.remove(self.enemies, k)
         end
     end
 
@@ -144,7 +149,13 @@ function Level:render()
     end
 
     love.graphics.setFont(gFonts['medium'])
-    love.graphics.printf(self.player.hits, 10, 10, VIRTUAL_WIDTH, 'left')
+    love.graphics.printf("Collision: " .. self.player.hits, 10, 10, VIRTUAL_WIDTH, 'left')
+    love.graphics.printf("Health: " .. self.player.health, 10, 30, VIRTUAL_WIDTH, 'left')
+
+    for y = 10, (#self.enemies * 20 - 10), 20 do
+        local idx = (y + 10) / 20
+        love.graphics.printf("Health: " .. self.enemies[idx].health, VIRTUAL_WIDTH - 110, y, VIRTUAL_WIDTH, 'left')
+    end
 end
 
 function Level:gameOver()

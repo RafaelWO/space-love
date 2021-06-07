@@ -31,7 +31,7 @@ function Laser:changeState(name)
 end
 
 function Laser:overrideDef(def, source)
-    local color = (source == "player") and "Blue" or "Red"
+    local color = (source.type == "player") and "Blue" or "Red"
     local newDef = table.deepcopy(def)
     newDef.frame = newDef.frame:gsub("<color>", color)
     for k, state in pairs(newDef.states) do

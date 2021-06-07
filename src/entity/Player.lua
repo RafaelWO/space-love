@@ -18,6 +18,10 @@ function Player:init(x, y, def, level)
     self.hits = 0
 end
 
+function Player:increaseHealth(amount)
+    self.health = math.min(self.def.health, self.health + amount)
+end
+
 function Player:update(dt)
     Entity.update(self, dt)
     

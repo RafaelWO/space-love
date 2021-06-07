@@ -6,6 +6,7 @@
 Entity = Class{}
 
 function Entity:init(x, y, def, level)
+    self.def = def
     self.animations = self:createAnimations(def.animations)
     self.direction = 'up'
     self.type = def.type
@@ -18,6 +19,9 @@ function Entity:init(x, y, def, level)
     self.y = y
 
     self.flySpeed = def.flySpeed
+    self.attack = def.attack
+    self.health = def.health
+    self.dead = false
 
     -- so that enemies cannot move randomly to the bottom of the screen
     self.bottomScreenBarrier = (self.type == "player") and 0 or 200
@@ -115,13 +119,21 @@ function Entity:shoot(direction)
                 self.y + offset.y,
                 GAME_OBJECT_DEFS[self.laserDefs.type],
                 direction,
-                self.type
+                self
             ))
         end
 
         gSounds['laser-1']:stop()
         gSounds['laser-1']:play()
         Event.dispatch('objects-changed')
+    end
+end
+
+function Entity:reduceHealth(damage)
+    local dmg = damage or 1
+    self.health = math.max(0, self.health - dmg)
+    if self.health <= 0 then
+        self.dead = true
     end
 end
 
