@@ -42,5 +42,19 @@ GAME_OBJECT_DEFS = {
                 frames = {'fire08'}
             }
         }
+    },
+    ['explosion'] = {
+        type = 'explosion',
+        texture = 'explosion',
+        solid = false,
+        defaultState = 'explode',
+        states = {
+            ['explode'] = {
+                texture = "explosion",
+                interval = 0.05,
+                looping = false,
+                frames = "ALL"
+            }
+        }
     }
 }

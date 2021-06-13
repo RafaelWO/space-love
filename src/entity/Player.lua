@@ -20,6 +20,9 @@ end
 
 function Player:increaseHealth(amount)
     self.health = math.min(self.def.health, self.health + amount)
+    if self.health <= 0 then
+        self.level:gameOver()
+    end
 end
 
 function Player:update(dt)

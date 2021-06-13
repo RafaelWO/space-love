@@ -7,7 +7,7 @@ WINDOW_HEIGHT = 720
 BACKGROUND_SIZE = 256
 BACKGROUND_SPEED = 50
 
-GAME_OBJECT_TYPES = {'meteors', 'lasers'}
+GAME_OBJECT_TYPES = {'meteors', 'lasers', 'animations'}
 
 PLAYER_LASER_SPEED = 500
 

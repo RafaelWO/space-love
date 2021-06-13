@@ -3,7 +3,8 @@ Level = Class{}
 function Level:init()
     self.objects = {
         ['lasers'] = {},
-        ['meteors'] = {}
+        ['meteors'] = {},
+        ['animations'] = {}
     }
     self.player = Player (
         VIRTUAL_WIDTH / 2,
@@ -94,7 +95,7 @@ function Level:update(dt)
             
             -- check player with meteor collision
             if gtype == "meteors" and self.player:collides(object:getHitbox()) then
-                self:gameOver()
+                self:collisionDamage()
             end
 
             if object.toRemove then
@@ -110,11 +111,12 @@ function Level:update(dt)
 
         for j, enemyHitbox in pairs(enemy:getHitboxes()) do
             if self.player:collides(enemyHitbox) then
-                self:gameOver()
+                self:collisionDamage()
             end
         end
 
         if enemy.dead then
+            table.insert(self.objects['animations'], Explosion(enemy.x, enemy.y, GAME_OBJECT_DEFS['explosion']))
             table.remove(self.enemies, k)
         end
     end
@@ -148,6 +150,10 @@ function Level:render()
         object:render()
     end
 
+    for k, object in pairs(self.objects['animations']) do
+        object:render()
+    end
+
     love.graphics.setFont(gFonts['medium'])
     love.graphics.printf("Collision: " .. self.player.hits, 10, 10, VIRTUAL_WIDTH, 'left')
     love.graphics.printf("Health: " .. self.player.health, 10, 30, VIRTUAL_WIDTH, 'left')
@@ -158,9 +164,12 @@ function Level:render()
     end
 end
 
-function Level:gameOver()
+function Level:collisionDamage()
     self.player.hits = self.player.hits + 1
-    -- gSounds['lose']:play()
-    -- gStateStack:pop()
-    -- gStateStack:push(GameOverState())
+end
+
+function Level:gameOver()
+    gSounds['lose']:play()
+    gStateStack:pop()
+    gStateStack:push(GameOverState())
 end
