@@ -34,14 +34,8 @@ function Level:init()
     }
     self.enemies[1]:changeState('idle')
 
-    -- Event.on('objects-changed', function()
-    --     local logString = ""
-    --     for k, object in pairs(self.objects) do
-    --         logString = logString .. " | " .. object.type
-    --     end
-    --     print(logString)
-    -- end
-    -- )
+    self.score = 0
+    self.scoreTimer = Timer.every(5, function() self.score = self.score + 5 end)
 
     self.bgOffsetY = 0
     self.bgScrolling = true
@@ -130,6 +124,7 @@ function Level:update(dt)
             -- create explosion particle effect
             self:spawnExplosion(enemy)
             table.remove(self.enemies, k)
+            self.score = self.score + 20
         end
     end
 
@@ -183,15 +178,25 @@ function Level:render()
         love.graphics.draw(pSystem, 0, 0)
     end
 
+    -- render score
+    local scoreString = string.rep("0", 10 - tostring(self.score):len()) .. tostring(self.score)
+    local scoreOffset = 10 + (scoreString:len() * 20)
+    for char in scoreString:gmatch"." do
+        love.graphics.draw(gTextures['sheet'], gFrames['sheet']['numeral' .. char], VIRTUAL_WIDTH - scoreOffset, 10)
+        scoreOffset = scoreOffset - 20
+    end
+
+
+    -- DEBUG INFO
     love.graphics.setFont(gFonts['medium'])
-    love.graphics.printf("Health: " .. self.player.health, 10, 10, VIRTUAL_WIDTH, 'left')
-    love.graphics.printf("Collision: " .. self.player.hits, 10, 30, VIRTUAL_WIDTH, 'left')
+    love.graphics.printf("Health: " .. self.player.health, 10, 50, VIRTUAL_WIDTH, 'left')
+    love.graphics.printf("Collision: " .. self.player.hits, 10, 70, VIRTUAL_WIDTH, 'left')
     local collisionCooldown = 1 - math.min(self.player.collisionDamageTimer, self.player.collisionDamageInterval)
-    love.graphics.printf("Collision Cooldown: " .. string.format("%.1f", collisionCooldown), 10, 50, VIRTUAL_WIDTH, 'left')
+    love.graphics.printf("Collision Cooldown: " .. string.format("%.1f", collisionCooldown), 10, 90, VIRTUAL_WIDTH, 'left')
 
     for y = 10, (#self.enemies * 20 - 10), 20 do
         local idx = (y + 10) / 20
-        love.graphics.printf("Health: " .. self.enemies[idx].health, VIRTUAL_WIDTH - 110, y, VIRTUAL_WIDTH, 'left')
+        love.graphics.printf("Enemy #" .. idx .. " Health: " .. self.enemies[idx].health, VIRTUAL_WIDTH - 200, y + 50, VIRTUAL_WIDTH, 'left')
     end
 end
 
