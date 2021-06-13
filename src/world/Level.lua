@@ -105,7 +105,14 @@ function Level:update(dt)
             end
         end
     end
-    self.player:update(dt)
+
+    if self.player.dead and self.player.diedNow then
+        self:spawnExplosion(self.player)
+        self.player.diedNow = false
+        Timer.after(1, function() self:gameOver() end)
+    else
+        self.player:update(dt)
+    end
 
     for k, enemy in pairs(self.enemies) do
         enemy:processAI({}, dt)
@@ -121,13 +128,7 @@ function Level:update(dt)
 
         if enemy.dead then
             -- create explosion particle effect
-            local explosion = getExplosion(EXPLOSION_BLAST)
-            explosion:setPosition(enemy.x + enemy.width/2, enemy.y + enemy.height/2)
-            explosion:emit(10)
-            table.insert(self.objects['particles'], explosion)
-
-            gSounds['explosion']:stop()
-            gSounds['explosion']:play()
+            self:spawnExplosion(enemy)
             table.remove(self.enemies, k)
         end
     end
@@ -161,7 +162,10 @@ function Level:render()
     for k, object in pairs(self.objects['meteors']) do
         object:render()
     end
-    self.player:render()
+
+    if not self.player.dead then
+        self.player:render()
+    end
 
     for k, enemy in pairs(self.enemies) do
         enemy:render()
@@ -199,4 +203,14 @@ function Level:gameOver()
     gSounds['lose']:play()
     gStateStack:pop()
     gStateStack:push(GameOverState())
+end
+
+function Level:spawnExplosion(object)
+    local explosion = getExplosion(EXPLOSION_BLAST)
+    explosion:setPosition(object.x + object.width/2, object.y + object.height/2)
+    explosion:emit(10)
+    table.insert(self.objects['particles'], explosion)
+
+    gSounds['explosion']:stop()
+    gSounds['explosion']:play()
 end

@@ -76,17 +76,14 @@ end
 
 
 gTextures = {
-    ['sheet'] = love.graphics.newImage('SpaceShooterRedux/Spritesheet/sheet.png'),
+    ['sheet'] = love.graphics.newImage('SpaceShooterRedux/Spritesheet/sheet_edited.png'),
 
     ['bg_black'] = love.graphics.newImage('SpaceShooterRedux/Backgrounds/black.png'),
     ['bg_blue'] = love.graphics.newImage('SpaceShooterRedux/Backgrounds/blue.png'),
     ['bg_dark-purple'] = love.graphics.newImage('SpaceShooterRedux/Backgrounds/darkPurple.png'),
     ['bg_purple'] = love.graphics.newImage('SpaceShooterRedux/Backgrounds/purple.png'),
-
-    ['explosion'] = love.graphics.newImage('graphics/boom3_small.png')
 }
 
 gFrames = {
     ['sheet'] = generateQuadsFromXml('SpaceShooterRedux/Spritesheet/sheet.xml', gTextures['sheet']),
-    ['explosion'] = generateQuads(gTextures['explosion'], 64, 64)
 }

@@ -22,6 +22,7 @@ function Entity:init(x, y, def, level)
     self.attack = def.attack
     self.health = def.health
     self.dead = false
+    self.diedNow = false
 
     -- so that enemies cannot move randomly to the bottom of the screen
     self.bottomScreenBarrier = (self.type == "player") and 0 or 200
@@ -127,6 +128,7 @@ function Entity:reduceHealth(damage)
     self.health = math.max(0, self.health - dmg)
     if self.health <= 0 then
         self.dead = true
+        self.diedNow = true
     end
 end
 

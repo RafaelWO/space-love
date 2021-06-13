@@ -24,9 +24,14 @@ function EntityBaseState:render()
     if self.entity.jet then
         self.entity.jet:render()
     end
+
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         math.floor(self.entity.x), math.floor(self.entity.y))
+
+    if self.entity.type == "player" and self.entity.health < self.entity.def.health then
+        self:renderShipDamage()
+    end
 
     if DEBUG then
         love.graphics.setColor(255, 0, 255, 255)
@@ -40,4 +45,19 @@ function EntityBaseState:render()
             love.graphics.setColor(255, 255, 255, 255)
         end
     end
+end
+
+function EntityBaseState:renderShipDamage()
+    local shipDamage
+    local damageInterval = self.entity.def.health / 3
+    if self.entity.health < self.entity.def.health - (damageInterval * 2) then
+        shipDamage = 3
+    elseif self.entity.health < self.entity.def.health - (damageInterval * 1) then
+        shipDamage = 2
+    elseif self.entity.health < self.entity.def.health - (damageInterval * 0) then
+        shipDamage = 1
+    end
+
+    love.graphics.draw(gTextures['sheet'], gFrames['sheet'][self.entity.def.damageFrame .. shipDamage],
+        math.floor(self.entity.x), math.floor(self.entity.y))
 end
