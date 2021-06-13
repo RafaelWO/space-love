@@ -35,6 +35,7 @@ function love.load()
     love.keyboard.keysPressed = {}
 
     METEOR_TYPES = getFrameNamesFromSheet('sheet', 'meteor')
+    EXPLOSION_BLAST = getBlast(100)
 end
 
 function love.resize(w, h)

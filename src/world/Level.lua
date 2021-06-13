@@ -4,7 +4,8 @@ function Level:init()
     self.objects = {
         ['lasers'] = {},
         ['meteors'] = {},
-        ['animations'] = {}
+        ['animations'] = {},
+        ['particles'] = {}
     }
     self.player = Player (
         VIRTUAL_WIDTH / 2,
@@ -95,7 +96,8 @@ function Level:update(dt)
             
             -- check player with meteor collision
             if gtype == "meteors" and self.player:collides(object:getHitbox()) then
-                self:collisionDamage()
+                self.player:takeCollisionDamage(METEOR_COLLISION_DAMAGE)
+                self:playerHits()
             end
 
             if object.toRemove then
@@ -109,18 +111,37 @@ function Level:update(dt)
         enemy:processAI({}, dt)
         enemy:update(dt)
 
+        -- Player collision with enemy
         for j, enemyHitbox in pairs(enemy:getHitboxes()) do
             if self.player:collides(enemyHitbox) then
-                self:collisionDamage()
+                self.player:takeCollisionDamage(ENEMY_COLLOSION_DAMAGE)
+                self:playerHits()
             end
         end
 
         if enemy.dead then
-            table.insert(self.objects['animations'], Explosion(enemy.x, enemy.y, GAME_OBJECT_DEFS['explosion']))
+            -- create explosion particle effect
+            local explosion = getExplosion(EXPLOSION_BLAST)
+            explosion:setPosition(enemy.x + enemy.width/2, enemy.y + enemy.height/2)
+            explosion:emit(10)
+            table.insert(self.objects['particles'], explosion)
+
+            gSounds['explosion']:stop()
+            gSounds['explosion']:play()
             table.remove(self.enemies, k)
         end
     end
 
+    -- Update particles
+    for k, pSystem in pairs(self.objects['particles']) do
+        pSystem:update(dt)
+        if pSystem:getCount() == 0 then
+            table.remove(self.objects['particles'], k)
+        end
+    end
+
+
+    -- Update scrollingbBackground
     if self.bgScrolling then
         self.bgOffsetY = self.bgOffsetY + BACKGROUND_SPEED * dt
     end
@@ -154,9 +175,15 @@ function Level:render()
         object:render()
     end
 
+    for k, pSystem in pairs(self.objects['particles']) do
+        love.graphics.draw(pSystem, 0, 0)
+    end
+
     love.graphics.setFont(gFonts['medium'])
-    love.graphics.printf("Collision: " .. self.player.hits, 10, 10, VIRTUAL_WIDTH, 'left')
-    love.graphics.printf("Health: " .. self.player.health, 10, 30, VIRTUAL_WIDTH, 'left')
+    love.graphics.printf("Health: " .. self.player.health, 10, 10, VIRTUAL_WIDTH, 'left')
+    love.graphics.printf("Collision: " .. self.player.hits, 10, 30, VIRTUAL_WIDTH, 'left')
+    local collisionCooldown = 1 - math.min(self.player.collisionDamageTimer, self.player.collisionDamageInterval)
+    love.graphics.printf("Collision Cooldown: " .. string.format("%.1f", collisionCooldown), 10, 50, VIRTUAL_WIDTH, 'left')
 
     for y = 10, (#self.enemies * 20 - 10), 20 do
         local idx = (y + 10) / 20
@@ -164,7 +191,7 @@ function Level:render()
     end
 end
 
-function Level:collisionDamage()
+function Level:playerHits()
     self.player.hits = self.player.hits + 1
 end
 

@@ -11,6 +11,9 @@ The sprites used in this game are from the art pack ["Space Shooter Redux"](http
 ### Sounds
 The soundtracks are from Juhani Junkala and can be found [here](https://opengameart.org/content/5-chiptunes-action).
 
+Other sound effects:
+- [Explosion](https://opengameart.org/content/explosion-0)
+
 ### Libraries
  * Class
  * Push

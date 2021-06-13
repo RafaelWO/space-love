@@ -16,6 +16,8 @@ function Player:init(x, y, def, level)
     )
 
     self.hits = 0
+    self.collisionDamageTimer = 0
+    self.collisionDamageInterval = 1
 end
 
 function Player:increaseHealth(amount)
@@ -25,8 +27,16 @@ function Player:increaseHealth(amount)
     end
 end
 
+function Player:takeCollisionDamage(damage)
+    if self.collisionDamageTimer > self.collisionDamageInterval then
+        self.collisionDamageTimer = 0
+        self:reduceHealth(damage)
+    end
+end
+
 function Player:update(dt)
     Entity.update(self, dt)
+    self.collisionDamageTimer = self.collisionDamageTimer + dt
     
     self.jet:update(dt)
 end

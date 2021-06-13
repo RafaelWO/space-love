@@ -104,3 +104,27 @@ function table.deepcopy(orig)
     end
     return copy
 end
+
+--[[
+    See https://dev.to/jeansberg/make-a-shooter-in-lualove2d---animations-and-particles
+]]
+function getBlast(size)
+    local blast = love.graphics.newCanvas(size, size)
+    love.graphics.setCanvas(blast)
+    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.circle("fill", size/2, size/2, size/2)
+    love.graphics.setCanvas()
+    return blast
+end
+
+--[[
+    See https://dev.to/jeansberg/make-a-shooter-in-lualove2d---animations-and-particles
+]]
+function getExplosion(image)
+    pSystem = love.graphics.newParticleSystem(image, 50)
+    pSystem:setParticleLifetime(0.8, 0.8)
+    pSystem:setLinearAcceleration(-100, -100, 100, 100)
+    pSystem:setColors(255, 255, 0, 255, 255, 153, 51, 255, 64, 64, 64, 0)
+    pSystem:setSizes(0.5, 0.7)
+    return pSystem
+end

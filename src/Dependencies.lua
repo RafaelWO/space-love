@@ -63,6 +63,8 @@ gSounds = {
     ['music-lvl2'] = love.audio.newSource('sounds/music-lvl2.wav'),
     ['music-lvl3'] = love.audio.newSource('sounds/music-lvl3.wav'),
     ['music-ending'] = love.audio.newSource('sounds/music-ending.wav'),
+
+    ['explosion'] = love.audio.newSource('sounds/explosion.wav')
 }
 
 for k, sound in pairs(gSounds) do

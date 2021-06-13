@@ -85,13 +85,6 @@ function Entity:getHitboxes()
     return hitboxes
 end
 
---[[
-    Called when we interact with this entity, as by pressing enter.
-]]
-function Entity:onInteract()
-
-end
-
 function Entity:processAI(params, dt)
     self.stateMachine:processAI(params, dt)
 
