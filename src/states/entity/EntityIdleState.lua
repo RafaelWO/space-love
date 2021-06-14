@@ -10,7 +10,6 @@ EntityIdleState = Class{__includes = EntityBaseState}
 
 function EntityIdleState:init(entity)
     self.entity = entity
-    self.entity:changeAnimation('idle')
 
     -- used for AI waiting
     self.waitDuration = 0

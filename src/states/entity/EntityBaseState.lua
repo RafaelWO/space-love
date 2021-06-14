@@ -25,8 +25,7 @@ function EntityBaseState:render()
         self.entity.jet:render()
     end
 
-    local anim = self.entity.currentAnimation
-    love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
+    love.graphics.draw(gTextures[self.entity.texture], gFrames[self.entity.texture][self.entity:getFrame()],
         math.floor(self.entity.x), math.floor(self.entity.y))
 
     if self.entity.type == "player" and self.entity.health < self.entity.def.health then
@@ -58,6 +57,6 @@ function EntityBaseState:renderShipDamage()
         shipDamage = 1
     end
 
-    love.graphics.draw(gTextures['sheet'], gFrames['sheet'][self.entity.def.damageFrame .. shipDamage],
+    love.graphics.draw(gTextures['sheet'], gFrames['sheet'][self.entity.ship .. '_damage' .. shipDamage],
         math.floor(self.entity.x), math.floor(self.entity.y))
 end

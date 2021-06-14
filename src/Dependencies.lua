@@ -28,6 +28,7 @@ require 'src/states/entity/PlayerFlyState'
 require 'src/states/entity/PlayerIdleState'
 
 require 'src/entity/entity_defs'
+require 'src/entity/ship_defs'
 require 'src/entity/Entity'
 require 'src/entity/Player'
 

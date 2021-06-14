@@ -10,7 +10,6 @@ EntityFlyState = Class{__includes = EntityBaseState}
 
 function EntityFlyState:init(entity)
     self.entity = entity
-    self.entity:changeAnimation('fly')
 
     -- used for AI control
     self.moveDuration = 0

@@ -11,36 +11,10 @@ ENTITY_DEFS = {
         health = 6,
         width = 99,
         height = 75,
-        damageFrame = 'playerShip1_damage',
-        animations = {
-            ['idle'] = {
-                frames = {'playerShip1_blue'},
-                texture = 'sheet'
-            },
-            ['fly'] = {
-                frames = {'playerShip1_blue'},
-                texture = 'sheet'
-            }
-        },
-        hitboxDefs = {
-            {
-                xOffset = 38, yOffset = 0, width = 22, height = 75
-            },
-            {
-                xOffset = 1, yOffset = 31, width = 97, height = 31
-            }
-        },
-        laserDefs = {
-            type = "laser-normal",
-            offsets = {
-                {
-                    x = 0, y = 26
-                },
-                {
-                    x = 90, y = 26
-                }
-            }
-        }
+        texture = 'sheet',
+        ship = 'playerShip1',
+        color = 'Blue',
+        laser = 'laser-normal'
     },
     ['enemy'] = {
         type = 'simple_enemy',
@@ -50,23 +24,9 @@ ENTITY_DEFS = {
         health = 3,
         width = 93,
         height = 84,
-        animations = {
-            ['idle'] = {
-                frames = {'enemyBlack1'},
-                texture = 'sheet'
-            },
-            ['fly'] = {
-                frames = {'enemyBlack1'},
-                texture = 'sheet'
-            }
-        },
-        laserDefs = {
-            type = "laser-normal",
-            offsets = {
-                {
-                    x = 93/2 - 9/2, y = 70
-                }
-            }
-        }
+        texture = 'sheet',
+        ship = 'enemy1',
+        color = 'Black',
+        laser = 'laser-normal'
     }
 }

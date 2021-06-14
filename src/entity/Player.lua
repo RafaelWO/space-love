@@ -53,3 +53,7 @@ function Player:changeState(name)
         Timer.after(0.1, function () self.jet:changeState(name) end)
     end
 end
+
+function Player:getFrame()
+    return self.ship .. '_' .. self.color:lower()
+end

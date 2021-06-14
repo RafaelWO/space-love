@@ -7,7 +7,6 @@ Entity = Class{}
 
 function Entity:init(x, y, def, level)
     self.def = def
-    self.animations = self:createAnimations(def.animations)
     self.direction = 'up'
     self.type = def.type
     self.level = level
@@ -15,6 +14,11 @@ function Entity:init(x, y, def, level)
     self.width = def.width
     self.height = def.height
 
+    self.texture = def.texture
+    self.ship = def.ship
+    self.color = def.color
+    self.laser = def.laser
+    
     self.x = x
     self.y = y
 
@@ -27,8 +31,8 @@ function Entity:init(x, y, def, level)
     -- so that enemies cannot move randomly to the bottom of the screen
     self.bottomScreenBarrier = (self.type == "player") and 0 or 200
 
-    self.hitboxDefs = def.hitboxDefs
-    self.laserDefs = def.laserDefs
+    self.hitboxDefs = SHIP_DEFS[self.ship].hitboxDefs
+    self.laserOffsets = SHIP_DEFS[self.ship].laserOffsets
 
     self.shotInterval = def.shotInterval
     self.shotIntervalTimer = 0
@@ -41,23 +45,9 @@ function Entity:changeState(name)
     self.stateMachine:change(name)
 end
 
-function Entity:changeAnimation(name)
-    self.currentAnimation = self.animations[name]
-end
-
-function Entity:createAnimations(animations)
-    local animationsReturned = {}
-
-    for k, animationDef in pairs(animations) do
-        print(k, animationDef.texture, animationDef.frames[1])
-        animationsReturned[k] = Animation {
-            texture = animationDef.texture or 'entities',
-            frames = animationDef.frames,
-            interval = animationDef.interval
-        }
-    end
-
-    return animationsReturned
+function Entity:getFrame()
+    local typeIdx = self.ship:len()
+    return self.ship:sub(0, typeIdx - 1) .. self.color .. self.ship:sub(typeIdx)
 end
 
 --[[
@@ -107,11 +97,11 @@ function Entity:shoot(direction)
     if self.shotIntervalTimer > self.shotInterval then
         self.shotIntervalTimer = 0
         
-        for i, offset in ipairs(self.laserDefs.offsets) do 
+        for i, offset in ipairs(self.laserOffsets) do 
             table.insert(self.level.objects['lasers'], Laser (
                 self.x + offset.x,
                 self.y + offset.y,
-                GAME_OBJECT_DEFS[self.laserDefs.type],
+                GAME_OBJECT_DEFS[self.laser],
                 direction,
                 self
             ))
@@ -135,7 +125,6 @@ end
 function Entity:update(dt)
     self.shotIntervalTimer = self.shotIntervalTimer + dt
         
-    self.currentAnimation:update(dt)
     self.stateMachine:update(dt)
 end
 
