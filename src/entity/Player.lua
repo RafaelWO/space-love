@@ -18,6 +18,15 @@ function Player:init(x, y, def, level)
     self.hits = 0
     self.collisionDamageTimer = 0
     self.collisionDamageInterval = 1
+
+    self:changeState('idle')
+end
+
+function Player:createDefaultStates()
+    self.stateMachine = StateMachine {
+        ['idle'] = function() return PlayerIdleState(self) end,
+        ['fly'] = function() return PlayerFlyState(self) end
+    }
 end
 
 function Player:update(dt)

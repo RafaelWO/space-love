@@ -7,7 +7,7 @@ Entity = Class{}
 
 function Entity:init(x, y, def, level)
     self.def = def
-    self.direction = 'up'
+    self.direction = 'down'
     self.type = def.type
     self.level = level
 
@@ -39,6 +39,17 @@ function Entity:init(x, y, def, level)
     self.shotDuration = 0
     self.shotWaitDuration = 0
     self.shotTimer = 0
+
+    self:createDefaultStates()
+end
+
+function Entity:createDefaultStates()
+    self.stateMachine = StateMachine {
+        ['idle'] = function() return EntityIdleState(self) end,
+        ['fly'] = function() return EntityFlyState(self) end
+    }
+
+    self:changeState('fly')
 end
 
 function Entity:changeState(name)
@@ -79,6 +90,10 @@ end
 function Entity:processAI(params, dt)
     self.stateMachine:processAI(params, dt)
 
+    if self.y < 0 then
+        return
+    end
+
     if self.shotDuration == 0 then
         self.shotDuration = math.random(4)
         self.shotWaitDuration = math.random(3)
@@ -116,7 +131,7 @@ end
 function Entity:reduceHealth(damage)
     local dmg = damage or 1
     self.health = math.max(0, self.health - dmg)
-    if self.health <= 0 then
+    if self.health <= 0 and not self.dead then
         self.dead = true
         self.diedNow = true
     end

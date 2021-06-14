@@ -13,26 +13,8 @@ function Level:init()
         ENTITY_DEFS['player'],
         self
     )
-
-    self.player.stateMachine = StateMachine {
-        ['idle'] = function() return PlayerIdleState(self.player) end,
-        ['fly'] = function() return PlayerFlyState(self.player) end
-    }
-    self.player:changeState('idle')
     
-    self.enemies = { 
-        Entity (
-            VIRTUAL_WIDTH / 2,
-            100,
-            ENTITY_DEFS['enemy'],
-            self
-        )
-    }
-    self.enemies[1].stateMachine = StateMachine {
-        ['idle'] = function() return EntityIdleState(self.enemies[1]) end,
-        ['fly'] = function() return EntityFlyState(self.enemies[1]) end
-    }
-    self.enemies[1]:changeState('idle')
+    self.enemies = { }
 
     self.score = 0
     self.scoreTimer = Timer.every(5, function() self.score = self.score + 5 end)
@@ -42,9 +24,12 @@ function Level:init()
 
     self.meteorSpawnTimer = 0
     self.meteorSpawnEta = math.random(unpack(METEOR_SPAWN_INTERVAL))
+    self.enemySpawnTimer = 0
+    self.enemySpawnEta = math.random(unpack(ENEMY_SPAWN_INTERVAL))
 end
 
 function Level:update(dt)
+    -- spawn meteors
     self.meteorSpawnTimer = self.meteorSpawnTimer + dt
     if self.meteorSpawnTimer > self.meteorSpawnEta then
         self.meteorSpawnTimer = 0
@@ -57,6 +42,21 @@ function Level:update(dt)
             -100,
             meteorDef
         ))
+    end
+
+    -- spawn enemies
+    self.enemySpawnTimer = self.enemySpawnTimer + dt
+    if self.enemySpawnTimer > self.enemySpawnEta then
+        self.enemySpawnTimer = 0
+        self.enemySpawnEta = math.random(unpack(ENEMY_SPAWN_INTERVAL))
+        
+        table.insert(self.enemies, Entity (
+            math.random(0, VIRTUAL_WIDTH - 100),
+            -100,
+            ENTITY_DEFS['enemy'],
+            self
+        ))
+        self.enemies[#self.enemies]:processAI({direction = "down", duration = 1}, dt)
     end
 
     for i, gtype in ipairs(GAME_OBJECT_TYPES) do
@@ -101,10 +101,12 @@ function Level:update(dt)
     end
 
     if self.player.dead and self.player.diedNow then
-        self:spawnExplosion(self.player)
+        self.scoreTimer:remove()
         self.player.diedNow = false
+        self:spawnExplosion(self.player)
+
         Timer.after(1, function() self:gameOver() end)
-    else
+    elseif not self.player.dead then
         self.player:update(dt)
     end
 
@@ -179,7 +181,7 @@ function Level:render()
     end
 
     -- render score
-    local scoreString = string.rep("0", 10 - tostring(self.score):len()) .. tostring(self.score)
+    local scoreString = string.rep("0", 8 - tostring(self.score):len()) .. tostring(self.score)
     local scoreOffset = 10 + (scoreString:len() * 20)
     for char in scoreString:gmatch"." do
         love.graphics.draw(gTextures['sheet'], gFrames['sheet']['numeral' .. char], VIRTUAL_WIDTH - scoreOffset, 10)

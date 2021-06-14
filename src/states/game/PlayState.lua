@@ -23,6 +23,5 @@ function PlayState:render()
 end
 
 function PlayState:exit()
-    self.level.scoreTimer:remove()
     gSounds['music-lvl' .. self.musicIdx]:stop()
 end

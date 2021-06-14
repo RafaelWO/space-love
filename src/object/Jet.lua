@@ -4,6 +4,9 @@ function Jet:init(x, y, def, parent, parentOffset)
     GameObject.init(self, x, y, def)
     self.parent = parent
     self.parentOffset = parentOffset
+
+    self.x = x
+    self.y = y
 end
 
 function Jet:update(dt)

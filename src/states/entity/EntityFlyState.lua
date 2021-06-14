@@ -59,8 +59,8 @@ function EntityFlyState:processAI(params, dt)
     if self.moveDuration == 0 or self.bumped then
         
         -- set an initial move duration and direction
-        self.moveDuration = math.random(3)
-        self.entity.direction = directions[math.random(#directions)]
+        self.moveDuration = params.duration or math.random(3)
+        self.entity.direction = params.direction or directions[math.random(#directions)]
     elseif self.movementTimer > self.moveDuration then
         self.movementTimer = 0
 
