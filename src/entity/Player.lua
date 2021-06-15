@@ -19,6 +19,17 @@ function Player:init(x, y, def, level)
     self.collisionDamageTimer = 0
     self.collisionDamageInterval = 1
 
+    self.healthBar = ProgressBar {
+        x = 10,
+        y = 10,
+        width = 150,
+        height = 10,
+        color = {r = 255, g = 255, b = 255},
+        max = self.def.health,
+        value = self.health,
+        text = "health"
+    }
+
     self:changeState('idle')
 end
 
@@ -36,11 +47,19 @@ function Player:update(dt)
     self.jet:update(dt)
 end
 
-function Player:increaseHealth(amount)
-    self.health = math.min(self.def.health, self.health + amount)
-    if self.health <= 0 then
-        self.level:gameOver()
+function Player:render()
+    if not self.dead then
+        Entity.render(self)
     end
+
+    self.healthBar:render()
+end
+
+function Player:increaseHealth(amount)
+    Timer.tween(0.5, {
+        [self.healthBar] = {value = self.health + amount}
+    })
+    self.health = math.min(self.def.health, self.health + amount)
 end
 
 function Player:takeCollisionDamage(damage)

@@ -160,9 +160,7 @@ function Level:render()
         object:render()
     end
 
-    if not self.player.dead then
-        self.player:render()
-    end
+    self.player:render()
 
     for k, enemy in pairs(self.enemies) do
         enemy:render()
@@ -190,7 +188,7 @@ function Level:render()
 
 
     -- DEBUG INFO
-    love.graphics.setFont(gFonts['medium'])
+    love.graphics.setFont(gFonts['thin-medium'])
     love.graphics.printf("Health: " .. self.player.health, 10, 50, VIRTUAL_WIDTH, 'left')
     love.graphics.printf("Collision: " .. self.player.hits, 10, 70, VIRTUAL_WIDTH, 'left')
     local collisionCooldown = 1 - math.min(self.player.collisionDamageTimer, self.player.collisionDamageInterval)

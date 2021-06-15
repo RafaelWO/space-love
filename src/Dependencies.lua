@@ -39,7 +39,8 @@ require 'src/object/GameObject'
 require 'src/object/Laser'
 require 'src/object/Meteor'
 require 'src/object/Jet'
-require 'src/object/Explosion'
+
+require 'src/gui/ProgressBar'
 
 gFonts = {
     ['small'] = love.graphics.newFont('SpaceShooterRedux/Bonus/kenvector_future.ttf', 8),

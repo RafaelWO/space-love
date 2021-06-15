@@ -129,8 +129,13 @@ function Entity:shoot(direction)
 end
 
 function Entity:reduceHealth(damage)
-    local dmg = damage or 1
-    self.health = math.max(0, self.health - dmg)
+    if self.healthBar then
+        Timer.tween(0.25, {
+            [self.healthBar] = {value = self.health - damage}
+        })
+    end
+    self.health = math.max(0, self.health - damage)
+
     if self.health <= 0 and not self.dead then
         self.dead = true
         self.diedNow = true
