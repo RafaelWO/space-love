@@ -41,6 +41,7 @@ function Entity:init(x, y, def, level)
     self.shotTimer = 0
 
     self:createDefaultStates()
+    self:createHealthbar()
 end
 
 function Entity:createDefaultStates()
@@ -50,6 +51,25 @@ function Entity:createDefaultStates()
     }
 
     self:changeState('fly')
+end
+
+function Entity:createHealthbar()
+    local barWidth = 100
+    local offset = {
+        x = self.width / 2 - barWidth / 2,
+        y = -20
+    }
+    self.healthBar = ProgressBar {
+        x = self.x + offset.x,
+        y = self.y + offset.y,
+        parent = self,
+        parentOffset = offset,
+        width = barWidth,
+        height = 3,
+        color = {r = 255, g = 255, b = 255},
+        max = self.def.health,
+        value = self.health
+    }
 end
 
 function Entity:changeState(name)
@@ -146,8 +166,13 @@ function Entity:update(dt)
     self.shotIntervalTimer = self.shotIntervalTimer + dt
         
     self.stateMachine:update(dt)
+    self.healthBar:update(dt)
 end
 
 function Entity:render()
     self.stateMachine:render()
+
+    if self.type ~= "player" then
+        self.healthBar:render()
+    end
 end

@@ -12,6 +12,9 @@ function ProgressBar:init(def)
     self.x = def.x
     self.y = def.y
     
+    self.parent = def.parent
+    self.parentOffset = def.parentOffset
+    
     self.width = def.width
     self.height = def.height
     
@@ -30,8 +33,11 @@ function ProgressBar:setValue(value)
     self.value = value
 end
 
-function ProgressBar:update()
-
+function ProgressBar:update(dt)
+    if self.parent then
+        self.x = self.parent.x + self.parentOffset.x
+        self.y = self.parent.y + self.parentOffset.y
+    end
 end
 
 function ProgressBar:render()

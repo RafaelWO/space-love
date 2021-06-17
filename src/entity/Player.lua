@@ -19,6 +19,17 @@ function Player:init(x, y, def, level)
     self.collisionDamageTimer = 0
     self.collisionDamageInterval = 1
 
+    self:changeState('idle')
+end
+
+function Player:createDefaultStates()
+    self.stateMachine = StateMachine {
+        ['idle'] = function() return PlayerIdleState(self) end,
+        ['fly'] = function() return PlayerFlyState(self) end
+    }
+end
+
+function Player:createHealthbar()
     self.healthBar = ProgressBar {
         x = 10,
         y = 10,
@@ -28,15 +39,6 @@ function Player:init(x, y, def, level)
         max = self.def.health,
         value = self.health,
         text = "health"
-    }
-
-    self:changeState('idle')
-end
-
-function Player:createDefaultStates()
-    self.stateMachine = StateMachine {
-        ['idle'] = function() return PlayerIdleState(self) end,
-        ['fly'] = function() return PlayerFlyState(self) end
     }
 end
 
