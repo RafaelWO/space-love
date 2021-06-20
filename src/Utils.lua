@@ -1,5 +1,6 @@
 function generateQuadsFromXml(sheetXml, atlas)
-    local document = xmlparser.parseFile(sheetXml)
+    local sheetFile = love.filesystem.read(sheetXml)
+    local document = xmlparser.parse(sheetFile)
 
     local rootNode = document.children[1]
     local textures = {}

@@ -9,8 +9,8 @@ require 'src/Dependencies'
 
 function love.load()
     math.randomseed(os.time())
-    love.window.setTitle('Space Love')
     love.graphics.setDefaultFilter('nearest', 'nearest')
+    love.audio.setVolume(0.4)
 
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         fullscreen = false,

@@ -75,6 +75,7 @@ for k, sound in pairs(gSounds) do
         sound:setVolume(0.5)
     end
 end
+gSounds['explosion']:setVolume(0.7)
 
 
 gTextures = {

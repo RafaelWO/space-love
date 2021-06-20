@@ -1,3 +1,6 @@
+# love2d
+*.love
+
 # Compiled Lua sources
 luac.out
 
