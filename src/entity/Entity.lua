@@ -6,7 +6,6 @@
 Entity = Class{}
 
 function Entity:init(x, y, def, level)
-    self.def = def
     self.direction = 'down'
     self.type = def.type
     self.level = level
@@ -67,7 +66,7 @@ function Entity:createHealthbar()
         width = barWidth,
         height = 3,
         color = {r = 255, g = 255, b = 255},
-        max = self.def.health,
+        max = self.health,
         value = self.health
     }
 end

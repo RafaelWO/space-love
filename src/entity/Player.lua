@@ -15,6 +15,7 @@ function Player:init(x, y, def, level)
         jetOffset
     )
 
+    self.maxHealth = self.health
     self.hits = 0
     self.collisionDamageTimer = 0
     self.collisionDamageInterval = 1
@@ -36,7 +37,7 @@ function Player:createHealthbar()
         width = 150,
         height = 10,
         color = {r = 255, g = 255, b = 255},
-        max = self.def.health,
+        max = self.health,
         value = self.health,
         text = "health"
     }
@@ -52,6 +53,10 @@ end
 function Player:render()
     if not self.dead then
         Entity.render(self)
+
+        if self.health < self.maxHealth then
+            self:renderShipDamage()
+        end
     end
 
     self.healthBar:render()
@@ -61,7 +66,7 @@ function Player:increaseHealth(amount)
     Timer.tween(0.5, {
         [self.healthBar] = {value = self.health + amount}
     })
-    self.health = math.min(self.def.health, self.health + amount)
+    self.health = math.min(self.maxHealth, self.health + amount)
 end
 
 function Player:takeCollisionDamage(damage)
@@ -82,6 +87,21 @@ function Player:changeState(name)
         self.jet:changeState('pre-fly')
         Timer.after(0.1, function () self.jet:changeState(name) end)
     end
+end
+
+function Player:renderShipDamage()
+    local shipDamage
+    local damageInterval = self.maxHealth / 3
+    if self.health < self.maxHealth - (damageInterval * 2) then
+        shipDamage = 3
+    elseif self.health < self.maxHealth - (damageInterval * 1) then
+        shipDamage = 2
+    elseif self.health < self.maxHealth - (damageInterval * 0) then
+        shipDamage = 1
+    end
+
+    love.graphics.draw(gTextures['sheet'], gFrames['sheet'][self.ship .. '_damage' .. shipDamage],
+        math.floor(self.x), math.floor(self.y))
 end
 
 function Player:getFrame()

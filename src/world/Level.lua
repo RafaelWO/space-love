@@ -26,11 +26,23 @@ function Level:init()
     self.meteorSpawnEta = math.random(unpack(METEOR_SPAWN_INTERVAL))
     self.enemySpawnTimer = 0
     self.enemySpawnEta = math.random(unpack(ENEMY_SPAWN_INTERVAL))
+
+
+    self.enemySpawnProbs = {
+        [1] = 'enemy-1',
+        [0.2] = 'enemy-2',
+        [0] = 'enemy-3',
+        [0] = 'enemy-4',
+        [0] = 'enemy-5',
+    }
 end
 
 function Level:update(dt)
-    -- spawn meteors
+    -- update timers
     self.meteorSpawnTimer = self.meteorSpawnTimer + dt
+    self.enemySpawnTimer = self.enemySpawnTimer + dt
+
+    -- spawn meteor
     if self.meteorSpawnTimer > self.meteorSpawnEta then
         self.meteorSpawnTimer = 0
         self.meteorSpawnEta = math.random(unpack(METEOR_SPAWN_INTERVAL))
@@ -43,20 +55,9 @@ function Level:update(dt)
             meteorDef
         ))
     end
-
-    -- spawn enemies
-    self.enemySpawnTimer = self.enemySpawnTimer + dt
+    
     if self.enemySpawnTimer > self.enemySpawnEta then
-        self.enemySpawnTimer = 0
-        self.enemySpawnEta = math.random(unpack(ENEMY_SPAWN_INTERVAL))
-        
-        table.insert(self.enemies, Entity (
-            math.random(0, VIRTUAL_WIDTH - 100),
-            -100,
-            ENTITY_DEFS['enemy'],
-            self
-        ))
-        self.enemies[#self.enemies]:processAI({direction = "down", duration = 1}, dt)
+        self:spawnEnemy(dt)
     end
 
     for i, gtype in ipairs(GAME_OBJECT_TYPES) do
@@ -204,6 +205,36 @@ end
 
 function Level:playerHits()
     self.player.hits = self.player.hits + 1
+end
+
+function Level:spawnEnemy(dt)
+    self.enemySpawnTimer = 0
+    self.enemySpawnEta = math.random(unpack(ENEMY_SPAWN_INTERVAL))
+
+    local probs = {}
+    for k, _ in pairs(self.enemySpawnProbs) do
+        table.insert(probs, k)
+    end
+    table.sort(probs)
+
+    local enemyType = ""
+    local rnd = math.random()
+    for i, prob in ipairs(probs) do
+        if rnd <= prob then
+            enemyType = self.enemySpawnProbs[prob]
+            break
+        end
+    end
+
+    print("Spawn RNG: " .. string.format("%.2f", rnd))
+    print("Spawning: " .. enemyType)
+    table.insert(self.enemies, Entity (
+        math.random(0, VIRTUAL_WIDTH - 100),
+        -100,
+        ENTITY_DEFS[enemyType],
+        self
+    ))
+    self.enemies[#self.enemies]:processAI({direction = "down", duration = 1}, dt)
 end
 
 function Level:gameOver()
