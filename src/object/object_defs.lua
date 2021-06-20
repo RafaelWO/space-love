@@ -2,12 +2,12 @@ GAME_OBJECT_DEFS = {
     ['laser-normal'] = {
         type = 'laser',
         texture = 'sheet',
-        frame = 'laser<color>07',
+        frame = 'laser<color>05',
         solid = false,
         defaultState = 'fly',
         states = {
             ['fly'] = {
-                frames = {'laser<color>07'}
+                frames = {'laser<color>05'}
             },
             ['hit'] = {
                 frames = {'laser<color>11', 'laser<color>10'},

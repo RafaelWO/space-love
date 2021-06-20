@@ -31,14 +31,40 @@ ENTITY_DEFS = {
     },
     ['enemy-2'] = {
         type = 'simple_enemy',
-        flySpeed = 200,
+        flySpeed = 300,
         shotInterval = 0.4,
-        attack = 0.4,
-        health = 3,
+        attack = 0.5,
+        health = 2,
         width = 104,
         height = 84,
         texture = 'sheet',
         ship = 'enemy2',
+        color = 'Black',
+        laser = 'laser-normal'
+    },
+    ['enemy-3'] = {
+        type = 'simple_enemy',
+        flySpeed = 300,
+        shotInterval = 0.6,
+        attack = 0.5,
+        health = 2,
+        width = 103,
+        height = 84,
+        texture = 'sheet',
+        ship = 'enemy3',
+        color = 'Black',
+        laser = 'laser-normal'
+    },
+    ['enemy-4'] = {
+        type = 'simple_enemy',
+        flySpeed = 100,
+        shotInterval = 1,
+        attack = 1.5,
+        health = 5,
+        width = 82,
+        height = 84,
+        texture = 'sheet',
+        ship = 'enemy4',
         color = 'Black',
         laser = 'laser-normal'
     }

@@ -30,9 +30,9 @@ function Level:init()
 
     self.enemySpawnProbs = {
         [1] = 'enemy-1',
-        [0.2] = 'enemy-2',
-        [0] = 'enemy-3',
-        [0] = 'enemy-4',
+        [0.8] = 'enemy-2',
+        [0.7] = 'enemy-3',
+        [0.5] = 'enemy-4',
         [0] = 'enemy-5',
     }
 end

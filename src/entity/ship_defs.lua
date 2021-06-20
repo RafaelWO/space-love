@@ -38,12 +38,48 @@ SHIP_DEFS = {
     ['enemy2'] = {
         hitboxDefs = {
             {
-                xOffset = 0, yOffset = 0, width = 104, height = 84
+                xOffset = 18, yOffset = 0, width = 27, height = 83
+            },
+            {
+                xOffset = 59, yOffset = 0, width = 27, height = 83
+            },
+            {
+                xOffset = 0, yOffset = 26, width = 104, height = 24
             }
         },
         laserOffsets = {
             {
                 x = 104/2 - 9/2, y = 84
+            }
+        }
+    },
+    ['enemy3'] = {
+        hitboxDefs = {
+            {
+                xOffset = 5, yOffset = 0, width = 93, height = 75
+            }
+        },
+        laserOffsets = {
+            {
+                x = 17, y = 79
+            },
+            {
+                x = 86, y = 79
+            }
+        }
+    },
+    ['enemy4'] = {
+        hitboxDefs = {
+            {
+                xOffset = 19, yOffset = 0, width = 44, height = 77
+            },
+            {
+                xOffset = 0, yOffset = 0, width = 82, height = 65
+            }
+        },
+        laserOffsets = {
+            {
+                x = 82 / 2, y = 84
             }
         }
     }
