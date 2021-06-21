@@ -55,7 +55,10 @@ function Player:render()
         Entity.render(self)
 
         if self.health < self.maxHealth then
+            love.graphics.setShader(self.whiteShader)
+            self.whiteShader:send('WhiteFactor', self.blinking and 1 or 0)
             self:renderShipDamage()
+            love.graphics.setShader()
         end
     end
 

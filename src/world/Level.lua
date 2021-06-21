@@ -70,6 +70,7 @@ function Level:update(dt)
                     for j, meteor in pairs(self.objects["meteors"]) do
                         if meteor:collides(object) then
                             object:changeState("hit")
+                            object:stickToObject(meteor)
                         end
                     end
                     
@@ -77,6 +78,7 @@ function Level:update(dt)
                     for j, enemy in pairs(self.enemies) do
                         if object.state == "fly" and enemy:collides(object) then
                             object:changeState("hit")
+                            object:stickToObject(enemy)
                             enemy:reduceHealth(object.source.attack)
                         end
                     end
@@ -84,6 +86,7 @@ function Level:update(dt)
                     -- Enemy laser hits player
                     if object.state == "fly" and self.player:collides(object) then
                         object:changeState("hit")
+                        object:stickToObject(self.player)
                         self.player:reduceHealth(object.source.attack)
                     end
                 end
@@ -127,7 +130,7 @@ function Level:update(dt)
             -- create explosion particle effect
             self:spawnExplosion(enemy)
             table.remove(self.enemies, k)
-            self.score = self.score + 20
+            self.score = self.score + 20 * enemy.ship:sub(enemy.ship:len())
         end
     end
 

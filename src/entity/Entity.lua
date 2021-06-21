@@ -39,6 +39,21 @@ function Entity:init(x, y, def, level)
     self.shotWaitDuration = 0
     self.shotTimer = 0
 
+    -- https://love2d.org/forums/viewtopic.php?t=79617
+    -- white shader that will turn a sprite completely white when used; allows us
+    -- to brightly blink the sprite when it's acting
+    self.whiteShader = love.graphics.newShader[[
+        extern float WhiteFactor;
+
+        vec4 effect(vec4 vcolor, Image tex, vec2 texcoord, vec2 pixcoord)
+        {
+            vec4 outputcolor = Texel(tex, texcoord) * vcolor;
+            outputcolor.rgb += vec3(WhiteFactor);
+            return outputcolor;
+        }
+    ]]
+    self.blinking = false
+
     self:createDefaultStates()
     self:createHealthbar()
 end
@@ -159,6 +174,11 @@ function Entity:reduceHealth(damage)
         self.dead = true
         self.diedNow = true
     end
+
+    Timer.every(0.1, function()
+        self.blinking = not self.blinking
+    end)
+    :limit(2)
 end
 
 function Entity:update(dt)
@@ -169,7 +189,12 @@ function Entity:update(dt)
 end
 
 function Entity:render()
+    -- if blinking is set to true, we'll send 1 to the white shader, which will
+    -- convert every pixel of the sprite to pure white
+    love.graphics.setShader(self.whiteShader)
+    self.whiteShader:send('WhiteFactor', self.blinking and 1 or 0)
     self.stateMachine:render()
+    love.graphics.setShader()
 
     if self.type ~= "player" then
         self.healthBar:render()
