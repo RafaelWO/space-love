@@ -43,22 +43,22 @@ require 'src/object/Jet'
 require 'src/gui/ProgressBar'
 
 gFonts = {
-    ['small'] = love.graphics.newFont('SpaceShooterRedux/Bonus/kenvector_future.ttf', 8),
-    ['medium'] = love.graphics.newFont('SpaceShooterRedux/Bonus/kenvector_future.ttf', 16),
-    ['large'] = love.graphics.newFont('SpaceShooterRedux/Bonus/kenvector_future.ttf', 32),
-    ['thin-small'] = love.graphics.newFont('SpaceShooterRedux/Bonus/kenvector_future_thin.ttf', 8),
-    ['thin-medium'] = love.graphics.newFont('SpaceShooterRedux/Bonus/kenvector_future_thin.ttf', 16),
-    ['thin-large'] = love.graphics.newFont('SpaceShooterRedux/Bonus/kenvector_future_thin.ttf', 32),
+    ['small'] = love.graphics.newFont('fonts/kenvector_future.ttf', 8),
+    ['medium'] = love.graphics.newFont('fonts/kenvector_future.ttf', 16),
+    ['large'] = love.graphics.newFont('fonts/kenvector_future.ttf', 32),
+    ['thin-small'] = love.graphics.newFont('fonts/kenvector_future_thin.ttf', 8),
+    ['thin-medium'] = love.graphics.newFont('fonts/kenvector_future_thin.ttf', 16),
+    ['thin-large'] = love.graphics.newFont('fonts/kenvector_future_thin.ttf', 32),
 }
 
 gSounds = {
-    ['laser-1'] = love.audio.newSource('SpaceShooterRedux/Bonus/sfx_laser1.ogg'),
-    ['laser-2'] = love.audio.newSource('SpaceShooterRedux/Bonus/sfx_laser2.ogg'),
-    ['lose'] = love.audio.newSource('SpaceShooterRedux/Bonus/sfx_lose.ogg'),
-    ['shield-down'] = love.audio.newSource('SpaceShooterRedux/Bonus/sfx_shieldDown.ogg'),
-    ['shield-up'] = love.audio.newSource('SpaceShooterRedux/Bonus/sfx_shieldUp.ogg'),
-    ['two-tone'] = love.audio.newSource('SpaceShooterRedux/Bonus/sfx_twoTone.ogg'),
-    ['zap'] = love.audio.newSource('SpaceShooterRedux/Bonus/sfx_zap.ogg'),
+    ['laser-1'] = love.audio.newSource('sounds/sfx_laser1.ogg'),
+    ['laser-2'] = love.audio.newSource('sounds/sfx_laser2.ogg'),
+    ['lose'] = love.audio.newSource('sounds/sfx_lose.ogg'),
+    ['shield-down'] = love.audio.newSource('sounds/sfx_shieldDown.ogg'),
+    ['shield-up'] = love.audio.newSource('sounds/sfx_shieldUp.ogg'),
+    ['two-tone'] = love.audio.newSource('sounds/sfx_twoTone.ogg'),
+    ['zap'] = love.audio.newSource('sounds/sfx_zap.ogg'),
 
     ['music-title-screen'] = love.audio.newSource('sounds/music-title-screen.wav'),
     ['music-lvl1'] = love.audio.newSource('sounds/music-lvl1.wav'),
@@ -79,14 +79,14 @@ gSounds['explosion']:setVolume(0.7)
 
 
 gTextures = {
-    ['sheet'] = love.graphics.newImage('SpaceShooterRedux/Spritesheet/sheet_edited.png'),
+    ['sheet'] = love.graphics.newImage('graphics/sheet_edited.png'),
 
-    ['bg_black'] = love.graphics.newImage('SpaceShooterRedux/Backgrounds/black.png'),
-    ['bg_blue'] = love.graphics.newImage('SpaceShooterRedux/Backgrounds/blue.png'),
-    ['bg_dark-purple'] = love.graphics.newImage('SpaceShooterRedux/Backgrounds/darkPurple.png'),
-    ['bg_purple'] = love.graphics.newImage('SpaceShooterRedux/Backgrounds/purple.png'),
+    ['bg_black'] = love.graphics.newImage('graphics/backgrounds/black.png'),
+    ['bg_blue'] = love.graphics.newImage('graphics/backgrounds/blue.png'),
+    ['bg_dark-purple'] = love.graphics.newImage('graphics/backgrounds/darkPurple.png'),
+    ['bg_purple'] = love.graphics.newImage('graphics/backgrounds/purple.png'),
 }
 
 gFrames = {
-    ['sheet'] = generateQuadsFromXml('SpaceShooterRedux/Spritesheet/sheet.xml', gTextures['sheet']),
+    ['sheet'] = generateQuadsFromXml('graphics/sheet.xml', gTextures['sheet']),
 }
