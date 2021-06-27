@@ -5,11 +5,9 @@ name: Love Build
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push with a tag 'v*'
-  
-  #push:
-  #  tags:
-  #  - v*
-  #  branches: [ main ]
+  push:
+    tags:
+      - 'v*.*.*'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -30,6 +28,7 @@ jobs:
         # uses: nhartland/love-build@a6462dd03e091b755d320b2b7f9714b461631b63
         # uses: nhartland/love-build@v1-beta2
         uses: RafaelWO/love-build@fix/macos-build-combatibility
+        id: love-build
         with:
           # Name of the application to be built
           app_name: space-love
@@ -42,3 +41,15 @@ jobs:
         with:
           name: built-applications
           path: 'release'
+          
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            ${{ steps.love-build.outputs.macos-filename }}
+            ${{ steps.love-build.outputs.win32-filename }}
+            ${{ steps.love-build.outputs.win64-filename }}
+            ${{ steps.love-build.outputs.love-filename }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
