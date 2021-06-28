@@ -17,6 +17,7 @@ function Entity:init(x, y, def, level)
     self.ship = def.ship
     self.color = def.color
     self.laser = def.laser
+    self.laserType = def.laserType or '05'
     
     self.x = x
     self.y = y

@@ -3,6 +3,7 @@ Laser = Class{__includes = GameObject}
 function Laser:init(x, y, def, direction, source)
     local specificDef = self:overrideDef(def, source)
     GameObject.init(self, x, y, specificDef)
+    self.x = self.x - self.width / 2
     self.source = source
     self.direction = direction or "up"
     self.directionMultiplier = (self.direction == "up") and -1 or 1
@@ -37,10 +38,10 @@ end
 function Laser:overrideDef(def, source)
     local color = (source.type == "player") and "Blue" or "Red"
     local newDef = table.deepcopy(def)
-    newDef.frame = newDef.frame:gsub("<color>", color)
+    newDef.frame = newDef.frame:gsub("<color>", color):gsub("<type>", source.laserType)
     for k, state in pairs(newDef.states) do
         for j, frame in pairs(state.frames) do
-            newDef.states[k].frames[j] = frame:gsub("<color>", color)
+            newDef.states[k].frames[j] = frame:gsub("<color>", color):gsub("<type>", source.laserType)
         end
     end
 

@@ -53,7 +53,8 @@ ENTITY_DEFS = {
         texture = 'sheet',
         ship = 'enemy3',
         color = 'Black',
-        laser = 'laser-normal'
+        laser = 'laser-normal',
+        laserType = '04'
     },
     ['enemy-4'] = {
         type = 'simple_enemy',
@@ -66,7 +67,8 @@ ENTITY_DEFS = {
         texture = 'sheet',
         ship = 'enemy4',
         color = 'Black',
-        laser = 'laser-normal'
+        laser = 'laser-normal',
+        laserType = '15'
     },
     ['enemy-5'] = {
         type = 'simple_enemy',
@@ -79,6 +81,7 @@ ENTITY_DEFS = {
         texture = 'sheet',
         ship = 'enemy5',
         color = 'Black',
-        laser = 'laser-normal'
+        laser = 'laser-normal',
+        laserType = '14'
     }
 }
