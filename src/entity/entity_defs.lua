@@ -67,5 +67,18 @@ ENTITY_DEFS = {
         ship = 'enemy4',
         color = 'Black',
         laser = 'laser-normal'
+    },
+    ['enemy-5'] = {
+        type = 'simple_enemy',
+        flySpeed = 150,
+        shotInterval = 1,
+        attack = 2,
+        health = 5,
+        width = 82,
+        height = 84,
+        texture = 'sheet',
+        ship = 'enemy5',
+        color = 'Black',
+        laser = 'laser-normal'
     }
 }

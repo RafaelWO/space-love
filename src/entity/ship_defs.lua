@@ -49,7 +49,7 @@ SHIP_DEFS = {
         },
         laserOffsets = {
             {
-                x = 104/2 - 9/2, y = 84
+                x = 104/2 - 9/2, y = 80
             }
         }
     },
@@ -80,6 +80,24 @@ SHIP_DEFS = {
         laserOffsets = {
             {
                 x = 82 / 2, y = 84
+            }
+        }
+    },
+    ['enemy5'] = {
+        hitboxDefs = {
+            {
+                xOffset = 0, yOffset = 0, width = 97, height = 30
+            },
+            {
+                xOffset = 14, yOffset = 0, width = 69, height = 74
+            },
+            {
+                xOffset = 31, yOffset = 74, width = 35, height = 10
+            }
+        },
+        laserOffsets = {
+            {
+                x = 97 / 2, y = 84
             }
         }
     }
