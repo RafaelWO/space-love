@@ -120,22 +120,22 @@
 	<SubTexture name="laserBlue14.png" x="842" y="206" width="13" height="57"/>
 	<SubTexture name="laserBlue15.png" x="849" y="480" width="9" height="57"/>
 	<SubTexture name="laserBlue16.png" x="843" y="62" width="13" height="54"/>
-	<SubTexture name="laserGreen01.png" x="740" y="686" width="37" height="38"/>
-	<SubTexture name="laserGreen02.png" x="843" y="116" width="13" height="57"/>
-	<SubTexture name="laserGreen03.png" x="855" y="173" width="9" height="57"/>
-	<SubTexture name="laserGreen04.png" x="848" y="565" width="13" height="37"/>
-	<SubTexture name="laserGreen05.png" x="854" y="639" width="9" height="37"/>
-	<SubTexture name="laserGreen06.png" x="845" y="0" width="13" height="57"/>
-	<SubTexture name="laserGreen07.png" x="849" y="364" width="9" height="57"/>
-	<SubTexture name="laserGreen08.png" x="848" y="738" width="13" height="37"/>
-	<SubTexture name="laserGreen09.png" x="856" y="94" width="9" height="37"/>
-	<SubTexture name="laserGreen10.png" x="843" y="426" width="13" height="54"/>
-	<SubTexture name="laserGreen11.png" x="849" y="310" width="9" height="54"/>
-	<SubTexture name="laserGreen12.png" x="843" y="602" width="13" height="37"/>
-	<SubTexture name="laserGreen13.png" x="858" y="0" width="9" height="37"/>
-	<SubTexture name="laserGreen14.png" x="193" y="240" width="48" height="46"/>
-	<SubTexture name="laserGreen15.png" x="443" y="182" width="48" height="46"/>
-	<SubTexture name="laserGreen16.png" x="760" y="192" width="37" height="37"/>
+	<SubTexture name="laserGreen11.png" x="740" y="686" width="37" height="38"/>
+	<SubTexture name="laserGreen12.png" x="843" y="116" width="13" height="57"/>
+	<SubTexture name="laserGreen13.png" x="855" y="173" width="9" height="57"/>
+	<SubTexture name="laserGreen02.png" x="848" y="565" width="13" height="37"/>
+	<SubTexture name="laserGreen03.png" x="854" y="639" width="9" height="37"/>
+	<SubTexture name="laserGreen14.png" x="845" y="0" width="13" height="57"/>
+	<SubTexture name="laserGreen15.png" x="849" y="364" width="9" height="57"/>
+	<SubTexture name="laserGreen04.png" x="848" y="738" width="13" height="37"/>
+	<SubTexture name="laserGreen05.png" x="856" y="94" width="9" height="37"/>
+	<SubTexture name="laserGreen16.png" x="843" y="426" width="13" height="54"/>
+	<SubTexture name="laserGreen01.png" x="849" y="310" width="9" height="54"/>
+	<SubTexture name="laserGreen06.png" x="843" y="602" width="13" height="37"/>
+	<SubTexture name="laserGreen07.png" x="858" y="0" width="9" height="37"/>
+	<SubTexture name="laserGreen08.png" x="193" y="240" width="48" height="46"/>
+	<SubTexture name="laserGreen09.png" x="443" y="182" width="48" height="46"/>
+	<SubTexture name="laserGreen10.png" x="760" y="192" width="37" height="37"/>
 	<SubTexture name="laserRed01.png" x="858" y="230" width="9" height="54"/>
 	<SubTexture name="laserRed02.png" x="843" y="977" width="13" height="37"/>
 	<SubTexture name="laserRed03.png" x="856" y="602" width="9" height="37"/>

@@ -88,5 +88,5 @@ gTextures = {
 }
 
 gFrames = {
-    ['sheet'] = generateQuadsFromXml('graphics/sheet.xml', gTextures['sheet']),
+    ['sheet'] = generateQuadsFromXml('graphics/sheet_edited.xml', gTextures['sheet']),
 }
