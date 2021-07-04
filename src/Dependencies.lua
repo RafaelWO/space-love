@@ -41,6 +41,7 @@ require 'src/object/Meteor'
 require 'src/object/Jet'
 
 require 'src/gui/ProgressBar'
+require 'src/gui/Menu'
 
 gFonts = {
     ['small'] = love.graphics.newFont('fonts/kenvector_future.ttf', 8),

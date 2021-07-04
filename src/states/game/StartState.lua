@@ -5,19 +5,38 @@ function StartState:init()
     
     gSounds['music-title-screen']:setLooping(true)
     gSounds['music-title-screen']:play()
+
+    self.menu = Menu {
+        y = VIRTUAL_HEIGHT / 2,
+        texts = {
+            "Play",
+            "Highscore",
+            "Quit"
+        },
+        callbacks = {
+            function()
+                gSounds['music-title-screen']:stop()
+                gStateStack:pop()
+                gStateStack:push(PlayState())
+            end,
+            function()
+            end,
+            function()
+                love.event.quit()
+            end
+        }
+    }
 end
 
 function StartState:update(dt)
-    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-        gSounds['music-title-screen']:stop()
-        gStateStack:pop()
-        gStateStack:push(PlayState())
-    end
+    self.menu:update(dt)
 end
 
 function StartState:render()
     love.graphics.setBackgroundColor(0.5,0,1)
-    love.graphics.setColor(50, 50, 50, 255)
+    love.graphics.setColor(100, 100, 100, 255)
     love.graphics.setFont(gFonts['large'])
-    love.graphics.printf('Space Love', 0, VIRTUAL_HEIGHT / 2 - 30, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('Space Love', 0, VIRTUAL_HEIGHT / 2 - 100, VIRTUAL_WIDTH, 'center')
+
+    self.menu:render()
 end
