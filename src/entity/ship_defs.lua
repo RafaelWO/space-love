@@ -10,10 +10,10 @@ SHIP_DEFS = {
         },
         laserOffsets = {
             {
-                x = 0, y = 26
+                x = 3, y = 32
             },
             {
-                x = 90, y = 26
+                x = 96, y = 32
             }
         }
     },
@@ -31,7 +31,7 @@ SHIP_DEFS = {
         },
         laserOffsets = {
             {
-                x = 93/2 - 9/2, y = 70
+                x = 93 / 2, y = 70
             }
         }
     },
@@ -49,7 +49,7 @@ SHIP_DEFS = {
         },
         laserOffsets = {
             {
-                x = 104/2 - 9/2, y = 80
+                x = 104 / 2, y = 80
             }
         }
     },
@@ -61,10 +61,10 @@ SHIP_DEFS = {
         },
         laserOffsets = {
             {
-                x = 17, y = 79
+                x = 17, y = 80
             },
             {
-                x = 86, y = 79
+                x = 86, y = 80
             }
         }
     },
