@@ -129,3 +129,47 @@ function getExplosion(image)
     pSystem:setSizes(0.5, 0.7)
     return pSystem
 end
+
+
+DirectionSet = Class{}
+
+function DirectionSet:init(initialDirection)
+    self.set = {
+        ["left"] = false,
+        ["right"] = false,
+        ["up"] = false,
+        ["down"] = false
+    }
+
+    if initialDirection ~= nil then
+        self.set[initialDirection] = true
+    end
+
+end
+
+function DirectionSet:add(key)
+    self.set[key] = true
+end
+
+function DirectionSet:remove(key)
+    self.set[key] = false
+end
+
+function DirectionSet:reset()
+    for k, direction in pairs(self.set) do
+        self.set[k] = false
+    end
+end
+
+function DirectionSet:contains(key)
+    return self.set[key]
+end
+
+function DirectionSet:isEmpty()
+    for k, direction in pairs(self.set) do
+        if direction then
+            return false
+        end
+    end
+    return true
+end

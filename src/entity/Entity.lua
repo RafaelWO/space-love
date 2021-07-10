@@ -6,7 +6,7 @@
 Entity = Class{}
 
 function Entity:init(x, y, def, level)
-    self.direction = 'down'
+    self.direction = DirectionSet("down")
     self.type = def.type
     self.level = level
 
