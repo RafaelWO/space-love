@@ -7,7 +7,7 @@ WINDOW_HEIGHT = 720
 BACKGROUND_SIZE = 256
 BACKGROUND_SPEED = 50
 
-GAME_OBJECT_TYPES = {'meteors', 'lasers', 'animations'}
+GAME_OBJECT_TYPES = {'meteors', 'lasers', 'particles', 'items'}
 
 PLAYER_LASER_SPEED = 500
 
@@ -18,5 +18,7 @@ METEOR_COLLISION_DAMAGE = 0.5
 
 ENEMY_SPAWN_INTERVAL = {3, 7}
 ENEMY_COLLOSION_DAMAGE = 1
+
+POWERUP_SPEED = 60
 
 DEBUG = false

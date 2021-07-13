@@ -96,6 +96,10 @@ function Entity:getFrame()
     return self.ship:sub(0, typeIdx - 1) .. self.color .. self.ship:sub(typeIdx)
 end
 
+function Entity:getCenter()
+    return self.x + self.width / 2, self.y + self.height / 2
+end
+
 --[[
     Simple AABB
 ]]

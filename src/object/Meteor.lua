@@ -1,7 +1,7 @@
 Meteor = Class{__includes = GameObject}
 
-function Meteor:init(x, y, def)
-    GameObject.init(self, x, y, def)
+function Meteor:init(x, y, def, params)
+    GameObject.init(self, x, y, def, params)
 
     self.hitmargin = 2
     if string.match(self.frame, "_big") then
@@ -9,16 +9,6 @@ function Meteor:init(x, y, def)
         self.hitmargin = 10 
     elseif string.match(self.frame, "_med") then
         self.hitmargin = 5
-    end
-end
-
-function Meteor:update(dt)
-    GameObject.update(self, dt)
-
-    if self.y > VIRTUAL_HEIGHT then
-        self.toRemove = true
-    else
-        self.y = self.y + METEOR_SPEED * dt
     end
 end
 

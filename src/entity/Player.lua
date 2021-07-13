@@ -66,10 +66,11 @@ function Player:render()
 end
 
 function Player:increaseHealth(amount)
+    local newHealth = math.min(self.maxHealth, self.health + amount)
     Timer.tween(0.5, {
-        [self.healthBar] = {value = self.health + amount}
+        [self.healthBar] = {value = newHealth}
     })
-    self.health = math.min(self.maxHealth, self.health + amount)
+    self.health = newHealth
 end
 
 function Player:takeCollisionDamage(damage)

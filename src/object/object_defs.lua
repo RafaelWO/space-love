@@ -43,18 +43,13 @@ GAME_OBJECT_DEFS = {
             }
         }
     },
-    ['explosion'] = {
-        type = 'explosion',
-        texture = 'explosion',
+    ['pill'] = {
+        type = 'powerup_pill',
+        texture = 'sheet',
+        frame = 'pill_<color>',
         solid = false,
-        defaultState = 'explode',
-        states = {
-            ['explode'] = {
-                texture = "explosion",
-                interval = 0.05,
-                looping = false,
-                frames = "ALL"
-            }
-        }
+        width = 22,
+        height = 21,
+        consumable = true
     }
 }

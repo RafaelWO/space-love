@@ -8,7 +8,7 @@
 	<SubTexture name="beam6.png" x="120" y="688" width="43" height="23"/>
 	<SubTexture name="beamLong1.png" x="828" y="943" width="15" height="67"/>
 	<SubTexture name="beamLong2.png" x="307" y="309" width="25" height="64"/>
-	<SubTexture name="bold_silver.png" x="810" y="837" width="19" height="30"/>
+	<SubTexture name="bolt_silver.png" x="810" y="837" width="19" height="30"/>
 	<SubTexture name="bolt_bronze.png" x="810" y="467" width="19" height="30"/>
 	<SubTexture name="bolt_gold.png" x="809" y="437" width="19" height="30"/>
 	<SubTexture name="buttonBlue.png" x="0" y="78" width="222" height="39"/>
