@@ -7,18 +7,34 @@ function Player:init(x, y, def, level)
         x = self.width / 2 - GAME_OBJECT_DEFS['jet'].width / 2,
         y = self.height - 5
     }
-    self.jet = Jet (
+    self.jet = GameObject(
         self.x + jetOffset.x,
         self.y + jetOffset.y,
         GAME_OBJECT_DEFS['jet'],
-        self,
-        jetOffset
+        {
+            parent = self,
+            parentOffset = jetOffset
+        }
     )
 
     self.maxHealth = self.health
     self.hits = 0
     self.collisionDamageTimer = 0
     self.collisionDamageInterval = 1
+
+    local shieldOffset = {
+        x = self.width / 2 - GAME_OBJECT_DEFS['shield'].width / 2,
+        y = -35
+    }
+    self.shield = Shield(
+        self.x,
+        self.y,
+        GAME_OBJECT_DEFS['shield'],
+        {
+            parent = self,
+            parentOffset = shieldOffset
+        }
+    )
 
     self:changeState('idle')
 end
@@ -48,6 +64,7 @@ function Player:update(dt)
     self.collisionDamageTimer = self.collisionDamageTimer + dt
     
     self.jet:update(dt)
+    self.shield:update(dt)
 end
 
 function Player:render()
@@ -60,6 +77,8 @@ function Player:render()
             self:renderShipDamage()
             love.graphics.setShader()
         end
+
+        self.shield:render()
     end
 
     self.healthBar:render()
@@ -110,4 +129,10 @@ end
 
 function Player:getFrame()
     return self.ship .. '_' .. self.color:lower()
+end
+
+function Player:shieldUp()
+    self.shield:changeState('up')
+    gSounds['shield-up']:stop()
+    gSounds['shield-up']:play()
 end

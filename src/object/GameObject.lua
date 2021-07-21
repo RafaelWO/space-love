@@ -30,6 +30,10 @@ function GameObject:init(x, y, def, params)
     -- for moving down the screen
     self.speed = params.speed or 0
 
+    -- follow a parent object
+    self.parent = params.parent or nil
+    self.parentOffset = params.parentOffset or { x = 0, y = 0}
+
     -- dimensions
     self.x = x
     self.y = y
@@ -107,6 +111,11 @@ function GameObject:update(dt)
         self.toRemove = true
     else
         self.y = self.y + self.speed * dt
+    end
+
+    if self.parent then
+        self.x = self.parent.x + self.parentOffset.x
+        self.y = self.parent.y + self.parentOffset.y
     end
 end
 

@@ -49,9 +49,10 @@ function Animation:update(dt)
 
             self.currentFrame = math.max(1, (self.currentFrame + 1) % (#self.frames + 1))
 
-            -- if we've looped back to the beginning, record
+            -- if we've looped back to the beginning, set frame to the last frame
             if self.currentFrame == 1 then
                 self.timesPlayed = self.timesPlayed + 1
+                self.currentFrame = #self.frames
             end
         end
     end

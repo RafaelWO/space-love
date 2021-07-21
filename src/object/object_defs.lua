@@ -51,5 +51,24 @@ GAME_OBJECT_DEFS = {
         width = 22,
         height = 21,
         consumable = true
+    },
+    ['shield'] = {
+        type = 'shield',
+        texture = 'sheet',
+        frame = 'shield1',
+        solid = false,
+        width = 133,
+        height = 108,
+        defaultState = 'down',
+        states = {
+            ['down'] = {
+                frames = {}
+            },
+            ['up'] = {
+                frames = {'shield1', 'shield2', 'shield3'},
+                interval = 0.1,
+                looping = false
+            }
+        }
     }
 }

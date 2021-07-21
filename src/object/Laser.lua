@@ -18,10 +18,6 @@ function Laser:update(dt)
 
     if self.state == "fly" then
         self.y = self.y + PLAYER_LASER_SPEED * self.directionMultiplier * dt
-    else
-        -- after laser hit something, it should stick onto the object for the hit animation
-        self.x = self.parent.x + self.parentOffset.x
-        self.y = self.parent.y + self.parentOffset.y
     end
 end
 

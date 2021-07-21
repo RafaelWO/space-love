@@ -38,7 +38,7 @@ require 'src/object/object_defs'
 require 'src/object/GameObject'
 require 'src/object/Laser'
 require 'src/object/Meteor'
-require 'src/object/Jet'
+require 'src/object/Shield'
 
 require 'src/gui/ProgressBar'
 require 'src/gui/Menu'
