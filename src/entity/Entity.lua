@@ -27,6 +27,7 @@ function Entity:init(x, y, def, level)
     self.health = def.health
     self.dead = false
     self.diedNow = false
+    self.invulnerable = false
 
     -- so that enemies cannot move randomly to the bottom of the screen
     self.bottomScreenBarrier = (self.type == "player") and 0 or 200
@@ -168,6 +169,10 @@ function Entity:shoot(direction)
 end
 
 function Entity:reduceHealth(damage)
+    if self.invulnerable then
+        return
+    end
+
     if self.healthBar then
         Timer.tween(0.25, {
             [self.healthBar] = {value = self.health - damage}

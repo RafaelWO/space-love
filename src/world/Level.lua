@@ -137,7 +137,9 @@ function Level:update(dt)
             
             self.score = self.score + 20 * enemy.ship:sub(enemy.ship:len())
             if math.random(10) == 1 then
-                self:spawnPowerup('pill', enemy:getCenter())
+                self:spawnPowerup('pill', false, enemy:getCenter())
+            elseif math.random(10) == 1 then
+                self:spawnPowerup('powerup-shield', false, enemy:getCenter())
             end
         end
     end
@@ -264,23 +266,29 @@ function Level:spawnExplosion(object)
     gSounds['explosion']:play()
 end
 
-function Level:spawnPowerup(name, x, y)
-    object_def = GAME_OBJECT_DEFS[name]
-    x = x - object_def.width / 2
-    y = y - object_def.height / 2
+function Level:spawnPowerup(name, colorLower, x, y)
+    local object_def = GAME_OBJECT_DEFS[name]
+    local x = x - object_def.width / 2
+    local y = y - object_def.height / 2
+    local color = colorLower and self.player.color:lower() or self.player.color
+
+    local object = GameObject(
+        x,
+        y,
+        object_def,
+        {
+            color = color,
+            speed = POWERUP_SPEED
+        }
+    )
 
     if name == "pill" then
-        object = GameObject(
-            x,
-            y,
-            object_def,
-            {
-                color = self.player.color:lower(),
-                speed = POWERUP_SPEED
-            }
-        )
         object.onConsume = function()
             self.player:increaseHealth(1)
+        end
+    elseif name == "powerup-shield" then
+        object.onConsume = function()
+            self.player:shieldUp(5)
         end
     end
     

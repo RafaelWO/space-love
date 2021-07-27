@@ -52,6 +52,15 @@ GAME_OBJECT_DEFS = {
         height = 21,
         consumable = true
     },
+    ['powerup-shield'] = {
+        type = 'powerup_shield',
+        texture = 'sheet',
+        frame = 'powerup<color>_shield',
+        solid = false,
+        width = 34,
+        height = 33,
+        consumable = true
+    },
     ['shield'] = {
         type = 'shield',
         texture = 'sheet',

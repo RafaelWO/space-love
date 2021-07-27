@@ -35,6 +35,7 @@ function Player:init(x, y, def, level)
             parentOffset = shieldOffset
         }
     )
+    self.shieldTimerBar = nil
 
     self:changeState('idle')
 end
@@ -65,6 +66,9 @@ function Player:update(dt)
     
     self.jet:update(dt)
     self.shield:update(dt)
+    if self.shieldTimerBar then
+        self.shieldTimerBar:update(dt)
+    end
 end
 
 function Player:render()
@@ -79,6 +83,9 @@ function Player:render()
         end
 
         self.shield:render()
+        if self.shieldTimerBar then
+            self.shieldTimerBar:render()
+        end
     end
 
     self.healthBar:render()
@@ -131,8 +138,34 @@ function Player:getFrame()
     return self.ship .. '_' .. self.color:lower()
 end
 
-function Player:shieldUp()
+function Player:shieldUp(time)
+    if self.shield.state == "up" then
+        return
+    end
+
+    self.invulnerable = true
     self.shield:changeState('up')
     gSounds['shield-up']:stop()
     gSounds['shield-up']:play()
+
+    self.shieldTimerBar = ProgressBar {
+        x = 10,
+        y = 50,
+        width = 150,
+        height = 10,
+        color = {r = 255, g = 255, b = 255},
+        max = time,
+        value = time,
+        text = "shield"
+    }
+
+    Timer.tween(time, {
+        [self.shieldTimerBar] = {value = 0}
+    }):finish(function ()
+        self.invulnerable = false
+        self.shield:changeState('down')
+        self.shieldTimerBar = nil
+        gSounds['shield-down']:stop()
+        gSounds['shield-down']:play()
+    end)
 end

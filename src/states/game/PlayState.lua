@@ -3,7 +3,7 @@ PlayState = Class{__includes = BaseState}
 function PlayState:init()
     self.name = "PlayState"
 
-    self.musicIdx = math.random(3)
+    self.musicIdx = 1
     print("Music: " .. self.musicIdx)
     gSounds['music-lvl' .. self.musicIdx]:setLooping(true)
     gSounds['music-lvl' .. self.musicIdx]:play()
