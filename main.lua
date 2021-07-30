@@ -33,6 +33,7 @@ function love.load()
     gStateStack:push(StartState())
 
     love.keyboard.keysPressed = {}
+    love.keyboard.textInput = ""
 
     METEOR_TYPES = getFrameNamesFromSheet('sheet', 'meteor')
     EXPLOSION_BLAST = getBlast(100)
@@ -50,6 +51,11 @@ function love.keyboard.wasPressed(key)
     return love.keyboard.keysPressed[key]
 end
 
+
+function love.textinput(t)
+    love.keyboard.textInput = t
+end
+
 function love.update(dt)
     Timer.update(dt)
     gStateStack:update(dt)
@@ -59,6 +65,7 @@ function love.update(dt)
     end
 
     love.keyboard.keysPressed = {}
+    love.keyboard.textInput = ""
 end
 
 function love.draw()

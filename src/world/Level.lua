@@ -137,7 +137,7 @@ function Level:update(dt)
             
             self.score = self.score + 20 * enemy.ship:sub(enemy.ship:len())
             if math.random(10) == 1 then
-                self:spawnPowerup('pill', false, enemy:getCenter())
+                self:spawnPowerup('pill', true, enemy:getCenter())
             elseif math.random(10) == 1 then
                 self:spawnPowerup('powerup-shield', false, enemy:getCenter())
             end
@@ -253,7 +253,7 @@ end
 function Level:gameOver()
     gSounds['lose']:play()
     gStateStack:pop()
-    gStateStack:push(GameOverState())
+    gStateStack:push(GameOverState({score = self.score}))
 end
 
 function Level:spawnExplosion(object)
