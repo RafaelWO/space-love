@@ -26,8 +26,12 @@ jobs:
       - uses: actions/checkout@v2          
       - name: LÖVE Build
         # You may pin to the exact commit or the version.
+        # uses: nhartland/love-build@a6462dd03e091b755d320b2b7f9714b461631b63
+        # uses: nhartland/love-build@v1-beta2
         uses: nhartland/love-build@674b4d11d31cc1ed67b3f3de4f2887545ab4ef4e
         # uses: RafaelWO/love-build@fix/macos-build-combatibility
+        
+        id: love-build
         with:
           # Name of the application to be built
           app_name: space-love
@@ -40,3 +44,15 @@ jobs:
         with:
           name: built-applications
           path: 'release'
+          
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            ${{ steps.love-build.outputs.macos-filename }}
+            ${{ steps.love-build.outputs.win32-filename }}
+            ${{ steps.love-build.outputs.win64-filename }}
+            ${{ steps.love-build.outputs.love-filename }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
