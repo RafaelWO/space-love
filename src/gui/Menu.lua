@@ -34,7 +34,7 @@ function Menu:render()
     local offsetY = 0
     for k, text in pairs(self.texts) do
         if k == self.selected then
-            love.graphics.setColor(250, 250, 250, 255)
+            love.graphics.setColor(100, 100, 200, 255)
         else
             love.graphics.setColor(50, 50, 50, 255)
         end

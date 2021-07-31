@@ -192,6 +192,9 @@ function Level:render()
         love.graphics.draw(pSystem, 0, 0)
     end
 
+    -- render player health-bar
+    self.player.healthBar:render()
+
     -- render score
     local scoreString = string.rep("0", 8 - tostring(self.score):len()) .. tostring(self.score)
     local scoreOffset = 10 + (scoreString:len() * 20)

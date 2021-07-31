@@ -87,8 +87,6 @@ function Player:render()
             self.shieldTimerBar:render()
         end
     end
-
-    self.healthBar:render()
 end
 
 function Player:increaseHealth(amount)

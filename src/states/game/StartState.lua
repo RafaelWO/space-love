@@ -20,6 +20,8 @@ function StartState:init()
                 gStateStack:push(PlayState())
             end,
             function()
+                gStateStack:pop()
+                gStateStack:push(HighscoreState())
             end,
             function()
                 love.event.quit()
@@ -34,7 +36,7 @@ end
 
 function StartState:render()
     love.graphics.setBackgroundColor(0.5,0,1)
-    love.graphics.setColor(150, 150, 150, 255)
+    love.graphics.setColor(250, 250, 250, 255)
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Space Love', 0, VIRTUAL_HEIGHT / 2 - 100, VIRTUAL_WIDTH, 'center')
 

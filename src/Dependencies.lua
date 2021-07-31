@@ -20,6 +20,7 @@ require 'src/states/StateMachine'
 require 'src/states/game/StartState'
 require 'src/states/game/PlayState'
 require 'src/states/game/GameOverState'
+require 'src/states/game/HighscoreState'
 
 require 'src/states/entity/EntityBaseState'
 require 'src/states/entity/EntityFlyState'
@@ -42,6 +43,7 @@ require 'src/object/Shield'
 
 require 'src/gui/ProgressBar'
 require 'src/gui/Menu'
+require 'src/gui/Table'
 
 gFonts = {
     ['small'] = love.graphics.newFont('fonts/kenvector_future.ttf', 8),

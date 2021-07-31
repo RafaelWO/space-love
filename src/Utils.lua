@@ -130,6 +130,49 @@ function getExplosion(image)
     return pSystem
 end
 
+--[[
+    See https://stackoverflow.com/a/15706820/9478384
+]]
+function spairs(t, order)
+    -- collect the keys
+    local keys = {}
+    for k in pairs(t) do keys[#keys+1] = k end
+
+    -- if order function given, sort by it by passing the table and keys a, b,
+    -- otherwise just sort the keys 
+    if order then
+        table.sort(keys, function(a,b) return order(t, a, b) end)
+    else
+        table.sort(keys)
+    end
+
+    -- return the iterator function
+    local i = 0
+    return function()
+        i = i + 1
+        if keys[i] then
+            return keys[i], t[keys[i]]
+        end
+    end
+end
+
+
+function writeSaveFile(file, data, mode)
+    if mode == "append" and love.filesystem.exists(FILE_HIGHSCORES) then
+        success, message = love.filesystem.append(FILE_HIGHSCORES, data)
+        fsType = "fs-append"
+    else
+        success, message = love.filesystem.write(FILE_HIGHSCORES, data)
+        fsType = "fs-write"
+    end
+
+    if success then
+        print(fsType .. " success")
+    else
+        print(fsType .. " failure: " .. message)
+    end
+end
+
 
 DirectionSet = Class{}
 
