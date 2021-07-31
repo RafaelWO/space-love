@@ -1,6 +1,15 @@
 # Space-Love
 A space shooter written with [LÖVE❤](https://love2d.org/) in Lua.
 
+## Instructions
+#### Menu
+Use the arrow keys <kbd>&uarr;</kbd> <kbd>&darr;</kbd> to navigate within menus and press <kbd>enter</kbd> to select.
+
+#### In-Game
+Use the arrow keys <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>&rarr;</kbd> <kbd>&darr;</kbd> to navigate your ship. Press/Hold <kbd>space</kbd> to shot.
+
+Press <kbd>esc</kbd> to quit.
+
 ## Used Libraries, Art Packs, Sounds
 ### Art Pack
 The sprites (plus backgrounds, fonts and some sound effects) used in this game are from the art pack [Space Shooter Redux](https://opengameart.org/content/space-shooter-redux) by [Kenny](www.kenney.nl).
