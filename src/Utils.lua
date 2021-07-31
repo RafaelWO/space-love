@@ -129,3 +129,90 @@ function getExplosion(image)
     pSystem:setSizes(0.5, 0.7)
     return pSystem
 end
+
+--[[
+    See https://stackoverflow.com/a/15706820/9478384
+]]
+function spairs(t, order)
+    -- collect the keys
+    local keys = {}
+    for k in pairs(t) do keys[#keys+1] = k end
+
+    -- if order function given, sort by it by passing the table and keys a, b,
+    -- otherwise just sort the keys 
+    if order then
+        table.sort(keys, function(a,b) return order(t, a, b) end)
+    else
+        table.sort(keys)
+    end
+
+    -- return the iterator function
+    local i = 0
+    return function()
+        i = i + 1
+        if keys[i] then
+            return keys[i], t[keys[i]]
+        end
+    end
+end
+
+
+function writeSaveFile(file, data, mode)
+    if mode == "append" and love.filesystem.exists(FILE_HIGHSCORES) then
+        success, message = love.filesystem.append(FILE_HIGHSCORES, data)
+        fsType = "fs-append"
+    else
+        success, message = love.filesystem.write(FILE_HIGHSCORES, data)
+        fsType = "fs-write"
+    end
+
+    if success then
+        print(fsType .. " success")
+    else
+        print(fsType .. " failure: " .. message)
+    end
+end
+
+
+DirectionSet = Class{}
+
+function DirectionSet:init(initialDirection)
+    self.set = {
+        ["left"] = false,
+        ["right"] = false,
+        ["up"] = false,
+        ["down"] = false
+    }
+
+    if initialDirection ~= nil then
+        self.set[initialDirection] = true
+    end
+
+end
+
+function DirectionSet:add(key)
+    self.set[key] = true
+end
+
+function DirectionSet:remove(key)
+    self.set[key] = false
+end
+
+function DirectionSet:reset()
+    for k, direction in pairs(self.set) do
+        self.set[k] = false
+    end
+end
+
+function DirectionSet:contains(key)
+    return self.set[key]
+end
+
+function DirectionSet:isEmpty()
+    for k, direction in pairs(self.set) do
+        if direction then
+            return false
+        end
+    end
+    return true
+end

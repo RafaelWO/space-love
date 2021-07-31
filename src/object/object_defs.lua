@@ -2,12 +2,12 @@ GAME_OBJECT_DEFS = {
     ['laser-normal'] = {
         type = 'laser',
         texture = 'sheet',
-        frame = 'laser<color>05',
+        frame = 'laser<color><type>',
         solid = false,
         defaultState = 'fly',
         states = {
             ['fly'] = {
-                frames = {'laser<color>05'}
+                frames = {'laser<color><type>'}
             },
             ['hit'] = {
                 frames = {'laser<color>11', 'laser<color>10'},
@@ -43,17 +43,40 @@ GAME_OBJECT_DEFS = {
             }
         }
     },
-    ['explosion'] = {
-        type = 'explosion',
-        texture = 'explosion',
+    ['pill'] = {
+        type = 'powerup_pill',
+        texture = 'sheet',
+        frame = 'pill_<color>',
         solid = false,
-        defaultState = 'explode',
+        width = 22,
+        height = 21,
+        consumable = true
+    },
+    ['powerup-shield'] = {
+        type = 'powerup_shield',
+        texture = 'sheet',
+        frame = 'powerup<color>_shield',
+        solid = false,
+        width = 34,
+        height = 33,
+        consumable = true
+    },
+    ['shield'] = {
+        type = 'shield',
+        texture = 'sheet',
+        frame = 'shield1',
+        solid = false,
+        width = 133,
+        height = 108,
+        defaultState = 'down',
         states = {
-            ['explode'] = {
-                texture = "explosion",
-                interval = 0.05,
-                looping = false,
-                frames = "ALL"
+            ['down'] = {
+                frames = {}
+            },
+            ['up'] = {
+                frames = {'shield1', 'shield2', 'shield3'},
+                interval = 0.1,
+                looping = false
             }
         }
     }

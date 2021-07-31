@@ -7,18 +7,35 @@ function Player:init(x, y, def, level)
         x = self.width / 2 - GAME_OBJECT_DEFS['jet'].width / 2,
         y = self.height - 5
     }
-    self.jet = Jet (
+    self.jet = GameObject(
         self.x + jetOffset.x,
         self.y + jetOffset.y,
         GAME_OBJECT_DEFS['jet'],
-        self,
-        jetOffset
+        {
+            parent = self,
+            parentOffset = jetOffset
+        }
     )
 
     self.maxHealth = self.health
     self.hits = 0
     self.collisionDamageTimer = 0
     self.collisionDamageInterval = 1
+
+    local shieldOffset = {
+        x = self.width / 2 - GAME_OBJECT_DEFS['shield'].width / 2,
+        y = -35
+    }
+    self.shield = Shield(
+        self.x,
+        self.y,
+        GAME_OBJECT_DEFS['shield'],
+        {
+            parent = self,
+            parentOffset = shieldOffset
+        }
+    )
+    self.shieldTimerBar = nil
 
     self:changeState('idle')
 end
@@ -48,6 +65,10 @@ function Player:update(dt)
     self.collisionDamageTimer = self.collisionDamageTimer + dt
     
     self.jet:update(dt)
+    self.shield:update(dt)
+    if self.shieldTimerBar then
+        self.shieldTimerBar:update(dt)
+    end
 end
 
 function Player:render()
@@ -60,16 +81,20 @@ function Player:render()
             self:renderShipDamage()
             love.graphics.setShader()
         end
-    end
 
-    self.healthBar:render()
+        self.shield:render()
+        if self.shieldTimerBar then
+            self.shieldTimerBar:render()
+        end
+    end
 end
 
 function Player:increaseHealth(amount)
+    local newHealth = math.min(self.maxHealth, self.health + amount)
     Timer.tween(0.5, {
-        [self.healthBar] = {value = self.health + amount}
+        [self.healthBar] = {value = newHealth}
     })
-    self.health = math.min(self.maxHealth, self.health + amount)
+    self.health = newHealth
 end
 
 function Player:takeCollisionDamage(damage)
@@ -109,4 +134,36 @@ end
 
 function Player:getFrame()
     return self.ship .. '_' .. self.color:lower()
+end
+
+function Player:shieldUp(time)
+    if self.shield.state == "up" then
+        return
+    end
+
+    self.invulnerable = true
+    self.shield:changeState('up')
+    gSounds['shield-up']:stop()
+    gSounds['shield-up']:play()
+
+    self.shieldTimerBar = ProgressBar {
+        x = 10,
+        y = 50,
+        width = 150,
+        height = 10,
+        color = {r = 255, g = 255, b = 255},
+        max = time,
+        value = time,
+        text = "shield"
+    }
+
+    Timer.tween(time, {
+        [self.shieldTimerBar] = {value = 0}
+    }):finish(function ()
+        self.invulnerable = false
+        self.shield:changeState('down')
+        self.shieldTimerBar = nil
+        gSounds['shield-down']:stop()
+        gSounds['shield-down']:play()
+    end)
 end

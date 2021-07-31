@@ -13,15 +13,21 @@ function PlayerFlyState:init(player)
 end
 
 function PlayerFlyState:update(dt)
+    self.entity.direction:reset()
+
     if love.keyboard.isDown('left') then
-        self.entity.direction = 'left'
+        self.entity.direction:add('left')
     elseif love.keyboard.isDown('right') then
-        self.entity.direction = 'right'
-    elseif love.keyboard.isDown('up') then
-        self.entity.direction = 'up'
+        self.entity.direction:add('right')
+    end
+    
+    if love.keyboard.isDown('up') then
+        self.entity.direction:add('up')
     elseif love.keyboard.isDown('down') then
-        self.entity.direction = 'down'
-    else
+        self.entity.direction:add('down')
+    end
+    
+    if self.entity.direction:isEmpty() then
         self.entity:changeState('idle')
     end
 
@@ -29,6 +35,6 @@ function PlayerFlyState:update(dt)
         self.entity:shoot("up")
     end
 
-    -- perform base collision detection against window borders
+    -- perform movement and base collision detection against window borders
     EntityFlyState.update(self, dt)
 end

@@ -3,9 +3,14 @@ Laser = Class{__includes = GameObject}
 function Laser:init(x, y, def, direction, source)
     local specificDef = self:overrideDef(def, source)
     GameObject.init(self, x, y, specificDef)
+    self.x = self.x - self.width / 2
     self.source = source
     self.direction = direction or "up"
     self.directionMultiplier = (self.direction == "up") and -1 or 1
+
+    if self.source.type == "player" then
+        self.y = self.y - self.height
+    end
 end
 
 function Laser:update(dt)
@@ -13,10 +18,6 @@ function Laser:update(dt)
 
     if self.state == "fly" then
         self.y = self.y + PLAYER_LASER_SPEED * self.directionMultiplier * dt
-    else
-        -- after laser hit something, it should stick onto the object for the hit animation
-        self.x = self.parent.x + self.parentOffset.x
-        self.y = self.parent.y + self.parentOffset.y
     end
 end
 
@@ -37,10 +38,10 @@ end
 function Laser:overrideDef(def, source)
     local color = (source.type == "player") and "Blue" or "Red"
     local newDef = table.deepcopy(def)
-    newDef.frame = newDef.frame:gsub("<color>", color)
+    newDef.frame = newDef.frame:gsub("<color>", color):gsub("<type>", source.laserType)
     for k, state in pairs(newDef.states) do
         for j, frame in pairs(state.frames) do
-            newDef.states[k].frames[j] = frame:gsub("<color>", color)
+            newDef.states[k].frames[j] = frame:gsub("<color>", color):gsub("<type>", source.laserType)
         end
     end
 

@@ -20,6 +20,7 @@ require 'src/states/StateMachine'
 require 'src/states/game/StartState'
 require 'src/states/game/PlayState'
 require 'src/states/game/GameOverState'
+require 'src/states/game/HighscoreState'
 
 require 'src/states/entity/EntityBaseState'
 require 'src/states/entity/EntityFlyState'
@@ -38,9 +39,11 @@ require 'src/object/object_defs'
 require 'src/object/GameObject'
 require 'src/object/Laser'
 require 'src/object/Meteor'
-require 'src/object/Jet'
+require 'src/object/Shield'
 
 require 'src/gui/ProgressBar'
+require 'src/gui/Menu'
+require 'src/gui/Table'
 
 gFonts = {
     ['small'] = love.graphics.newFont('fonts/kenvector_future.ttf', 8),
@@ -88,5 +91,5 @@ gTextures = {
 }
 
 gFrames = {
-    ['sheet'] = generateQuadsFromXml('graphics/sheet.xml', gTextures['sheet']),
+    ['sheet'] = generateQuadsFromXml('graphics/sheet_edited.xml', gTextures['sheet']),
 }

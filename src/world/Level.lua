@@ -4,8 +4,8 @@ function Level:init()
     self.objects = {
         ['lasers'] = {},
         ['meteors'] = {},
-        ['animations'] = {},
-        ['particles'] = {}
+        ['particles'] = {},
+        ['items'] = {}
     }
     self.player = Player (
         VIRTUAL_WIDTH / 2,
@@ -30,10 +30,10 @@ function Level:init()
 
     self.enemySpawnProbs = {
         [1] = 'enemy-1',
-        [0.8] = 'enemy-2',
-        [0.7] = 'enemy-3',
-        [0.5] = 'enemy-4',
-        [0] = 'enemy-5',
+        [0.6] = 'enemy-2',
+        [0.3] = 'enemy-3',
+        [0.1] = 'enemy-4',
+        [0.05] = 'enemy-5',
     }
 end
 
@@ -52,7 +52,10 @@ function Level:update(dt)
         table.insert(self.objects['meteors'], Meteor (
             math.random(0, VIRTUAL_WIDTH),
             -100,
-            meteorDef
+            meteorDef,
+            {
+                speed = METEOR_SPEED
+            }
         ))
     end
     
@@ -89,13 +92,14 @@ function Level:update(dt)
                         object:stickToObject(self.player)
                         self.player:reduceHealth(object.source.attack)
                     end
-                end
-            end
-            
+                end            
             -- check player with meteor collision
-            if gtype == "meteors" and self.player:collides(object:getHitbox()) then
+            elseif gtype == "meteors" and self.player:collides(object:getHitbox()) then
                 self.player:takeCollisionDamage(METEOR_COLLISION_DAMAGE)
                 self:playerHits()
+            elseif object.consumable and self.player:collides(object) then
+                object.onConsume()
+                object.toRemove = true
             end
 
             if object.toRemove then
@@ -130,7 +134,13 @@ function Level:update(dt)
             -- create explosion particle effect
             self:spawnExplosion(enemy)
             table.remove(self.enemies, k)
+            
             self.score = self.score + 20 * enemy.ship:sub(enemy.ship:len())
+            if math.random(10) == 1 then
+                self:spawnPowerup('pill', true, enemy:getCenter())
+            elseif math.random(10) == 1 then
+                self:spawnPowerup('powerup-shield', false, enemy:getCenter())
+            end
         end
     end
 
@@ -174,13 +184,16 @@ function Level:render()
         object:render()
     end
 
-    for k, object in pairs(self.objects['animations']) do
+    for k, object in pairs(self.objects['items']) do
         object:render()
     end
 
     for k, pSystem in pairs(self.objects['particles']) do
         love.graphics.draw(pSystem, 0, 0)
     end
+
+    -- render player health-bar
+    self.player.healthBar:render()
 
     -- render score
     local scoreString = string.rep("0", 8 - tostring(self.score):len()) .. tostring(self.score)
@@ -243,7 +256,7 @@ end
 function Level:gameOver()
     gSounds['lose']:play()
     gStateStack:pop()
-    gStateStack:push(GameOverState())
+    gStateStack:push(GameOverState({score = self.score}))
 end
 
 function Level:spawnExplosion(object)
@@ -254,4 +267,33 @@ function Level:spawnExplosion(object)
 
     gSounds['explosion']:stop()
     gSounds['explosion']:play()
+end
+
+function Level:spawnPowerup(name, colorLower, x, y)
+    local object_def = GAME_OBJECT_DEFS[name]
+    local x = x - object_def.width / 2
+    local y = y - object_def.height / 2
+    local color = colorLower and self.player.color:lower() or self.player.color
+
+    local object = GameObject(
+        x,
+        y,
+        object_def,
+        {
+            color = color,
+            speed = POWERUP_SPEED
+        }
+    )
+
+    if name == "pill" then
+        object.onConsume = function()
+            self.player:increaseHealth(1)
+        end
+    elseif name == "powerup-shield" then
+        object.onConsume = function()
+            self.player:shieldUp(5)
+        end
+    end
+    
+    table.insert(self.objects['items'], object)
 end

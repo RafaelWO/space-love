@@ -1,11 +1,18 @@
 GameObject = Class{}
 
-function GameObject:init(x, y, def)
+function GameObject:init(x, y, def, params)
     -- string identifying this object type
     self.type = def.type
 
+    if not params then
+        params = {}
+    end
+
     self.texture = def.texture
     self.frame = def.frame or 1
+    if params.color then
+        self.frame = self.frame:gsub("<color>", params.color)
+    end
 
     -- whether it acts as an obstacle or not
     self.solid = def.solid
@@ -19,6 +26,13 @@ function GameObject:init(x, y, def)
         self.animations = self:createAnimations(self.states)
         self.currentAnimation = self.animations[self.state]
     end
+
+    -- for moving down the screen
+    self.speed = params.speed or 0
+
+    -- follow a parent object
+    self.parent = params.parent or nil
+    self.parentOffset = params.parentOffset or { x = 0, y = 0}
 
     -- dimensions
     self.x = x
@@ -92,6 +106,17 @@ function GameObject:update(dt)
     if self.currentAnimation then
         self.currentAnimation:update(dt)
     end
+
+    if self.y > VIRTUAL_HEIGHT then
+        self.toRemove = true
+    else
+        self.y = self.y + self.speed * dt
+    end
+
+    if self.parent then
+        self.x = self.parent.x + self.parentOffset.x
+        self.y = self.parent.y + self.parentOffset.y
+    end
 end
 
 --[[
@@ -100,6 +125,10 @@ end
 function GameObject:collides(target)
     return not (self.x + self.width < target.x or self.x > target.x + target.width or
                 self.y + self.height < target.y or self.y > target.y + target.height)
+end
+
+function GameObject:getCenter()
+    return self.x + self.width / 2, self.y + self.height / 2
 end
 
 function GameObject:render()

@@ -6,7 +6,7 @@
 Entity = Class{}
 
 function Entity:init(x, y, def, level)
-    self.direction = 'down'
+    self.direction = DirectionSet("down")
     self.type = def.type
     self.level = level
 
@@ -17,6 +17,7 @@ function Entity:init(x, y, def, level)
     self.ship = def.ship
     self.color = def.color
     self.laser = def.laser
+    self.laserType = def.laserType or '05'
     
     self.x = x
     self.y = y
@@ -26,6 +27,7 @@ function Entity:init(x, y, def, level)
     self.health = def.health
     self.dead = false
     self.diedNow = false
+    self.invulnerable = false
 
     -- so that enemies cannot move randomly to the bottom of the screen
     self.bottomScreenBarrier = (self.type == "player") and 0 or 200
@@ -93,6 +95,10 @@ end
 function Entity:getFrame()
     local typeIdx = self.ship:len()
     return self.ship:sub(0, typeIdx - 1) .. self.color .. self.ship:sub(typeIdx)
+end
+
+function Entity:getCenter()
+    return self.x + self.width / 2, self.y + self.height / 2
 end
 
 --[[
@@ -163,6 +169,10 @@ function Entity:shoot(direction)
 end
 
 function Entity:reduceHealth(damage)
+    if self.invulnerable then
+        return
+    end
+
     if self.healthBar then
         Timer.tween(0.25, {
             [self.healthBar] = {value = self.health - damage}
@@ -178,7 +188,7 @@ function Entity:reduceHealth(damage)
     Timer.every(0.1, function()
         self.blinking = not self.blinking
     end)
-    :limit(4)
+    :limit(2)
 end
 
 function Entity:update(dt)
