@@ -26,9 +26,8 @@ jobs:
       - uses: actions/checkout@v2          
       - name: LÖVE Build
         # You may pin to the exact commit or the version.
-        # uses: nhartland/love-build@a6462dd03e091b755d320b2b7f9714b461631b63
-        # uses: nhartland/love-build@v1-beta2
-        uses: RafaelWO/love-build@fix/macos-build-combatibility
+        uses: nhartland/love-build@674b4d11d31cc1ed67b3f3de4f2887545ab4ef4e
+        # uses: RafaelWO/love-build@fix/macos-build-combatibility
         with:
           # Name of the application to be built
           app_name: space-love
