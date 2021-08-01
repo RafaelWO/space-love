@@ -136,6 +136,14 @@ function Player:getFrame()
     return self.ship .. '_' .. self.color:lower()
 end
 
+function Player:getHitboxes()
+    if self.shield.state == "down" then
+        return Entity.getHitboxes(self)
+    else
+        return self.shield:getHitboxes()
+    end
+end
+
 function Player:shieldUp(time)
     if self.shield.state == "up" then
         return

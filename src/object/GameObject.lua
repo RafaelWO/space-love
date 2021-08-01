@@ -146,7 +146,7 @@ function GameObject:render()
     end
     
     if DEBUG then
-        love.graphics.setColor(255, 0, 255, 255)
+        love.graphics.setColor(100, 100, 100, 255)
         love.graphics.rectangle('line', self.x, self.y, self.width, self.height)
         love.graphics.setColor(255, 255, 255, 255)
 
