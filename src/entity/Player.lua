@@ -3,17 +3,13 @@ Player = Class{__includes = Entity}
 function Player:init(x, y, def, level)
     Entity.init(self, x, y, def, level)
 
-    local jetOffset = {
-        x = self.width / 2 - GAME_OBJECT_DEFS['jet'].width / 2,
-        y = self.height - 5
-    }
     self.jet = GameObject(
-        self.x + jetOffset.x,
-        self.y + jetOffset.y,
+        self.x + SHIP_DEFS[self.ship].jetOffset.x,
+        self.y + SHIP_DEFS[self.ship].jetOffset.y,
         GAME_OBJECT_DEFS['jet'],
         {
             parent = self,
-            parentOffset = jetOffset
+            parentOffset = SHIP_DEFS[self.ship].jetOffset
         }
     )
 

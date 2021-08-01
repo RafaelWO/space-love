@@ -28,15 +28,17 @@ require 'src/states/entity/EntityIdleState'
 require 'src/states/entity/PlayerFlyState'
 require 'src/states/entity/PlayerIdleState'
 
+require 'src/object/object_defs'
 require 'src/entity/entity_defs'
 require 'src/entity/ship_defs'
+require 'src/world/level_defs'
+
 require 'src/entity/Entity'
 require 'src/entity/Player'
 
 require 'src/world/Level'
-require 'src/world/level_defs'
 
-require 'src/object/object_defs'
+
 require 'src/object/GameObject'
 require 'src/object/Laser'
 require 'src/object/Meteor'
@@ -75,7 +77,6 @@ gSounds = {
 
 for k, sound in pairs(gSounds) do
     if string.match(k, "music") then
-        print(k)
         sound:setVolume(0.5)
     end
 end

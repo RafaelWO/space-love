@@ -9,10 +9,8 @@ ENTITY_DEFS = {
         shotInterval = 0.4,
         attack = 1,
         health = 6,
-        width = 99,
-        height = 75,
         texture = 'sheet',
-        ship = 'playerShip1',
+        ship = 'playerShip2',
         color = 'Blue',
         laser = 'laser-normal'
     },
@@ -48,8 +46,6 @@ ENTITY_DEFS = {
                 health = 4,
             }
         },
-        width = 93,
-        height = 84,
         texture = 'sheet',
         ship = 'enemy1',
         laser = 'laser-normal'
@@ -86,8 +82,6 @@ ENTITY_DEFS = {
                 health = 3,
             }
         },
-        width = 104,
-        height = 84,
         texture = 'sheet',
         ship = 'enemy2',
         laser = 'laser-normal'
@@ -124,8 +118,6 @@ ENTITY_DEFS = {
                 health = 3,
             }
         },
-        width = 103,
-        height = 84,
         texture = 'sheet',
         ship = 'enemy3',
         laser = 'laser-normal',
@@ -163,8 +155,6 @@ ENTITY_DEFS = {
                 health = 6,
             }
         },
-        width = 82,
-        height = 84,
         texture = 'sheet',
         ship = 'enemy4',
         laser = 'laser-normal',
@@ -202,8 +192,6 @@ ENTITY_DEFS = {
                 health = 7,
             }
         },
-        width = 82,
-        height = 84,
         texture = 'sheet',
         ship = 'enemy5',
         laser = 'laser-normal',

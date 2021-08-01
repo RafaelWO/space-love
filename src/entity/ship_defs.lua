@@ -1,5 +1,7 @@
 SHIP_DEFS = {
     ['playerShip1'] = {
+        width = 99,
+        height = 75,
         hitboxDefs = {
             {
                 xOffset = 38, yOffset = 0, width = 22, height = 75
@@ -15,9 +17,42 @@ SHIP_DEFS = {
             {
                 x = 96, y = 32
             }
+        },
+        jetOffset = {
+            x = 99 / 2 - GAME_OBJECT_DEFS['jet'].width / 2,
+            y = 75 - 5
+        }
+    },
+    ['playerShip2'] = {
+        width = 112,
+        height = 75,
+        hitboxDefs = {
+            {
+                xOffset = 48, yOffset = 0, width = 16, height = 20
+            },
+            {
+                xOffset = 35, yOffset = 20, width = 42, height = 12
+            },
+            {
+                xOffset = 15, yOffset = 32, width = 82, height = 40
+            },
+            {
+                xOffset = 2, yOffset = 40, width = 108, height = 15
+            }
+        },
+        laserOffsets = {
+            {
+                x = 112 / 2, y = 0
+            }
+        },
+        jetOffset = {
+            x = 112 / 2 - GAME_OBJECT_DEFS['jet'].width / 2,
+            y = 75 - 5
         }
     },
     ['enemy1'] = {
+        width = 93,
+        height = 84,
         hitboxDefs = {
             {
                 xOffset = 5, yOffset = 0, width = 83, height = 56
@@ -36,6 +71,8 @@ SHIP_DEFS = {
         }
     },
     ['enemy2'] = {
+        width = 104,
+        height = 84,
         hitboxDefs = {
             {
                 xOffset = 18, yOffset = 0, width = 27, height = 83
@@ -54,6 +91,8 @@ SHIP_DEFS = {
         }
     },
     ['enemy3'] = {
+        width = 103,
+        height = 84,
         hitboxDefs = {
             {
                 xOffset = 5, yOffset = 0, width = 93, height = 75
@@ -69,6 +108,8 @@ SHIP_DEFS = {
         }
     },
     ['enemy4'] = {
+        width = 82,
+        height = 84,
         hitboxDefs = {
             {
                 xOffset = 19, yOffset = 0, width = 44, height = 77
@@ -84,6 +125,8 @@ SHIP_DEFS = {
         }
     },
     ['enemy5'] = {
+        width = 82,
+        height = 84,
         hitboxDefs = {
             {
                 xOffset = 0, yOffset = 0, width = 97, height = 30

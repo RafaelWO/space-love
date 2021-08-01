@@ -10,9 +10,6 @@ function Entity:init(x, y, def, level, enemyLvl)
     self.type = def.type
     self.level = level
 
-    self.width = def.width
-    self.height = def.height
-
     self.texture = def.texture
     self.ship = def.ship
     self.laser = def.laser
@@ -41,7 +38,9 @@ function Entity:init(x, y, def, level, enemyLvl)
 
     -- so that enemies cannot move randomly to the bottom of the screen
     self.bottomScreenBarrier = (self.type == "player") and 0 or 200
-
+    
+    self.width = SHIP_DEFS[self.ship].width
+    self.height = SHIP_DEFS[self.ship].height
     self.hitboxDefs = SHIP_DEFS[self.ship].hitboxDefs
     self.laserOffsets = SHIP_DEFS[self.ship].laserOffsets
 

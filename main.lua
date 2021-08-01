@@ -8,6 +8,7 @@
 require 'src/Dependencies'
 
 function love.load()
+    print(_VERSION)
     math.randomseed(os.time())
     love.graphics.setDefaultFilter('nearest', 'nearest')
     love.audio.setVolume(0.4)

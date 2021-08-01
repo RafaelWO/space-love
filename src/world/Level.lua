@@ -254,7 +254,7 @@ function Level:spawnEnemy(dt)
         self,
         enemyLvl
     ))
-    self.enemies[#self.enemies]:processAI({direction = "down", duration = 1}, dt)
+    self.enemies[#self.enemies]:processAI({direction = "down"}, dt)
 end
 
 function Level:getValueFromProbs(probabilityMap)

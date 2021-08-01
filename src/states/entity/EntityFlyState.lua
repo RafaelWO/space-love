@@ -17,6 +17,7 @@ function EntityFlyState:init(entity)
 
     -- keeps track of whether we just hit a wall
     self.bumped = false
+    self.initialMove = false
 end
 
 function EntityFlyState:update(dt)
@@ -41,8 +42,8 @@ function EntityFlyState:update(dt)
     if self.entity.direction:contains('up') then
         self.entity.y = self.entity.y - self.entity.flySpeed * dt
 
-        if self.entity.y <= 0 then 
-            self.entity.y = 0
+        if self.entity.y <= 25 then 
+            self.entity.y = 25
             self.bumped = true
         end
     elseif self.entity.direction:contains('down') then
@@ -61,10 +62,11 @@ function EntityFlyState:processAI(params, dt)
     if self.moveDuration == 0 or self.bumped then
         
         -- set an initial move duration and direction
+        self.initialMove = true
         self.moveDuration = params.duration or math.random(3)
         self.entity.direction:reset()
         self.entity.direction:add(params.direction or directions[math.random(#directions)])
-    elseif self.movementTimer > self.moveDuration then
+    elseif self.movementTimer > self.moveDuration and not self.initialMove then
         self.movementTimer = 0
 
         -- chance to go idle
@@ -75,6 +77,10 @@ function EntityFlyState:processAI(params, dt)
             self.entity.direction:reset()
             self.entity.direction:add(directions[math.random(#directions)])
         end
+    end
+
+    if self.initialMove and self.entity.y > 25 then
+        self.initialMove = false
     end
 
     self.movementTimer = self.movementTimer + dt
