@@ -5,7 +5,7 @@
 
 Entity = Class{}
 
-function Entity:init(x, y, def, level)
+function Entity:init(x, y, def, level, enemyLvl)
     self.direction = DirectionSet("down")
     self.type = def.type
     self.level = level
@@ -15,16 +15,26 @@ function Entity:init(x, y, def, level)
 
     self.texture = def.texture
     self.ship = def.ship
-    self.color = def.color
     self.laser = def.laser
     self.laserType = def.laserType or '05'
     
     self.x = x
     self.y = y
 
-    self.flySpeed = def.flySpeed
-    self.attack = def.attack
-    self.health = def.health
+    if self.type ~= "player" then
+        self.lvl = enemyLvl or 1
+        self.color = def.levels[self.lvl].color
+        self.flySpeed = def.levels[self.lvl].flySpeed
+        self.attack = def.levels[self.lvl].attack
+        self.shotInterval = def.levels[self.lvl].shotInterval
+        self.health = def.levels[self.lvl].health
+    else
+        self.color = def.color
+        self.flySpeed = def.flySpeed
+        self.attack = def.attack
+        self.shotInterval = def.shotInterval
+        self.health = def.health
+    end
     self.dead = false
     self.diedNow = false
     self.invulnerable = false
@@ -35,7 +45,6 @@ function Entity:init(x, y, def, level)
     self.hitboxDefs = SHIP_DEFS[self.ship].hitboxDefs
     self.laserOffsets = SHIP_DEFS[self.ship].laserOffsets
 
-    self.shotInterval = def.shotInterval
     self.shotIntervalTimer = 0
     self.shotDuration = 0
     self.shotWaitDuration = 0
@@ -99,6 +108,10 @@ end
 
 function Entity:getCenter()
     return self.x + self.width / 2, self.y + self.height / 2
+end
+
+function Entity:getShipType()
+    return tonumber(self.ship:sub(self.ship:len()))
 end
 
 --[[

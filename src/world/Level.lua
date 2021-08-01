@@ -27,13 +27,14 @@ function Level:init()
     self.bgScrolling = true
     self.background = BACKGROUNDS[math.random(#BACKGROUNDS)]
     
-    self.currentDifficulty = 0
+    self.currentDifficultyValue = 0
+    self.currentDifficultyDef = nil
     self:increaseDifficulty()
 
     self.meteorSpawnTimer = 0
-    self.meteorSpawnEta = math.random(unpack(LEVEL_DIFFICULTY[self.currentDifficulty]['meteor-spawn-interval']))
+    self.meteorSpawnEta = math.random(unpack(self.currentDifficultyDef['meteor-spawn-interval']))
     self.enemySpawnTimer = 0
-    self.enemySpawnEta = math.random(unpack(LEVEL_DIFFICULTY[self.currentDifficulty]['enemy-spawn-interval']))
+    self.enemySpawnEta = math.random(unpack(self.currentDifficultyDef['enemy-spawn-interval']))
 
     self:initEvents()
 end
@@ -46,7 +47,7 @@ function Level:update(dt)
     -- spawn meteor
     if self.meteorSpawnTimer > self.meteorSpawnEta then
         self.meteorSpawnTimer = 0
-        self.meteorSpawnEta = math.random(unpack(LEVEL_DIFFICULTY[self.currentDifficulty]['meteor-spawn-interval']))
+        self.meteorSpawnEta = math.random(unpack(self.currentDifficultyDef['meteor-spawn-interval']))
         
         local meteorDef = GAME_OBJECT_DEFS['meteor']
         meteorDef.frame = METEOR_TYPES[math.random(#METEOR_TYPES)]
@@ -114,7 +115,7 @@ function Level:update(dt)
         self.player.diedNow = false
         self:spawnExplosion(self.player)
 
-        Timer.after(1, function() self:gameOver() end)
+        Timer.after(3, function() self:gameOver() end)
     elseif not self.player.dead then
         self.player:update(dt)
     end
@@ -136,11 +137,15 @@ function Level:update(dt)
             self:spawnExplosion(enemy)
             table.remove(self.enemies, k)
             
-            self.score = self.score + 20 * enemy.ship:sub(enemy.ship:len())
-            Event.dispatch('score-changed', 20 * enemy.ship:sub(enemy.ship:len()))
-            if math.random(10) == 1 then
+            local enemyReward = 20 * enemy:getShipType() + 10 * enemy.lvl
+            self.score = self.score + enemyReward
+            Event.dispatch('score-changed', enemyReward)
+
+            local powerupProbability = enemy:getShipType() * enemy.lvl * 2
+            print("PowerUp Proba: " .. powerupProbability)
+            if math.random(100) <= powerupProbability then
                 self:spawnPowerup('pill', true, enemy:getCenter())
-            elseif math.random(10) == 1 then
+            elseif math.random(100) <= powerupProbability then
                 self:spawnPowerup('powerup-shield', false, enemy:getCenter())
             end
         end
@@ -235,33 +240,42 @@ end
 
 function Level:spawnEnemy(dt)
     self.enemySpawnTimer = 0
-    self.enemySpawnEta = math.random(unpack(LEVEL_DIFFICULTY[self.currentDifficulty]['enemy-spawn-interval']))
-    local spawnProbs = LEVEL_DIFFICULTY[self.currentDifficulty]['enemy-spawn-probs']
+    self.enemySpawnEta = math.random(unpack(self.currentDifficultyDef['enemy-spawn-interval']))
 
-    local probs = {}
-    for k, _ in pairs(spawnProbs) do
-        table.insert(probs, k)
-    end
-    table.sort(probs)
 
-    local enemyType = ""
-    local rnd = math.random()
-    for i, prob in ipairs(probs) do
-        if rnd <= prob then
-            enemyType = spawnProbs[prob]
-            break
-        end
-    end
+    local enemyType = self:getValueFromProbs(self.currentDifficultyDef['enemy-spawn-probs'])
+    local enemyLvl = self:getValueFromProbs(self.currentDifficultyDef['enemy-level-probs'])
 
-    print("Spawn RNG: " .. string.format("%.2f", rnd))
-    print("Spawning: " .. enemyType)
+    print("Spawning: " .. enemyType .. " | lvl " .. enemyLvl)
     table.insert(self.enemies, Entity (
         math.random(0, VIRTUAL_WIDTH - 100),
         -100,
         ENTITY_DEFS[enemyType],
-        self
+        self,
+        enemyLvl
     ))
     self.enemies[#self.enemies]:processAI({direction = "down", duration = 1}, dt)
+end
+
+function Level:getValueFromProbs(probabilityMap)
+    local probs = {}
+    for k, _ in pairs(probabilityMap) do
+        table.insert(probs, k)
+    end
+    table.sort(probs)
+
+    local value
+    local rnd = math.random()
+    print("Spawn RNG: " .. string.format("%.2f", rnd))
+
+    for i, prob in ipairs(probs) do
+        if rnd <= prob then
+            value = probabilityMap[prob]
+            break
+        end
+    end
+
+    return value
 end
 
 function Level:gameOver()
@@ -310,12 +324,13 @@ function Level:spawnPowerup(name, colorLower, x, y)
 end
 
 function Level:increaseDifficulty()
-    self.currentDifficulty = math.min(self.currentDifficulty + 1, #LEVEL_DIFFICULTY)
+    self.currentDifficultyValue = math.min(self.currentDifficultyValue + 1, #LEVEL_DIFFICULTY)
+    self.currentDifficultyDef = LEVEL_DIFFICULTY[self.currentDifficultyValue]
     print("Difficulty Increased!")
-    print("Current difficulty: " .. self.currentDifficulty)
-    for name, def in pairs(LEVEL_DIFFICULTY[self.currentDifficulty]) do
+    print("Current difficulty: " .. self.currentDifficultyValue)
+    for name, def in pairs(self.currentDifficultyDef) do
         print(name .. ":")
-        for k, v in pairs(def) do
+        for k, v in spairs(def, function(t,a,b) return t[a] < t[b] end) do
             print(k, v)
         end
     end

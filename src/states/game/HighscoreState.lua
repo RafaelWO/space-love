@@ -57,10 +57,7 @@ function HighscoreState:readScores(limit)
         -- Sort scores descending
         local sortedRows = {}
         local count = 0
-        for k,v in spairs(rows, function(t,a,b) 
-                    return tonumber(t[a][2]) > tonumber(t[b][2]) 
-                end) do
-            print(v[1], v[2])
+        for k,v in spairs(rows, function(t,a,b) return tonumber(t[a][2]) > tonumber(t[b][2]) end) do
             table.insert(sortedRows, v)
             count = count + 1
             if count == 10 then
