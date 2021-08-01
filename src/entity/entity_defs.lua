@@ -30,7 +30,7 @@ ENTITY_DEFS = {
         laser = 'laser-normal'
     },
     ['enemy-2'] = {
-        type = 'simple_enemy',
+        type = 'fast_enemy',
         flySpeed = 300,
         shotInterval = 0.4,
         attack = 0.5,
@@ -43,7 +43,7 @@ ENTITY_DEFS = {
         laser = 'laser-normal'
     },
     ['enemy-3'] = {
-        type = 'simple_enemy',
+        type = 'fast_enemy',
         flySpeed = 300,
         shotInterval = 0.6,
         attack = 0.5,
@@ -57,7 +57,7 @@ ENTITY_DEFS = {
         laserType = '04'
     },
     ['enemy-4'] = {
-        type = 'simple_enemy',
+        type = 'tank_enemy',
         flySpeed = 100,
         shotInterval = 1,
         attack = 1.5,
@@ -71,7 +71,7 @@ ENTITY_DEFS = {
         laserType = '15'
     },
     ['enemy-5'] = {
-        type = 'simple_enemy',
+        type = 'tank_enemy',
         flySpeed = 150,
         shotInterval = 1,
         attack = 2,

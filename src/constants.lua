@@ -6,6 +6,7 @@ WINDOW_HEIGHT = 720
 
 BACKGROUND_SIZE = 256
 BACKGROUND_SPEED = 50
+BACKGROUNDS = {'bg_black', 'bg_blue', 'bg_dark-purple'}
 
 GAME_OBJECT_TYPES = {'meteors', 'lasers', 'particles', 'items'}
 

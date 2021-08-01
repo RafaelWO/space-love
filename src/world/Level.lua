@@ -5,7 +5,8 @@ function Level:init()
         ['lasers'] = {},
         ['meteors'] = {},
         ['particles'] = {},
-        ['items'] = {}
+        ['items'] = {},
+        ['visuals'] = {}
     }
     self.player = Player (
         VIRTUAL_WIDTH / 2,
@@ -17,24 +18,24 @@ function Level:init()
     self.enemies = { }
 
     self.score = 0
-    self.scoreTimer = Timer.every(5, function() self.score = self.score + 5 end)
+    self.scoreTimer = Timer.every(5, function() 
+        self.score = self.score + 5
+        Event.dispatch('score-changed', 5)
+    end)
 
     self.bgOffsetY = 0
     self.bgScrolling = true
+    self.background = BACKGROUNDS[math.random(#BACKGROUNDS)]
+    
+    self.currentDifficulty = 0
+    self:increaseDifficulty()
 
     self.meteorSpawnTimer = 0
-    self.meteorSpawnEta = math.random(unpack(METEOR_SPAWN_INTERVAL))
+    self.meteorSpawnEta = math.random(unpack(LEVEL_DIFFICULTY[self.currentDifficulty]['meteor-spawn-interval']))
     self.enemySpawnTimer = 0
-    self.enemySpawnEta = math.random(unpack(ENEMY_SPAWN_INTERVAL))
+    self.enemySpawnEta = math.random(unpack(LEVEL_DIFFICULTY[self.currentDifficulty]['enemy-spawn-interval']))
 
-
-    self.enemySpawnProbs = {
-        [1] = 'enemy-1',
-        [0.6] = 'enemy-2',
-        [0.3] = 'enemy-3',
-        [0.1] = 'enemy-4',
-        [0.05] = 'enemy-5',
-    }
+    self:initEvents()
 end
 
 function Level:update(dt)
@@ -45,7 +46,7 @@ function Level:update(dt)
     -- spawn meteor
     if self.meteorSpawnTimer > self.meteorSpawnEta then
         self.meteorSpawnTimer = 0
-        self.meteorSpawnEta = math.random(unpack(METEOR_SPAWN_INTERVAL))
+        self.meteorSpawnEta = math.random(unpack(LEVEL_DIFFICULTY[self.currentDifficulty]['meteor-spawn-interval']))
         
         local meteorDef = GAME_OBJECT_DEFS['meteor']
         meteorDef.frame = METEOR_TYPES[math.random(#METEOR_TYPES)]
@@ -136,6 +137,7 @@ function Level:update(dt)
             table.remove(self.enemies, k)
             
             self.score = self.score + 20 * enemy.ship:sub(enemy.ship:len())
+            Event.dispatch('score-changed', 20 * enemy.ship:sub(enemy.ship:len()))
             if math.random(10) == 1 then
                 self:spawnPowerup('pill', true, enemy:getCenter())
             elseif math.random(10) == 1 then
@@ -166,7 +168,7 @@ end
 function Level:render()
     for x = 0, 4, 1 do
         for y = -1, 3, 1 do
-            love.graphics.draw(gTextures['bg_blue'], x * BACKGROUND_SIZE, y * BACKGROUND_SIZE + self.bgOffsetY)
+            love.graphics.draw(gTextures[self.background], x * BACKGROUND_SIZE, y * BACKGROUND_SIZE + self.bgOffsetY)
         end
     end
 
@@ -180,12 +182,10 @@ function Level:render()
         enemy:render()
     end
 
-    for k, object in pairs(self.objects['lasers']) do
-        object:render()
-    end
-
-    for k, object in pairs(self.objects['items']) do
-        object:render()
+    for i, gtype in ipairs({'lasers', 'items'}) do
+        for k, object in pairs(self.objects[gtype]) do
+            object:render()
+        end
     end
 
     for k, pSystem in pairs(self.objects['particles']) do
@@ -219,16 +219,27 @@ function Level:render()
     end
 end
 
+function Level:initEvents()
+    Event.on('score-changed', function(amountAdded)
+        for i = self.score - amountAdded, self.score, 1 do
+            if i > 0 and i % 1000 == 0 then
+                self:increaseDifficulty()
+            end
+        end
+    end)
+end
+
 function Level:playerHits()
     self.player.hits = self.player.hits + 1
 end
 
 function Level:spawnEnemy(dt)
     self.enemySpawnTimer = 0
-    self.enemySpawnEta = math.random(unpack(ENEMY_SPAWN_INTERVAL))
+    self.enemySpawnEta = math.random(unpack(LEVEL_DIFFICULTY[self.currentDifficulty]['enemy-spawn-interval']))
+    local spawnProbs = LEVEL_DIFFICULTY[self.currentDifficulty]['enemy-spawn-probs']
 
     local probs = {}
-    for k, _ in pairs(self.enemySpawnProbs) do
+    for k, _ in pairs(spawnProbs) do
         table.insert(probs, k)
     end
     table.sort(probs)
@@ -237,7 +248,7 @@ function Level:spawnEnemy(dt)
     local rnd = math.random()
     for i, prob in ipairs(probs) do
         if rnd <= prob then
-            enemyType = self.enemySpawnProbs[prob]
+            enemyType = spawnProbs[prob]
             break
         end
     end
@@ -296,4 +307,16 @@ function Level:spawnPowerup(name, colorLower, x, y)
     end
     
     table.insert(self.objects['items'], object)
+end
+
+function Level:increaseDifficulty()
+    self.currentDifficulty = math.min(self.currentDifficulty + 1, #LEVEL_DIFFICULTY)
+    print("Difficulty Increased!")
+    print("Current difficulty: " .. self.currentDifficulty)
+    for name, def in pairs(LEVEL_DIFFICULTY[self.currentDifficulty]) do
+        print(name .. ":")
+        for k, v in pairs(def) do
+            print(k, v)
+        end
+    end
 end
