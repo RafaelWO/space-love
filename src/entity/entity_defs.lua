@@ -10,7 +10,7 @@ ENTITY_DEFS = {
         attack = 1,
         health = 6,
         texture = 'sheet',
-        ship = 'playerShip2',
+        ship = 'playerShip1',
         color = 'Blue',
         laser = 'laser-normal'
     },

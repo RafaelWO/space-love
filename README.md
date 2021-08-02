@@ -1,6 +1,8 @@
 # Space-Love
 A space shooter written with [LÖVE❤](https://love2d.org/) in Lua.
 
+![sample](docs/sample.png)
+
 ## Instructions
 #### Menu
 Use the arrow keys <kbd>&uarr;</kbd> <kbd>&darr;</kbd> to navigate within menus and press <kbd>enter</kbd> to select.
@@ -14,8 +16,6 @@ Press <kbd>esc</kbd> to quit.
 ### Art Pack
 The sprites (plus backgrounds, fonts and some sound effects) used in this game are from the art pack [Space Shooter Redux](https://opengameart.org/content/space-shooter-redux) by [Kenny](www.kenney.nl).
 
-#### Additional Art
- * TODO
 
 ### Sounds
 The soundtracks are from Juhani Junkala and can be found [here](https://opengameart.org/content/5-chiptunes-action).
