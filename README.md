@@ -8,7 +8,7 @@ A space shooter written with [LÖVE❤](https://love2d.org/) in Lua.
 Use the arrow keys <kbd>&uarr;</kbd> <kbd>&darr;</kbd> to navigate within menus and press <kbd>enter</kbd> to select.
 
 #### In-Game
-Use the arrow keys <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>&rarr;</kbd> <kbd>&darr;</kbd> to navigate your ship. Press/Hold <kbd>space</kbd> to shot.
+Use the arrow keys <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>&rarr;</kbd> <kbd>&darr;</kbd> to navigate your ship. Press/Hold <kbd>space</kbd> to shoot.
 
 Press <kbd>esc</kbd> to quit.
 
