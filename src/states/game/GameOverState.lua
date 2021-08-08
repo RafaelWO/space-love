@@ -27,11 +27,15 @@ function GameOverState:init(enterParams)
                 end
             end,
             function()
+                gSounds['music-ending']:stop()
                 gStateStack:pop()
                 gStateStack:push(StartState())
             end
         }
     }
+
+    gSounds['music-ending']:setLooping(true)
+    gSounds['music-ending']:play()
 end
 
 function GameOverState:update(dt)

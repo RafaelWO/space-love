@@ -11,7 +11,7 @@ function love.load()
     print(_VERSION)
     math.randomseed(os.time())
     love.graphics.setDefaultFilter('nearest', 'nearest')
-    love.audio.setVolume(0.4)
+    love.audio.setVolume(0.7)
 
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         fullscreen = false,

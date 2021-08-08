@@ -65,6 +65,12 @@ function Player:update(dt)
     if self.shieldTimerBar then
         self.shieldTimerBar:update(dt)
     end
+
+    if self.health <= 1 and not gSounds['health-alarm']:isPlaying() then
+        gSounds['health-alarm']:play()
+    elseif self.health > 1 and gSounds['health-alarm']:isPlaying() then
+        gSounds['health-alarm']:stop()
+    end
 end
 
 function Player:render()
@@ -95,6 +101,8 @@ end
 
 function Player:takeCollisionDamage(damage)
     if self.collisionDamageTimer > self.collisionDamageInterval then
+        gSounds['collision']:stop()
+        gSounds['collision']:play()
         self.collisionDamageTimer = 0
         self:reduceHealth(damage)
     end

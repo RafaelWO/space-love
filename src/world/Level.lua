@@ -89,7 +89,9 @@ function Level:update(dt)
                     end
                 else
                     -- Enemy laser hits player
-                    if object.state == "fly" and self.player:collides(object) then
+                    if object.state == "fly" and self.player:collides(object) and not self.player.dead then
+                        gSounds['impact']:stop()
+                        gSounds['impact']:play()
                         object:changeState("hit")
                         object:stickToObject(self.player)
                         self.player:reduceHealth(object.source.attack)
@@ -113,9 +115,10 @@ function Level:update(dt)
     if self.player.dead and self.player.diedNow then
         self.scoreTimer:remove()
         self.player.diedNow = false
-        self:spawnExplosion(self.player)
+        self:spawnExplosion(self.player, 'medium')
+        gSounds['health-alarm']:stop()
 
-        Timer.after(3, function() self:gameOver() end)
+        Timer.after(2, function() self:gameOver() end)
     elseif not self.player.dead then
         self.player:update(dt)
     end
@@ -134,7 +137,7 @@ function Level:update(dt)
 
         if enemy.dead then
             -- create explosion particle effect
-            self:spawnExplosion(enemy)
+            self:spawnExplosion(enemy, 'short')
             table.remove(self.enemies, k)
             
             local enemyReward = 20 * enemy:getShipType() + 10 * enemy.lvl
@@ -279,19 +282,23 @@ function Level:getValueFromProbs(probabilityMap)
 end
 
 function Level:gameOver()
-    gSounds['lose']:play()
     gStateStack:pop()
     gStateStack:push(GameOverState({score = self.score}))
 end
 
-function Level:spawnExplosion(object)
+function Level:spawnExplosion(object, length)
     local explosion = getExplosion(EXPLOSION_BLAST)
     explosion:setPosition(object.x + object.width/2, object.y + object.height/2)
     explosion:emit(10)
     table.insert(self.objects['particles'], explosion)
 
-    gSounds['explosion']:stop()
-    gSounds['explosion']:play()
+    if length == 'short' then
+        expl_num = math.random(1, EXPLOSION_SHORT_COUNT)
+    elseif length == 'medium' then
+        expl_num = math.random(1, EXPLOSION_MEDIUM_COUNT)
+    end
+    gSounds['explosion-' .. length .. '-' .. expl_num]:stop()
+    gSounds['explosion-' .. length .. '-' .. expl_num]:play()
 end
 
 function Level:spawnPowerup(name, colorLower, x, y)
@@ -312,6 +319,8 @@ function Level:spawnPowerup(name, colorLower, x, y)
 
     if name == "pill" then
         object.onConsume = function()
+            gSounds['powerup-health']:stop()
+            gSounds['powerup-health']:play()
             self.player:increaseHealth(1)
         end
     elseif name == "powerup-shield" then

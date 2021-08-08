@@ -18,6 +18,7 @@ end
 
 function HighscoreState:update(dt)
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+        gSounds['music-ending']:stop()
         gStateStack:pop()
         gStateStack:push(StartState())
     end

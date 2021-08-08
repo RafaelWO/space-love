@@ -200,7 +200,7 @@ function Entity:reduceHealth(damage)
     Timer.every(0.1, function()
         self.blinking = not self.blinking
     end)
-    :limit(2)
+    :limit(4)
 end
 
 function Entity:update(dt)

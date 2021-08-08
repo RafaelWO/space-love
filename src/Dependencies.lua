@@ -65,6 +65,10 @@ gSounds = {
     ['shield-up'] = love.audio.newSource('sounds/sfx_shieldUp.ogg'),
     ['two-tone'] = love.audio.newSource('sounds/sfx_twoTone.ogg'),
     ['zap'] = love.audio.newSource('sounds/sfx_zap.ogg'),
+    ['powerup-health'] = love.audio.newSource('sounds/sfx_sounds_powerup12.wav'),
+    ['health-alarm'] = love.audio.newSource('sounds/sfx_alarm_loop6.wav'),
+    ['impact'] = love.audio.newSource('sounds/sfx_sounds_impact8.wav'),
+    ['collision'] = love.audio.newSource('sounds/sfx_sounds_impact11.wav'),
 
     ['music-title-screen'] = love.audio.newSource('sounds/music-title-screen.wav'),
     ['music-lvl1'] = love.audio.newSource('sounds/music-lvl1.wav'),
@@ -75,12 +79,21 @@ gSounds = {
     ['explosion'] = love.audio.newSource('sounds/explosion.wav')
 }
 
+for i = 1, EXPLOSION_SHORT_COUNT, 1 do
+    gSounds['explosion-short-' .. i] = love.audio.newSource('sounds/explosion_short/sfx_exp_short_hard' .. i ..'.wav')
+end
+
+for i = 1, EXPLOSION_MEDIUM_COUNT, 1 do
+    gSounds['explosion-medium-' .. i] = love.audio.newSource('sounds/explosion_medium/sfx_exp_medium' .. i ..'.wav')
+end
+
 for k, sound in pairs(gSounds) do
     if string.match(k, "music") then
-        sound:setVolume(0.5)
+        sound:setVolume(0.4)
     end
 end
 gSounds['explosion']:setVolume(0.7)
+gSounds['health-alarm']:setLooping(true)
 
 
 gTextures = {
