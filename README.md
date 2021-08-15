@@ -1,7 +1,7 @@
 # Space-Love
 A space shooter written with [LÖVE❤](https://love2d.org/) in Lua.
 
-![sample](docs/sample.png)
+![sample](docs/sample_v0.3.png)
 
 ## Instructions
 #### Menu
@@ -9,6 +9,8 @@ Use the arrow keys <kbd>&uarr;</kbd> <kbd>&darr;</kbd> to navigate within menus 
 
 #### In-Game
 Use the arrow keys <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>&rarr;</kbd> <kbd>&darr;</kbd> to navigate your ship. Press/Hold <kbd>space</kbd> to shoot.
+
+Press <kbd>p</kbd> to pause the game.
 
 Press <kbd>esc</kbd> to quit.
 
