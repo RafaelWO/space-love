@@ -3,10 +3,6 @@ PlayState = Class{__includes = BaseState}
 function PlayState:init()
     self.name = "PlayState"
 
-    self.musicIdx = 1
-    print("Music: " .. self.musicIdx)
-    gSounds['music-lvl' .. self.musicIdx]:setLooping(true)
-    gSounds['music-lvl' .. self.musicIdx]:play()
     self.level = Level()
 end
 
@@ -23,5 +19,5 @@ function PlayState:render()
 end
 
 function PlayState:exit()
-    gSounds['music-lvl' .. self.musicIdx]:stop()
+    
 end

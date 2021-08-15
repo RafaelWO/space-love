@@ -27,14 +27,19 @@ function Level:init()
     self.bgScrolling = true
     self.background = BACKGROUNDS[math.random(#BACKGROUNDS)]
     
-    self.currentDifficultyValue = 0
-    self.currentDifficultyDef = nil
-    self:increaseDifficulty()
+    self.stage = 0
+    self.stageDef = nil
+    self.stageGoals = {
+        [3] = 5000,
+        [2] = 1000,
+        [1] = 0
+    }
+    self:changeStage(1)
 
     self.meteorSpawnTimer = 0
-    self.meteorSpawnEta = math.random(unpack(self.currentDifficultyDef['meteor-spawn-interval']))
+    self.meteorSpawnEta = math.random(unpack(self.stageDef['meteor-spawn-interval']))
     self.enemySpawnTimer = 0
-    self.enemySpawnEta = math.random(unpack(self.currentDifficultyDef['enemy-spawn-interval']))
+    self.enemySpawnEta = math.random(unpack(self.stageDef['enemy-spawn-interval']))
 
     self:initEvents()
 end
@@ -47,7 +52,7 @@ function Level:update(dt)
     -- spawn meteor
     if self.meteorSpawnTimer > self.meteorSpawnEta then
         self.meteorSpawnTimer = 0
-        self.meteorSpawnEta = math.random(unpack(self.currentDifficultyDef['meteor-spawn-interval']))
+        self.meteorSpawnEta = math.random(unpack(self.stageDef['meteor-spawn-interval']))
         
         local meteorDef = GAME_OBJECT_DEFS['meteor']
         meteorDef.frame = METEOR_TYPES[math.random(#METEOR_TYPES)]
@@ -90,11 +95,12 @@ function Level:update(dt)
                 else
                     -- Enemy laser hits player
                     if object.state == "fly" and self.player:collides(object) and not self.player.dead then
-                        gSounds['impact']:stop()
-                        gSounds['impact']:play()
                         object:changeState("hit")
                         object:stickToObject(self.player)
-                        self.player:reduceHealth(object.source.attack)
+                        if self.player:reduceHealth(object.source.attack) then
+                            gSounds['impact']:stop()
+                            gSounds['impact']:play()
+                        end
                     end
                 end            
             -- check player with meteor collision
@@ -145,7 +151,7 @@ function Level:update(dt)
             Event.dispatch('score-changed', enemyReward)
 
             local powerupProbability = enemy:getShipType() * enemy.lvl * 2
-            print("PowerUp Proba: " .. powerupProbability)
+            
             if math.random(100) <= powerupProbability then
                 self:spawnPowerup('pill', true, enemy:getCenter())
             elseif math.random(100) <= powerupProbability then
@@ -171,6 +177,8 @@ function Level:update(dt)
     if self.bgOffsetY >= BACKGROUND_SIZE then
         self.bgOffsetY = 0
     end
+
+    self.stageProgress:setValue(self.score)
 end
 
 function Level:render()
@@ -211,6 +219,9 @@ function Level:render()
         scoreOffset = scoreOffset - 20
     end
 
+    -- render stage
+    self.stageProgress:render()
+
 
     -- DEBUG INFO
     if DEBUG then
@@ -229,9 +240,14 @@ end
 
 function Level:initEvents()
     Event.on('score-changed', function(amountAdded)
-        for i = self.score - amountAdded, self.score, 1 do
-            if i > 0 and i % 1000 == 0 then
-                self:increaseDifficulty()
+        for stage, goal in spairs(self.stageGoals, function(t,a,b) return a > b end) do
+            if stage <= self.stage then
+                break
+            end
+            
+            if self.score >= goal then
+                self:changeStage(stage)
+                break
             end
         end
     end)
@@ -243,11 +259,11 @@ end
 
 function Level:spawnEnemy(dt)
     self.enemySpawnTimer = 0
-    self.enemySpawnEta = math.random(unpack(self.currentDifficultyDef['enemy-spawn-interval']))
+    self.enemySpawnEta = math.random(unpack(self.stageDef['enemy-spawn-interval']))
 
 
-    local enemyType = self:getValueFromProbs(self.currentDifficultyDef['enemy-spawn-probs'])
-    local enemyLvl = self:getValueFromProbs(self.currentDifficultyDef['enemy-level-probs'])
+    local enemyType = self:getValueFromProbs(self.stageDef['enemy-spawn-probs'])
+    local enemyLvl = self:getValueFromProbs(self.stageDef['enemy-level-probs'])
 
     print("Spawning: " .. enemyType .. " | lvl " .. enemyLvl)
     table.insert(self.enemies, Entity (
@@ -282,6 +298,7 @@ function Level:getValueFromProbs(probabilityMap)
 end
 
 function Level:gameOver()
+    gSounds['music-lvl' .. self.stage]:stop()
     gStateStack:pop()
     gStateStack:push(GameOverState({score = self.score}))
 end
@@ -332,15 +349,39 @@ function Level:spawnPowerup(name, colorLower, x, y)
     table.insert(self.objects['items'], object)
 end
 
-function Level:increaseDifficulty()
-    self.currentDifficultyValue = math.min(self.currentDifficultyValue + 1, #LEVEL_DIFFICULTY)
-    self.currentDifficultyDef = LEVEL_DIFFICULTY[self.currentDifficultyValue]
-    print("Difficulty Increased!")
-    print("Current difficulty: " .. self.currentDifficultyValue)
-    for name, def in pairs(self.currentDifficultyDef) do
+function Level:changeStage(value)
+    self.stage = value
+    self.stageDef = LEVEL_DIFFICULTY[self.stage]
+    print("Music: " .. self.stage)
+    if self.stage > 1 then
+        gSounds['music-lvl' .. self.stage - 1]:stop()
+    end
+    gSounds['music-lvl' .. self.stage]:play()
+    print("Entered stage " .. self.stage .. "!")
+    for name, def in pairs(self.stageDef) do
         print(name .. ":")
         for k, v in spairs(def, function(t,a,b) return t[a] < t[b] end) do
             print(k, v)
         end
     end
+
+    local pb_max, pb_text
+    if #self.stageGoals > self.stage then
+        pb_max = self.stageGoals[self.stage+1]
+        pb_text = "Stage " .. self.stage
+    else
+        pb_max = self.stageGoals[self.stage]
+        pb_text = "Stage MAX"
+    end
+    self.stageProgress = ProgressBar {
+        x = VIRTUAL_WIDTH - 170,
+        y = 60,
+        width = 160,
+        height = 5,
+        color = {r = 255, g = 255, b = 255},
+        min = self.stageGoals[self.stage],
+        max = pb_max,
+        value = self.score,
+        text = pb_text
+    }
 end

@@ -182,7 +182,7 @@ end
 
 function Entity:reduceHealth(damage)
     if self.invulnerable then
-        return
+        return false
     end
 
     if self.healthBar then
@@ -201,6 +201,8 @@ function Entity:reduceHealth(damage)
         self.blinking = not self.blinking
     end)
     :limit(4)
+
+    return true
 end
 
 function Entity:update(dt)

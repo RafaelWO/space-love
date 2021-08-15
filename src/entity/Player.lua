@@ -101,10 +101,11 @@ end
 
 function Player:takeCollisionDamage(damage)
     if self.collisionDamageTimer > self.collisionDamageInterval then
-        gSounds['collision']:stop()
-        gSounds['collision']:play()
         self.collisionDamageTimer = 0
-        self:reduceHealth(damage)
+        if self:reduceHealth(damage) then
+            gSounds['collision']:stop()
+            gSounds['collision']:play()
+        end
     end
 end
 

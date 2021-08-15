@@ -20,7 +20,8 @@ function ProgressBar:init(def)
     
     self.color = def.color
 
-    self.value = def.value
+    self.value = def.value or 0
+    self.min = def.min or 0
     self.max = def.max
     self.text = def.text
 end
@@ -48,13 +49,15 @@ function ProgressBar:render()
         love.graphics.print(self.text, self.x, self.y)
     end
 
+    local value = self.value - self.min
+    local max = self.max - self.min
     -- multiplier on width based on progress
-    local renderWidth = (self.value / self.max) * self.width
+    local renderWidth = math.min(value / max, 1) * self.width
 
     -- draw main bar, with calculated width based on value / max
     love.graphics.setColor(self.color.r, self.color.g, self.color.b, 255)
     
-    if self.value > 0 then
+    if value > 0 then
         love.graphics.rectangle('fill', self.x, self.y + yOffset, renderWidth, self.height, 2)
     end
 

@@ -90,6 +90,7 @@ end
 for k, sound in pairs(gSounds) do
     if string.match(k, "music") then
         sound:setVolume(0.4)
+        sound:setLooping(true)
     end
 end
 gSounds['explosion']:setVolume(0.7)
