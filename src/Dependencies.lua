@@ -71,11 +71,11 @@ gSounds = {
     ['impact'] = love.audio.newSource('sounds/sfx_sounds_impact8.wav'),
     ['collision'] = love.audio.newSource('sounds/sfx_sounds_impact11.wav'),
 
-    ['music-title-screen'] = love.audio.newSource('sounds/music-title-screen.wav'),
-    ['music-lvl1'] = love.audio.newSource('sounds/music-lvl1.wav'),
-    ['music-lvl2'] = love.audio.newSource('sounds/music-lvl2.wav'),
-    ['music-lvl3'] = love.audio.newSource('sounds/music-lvl3.wav'),
-    ['music-ending'] = love.audio.newSource('sounds/music-ending.wav'),
+    ['music-title-screen'] = love.audio.newSource('sounds/music/music-title-screen.wav'),
+    ['music-lvl1'] = love.audio.newSource('sounds/music/music-lvl1.wav'),
+    ['music-lvl2'] = love.audio.newSource('sounds/music/music-lvl2.wav'),
+    ['music-lvl3'] = love.audio.newSource('sounds/music/music-lvl3.wav'),
+    ['music-ending'] = love.audio.newSource('sounds/music/music-ending.wav'),
 
     ['menu-move'] = love.audio.newSource('sounds/menu/sfx_menu_move1.wav'),
     ['menu-select'] = love.audio.newSource('sounds/menu/sfx_menu_select2.wav'),
