@@ -368,11 +368,12 @@ function Level:changeStage(value)
     local pb_max, pb_text
     if #self.stageGoals > self.stage then
         pb_max = self.stageGoals[self.stage+1]
-        pb_text = "Stage " .. self.stage
+        pb_text = "Stage  " .. self.stage
     else
         pb_max = self.stageGoals[self.stage]
-        pb_text = "Stage MAX"
+        pb_text = "Stage  " .. self.stage .. "  (max)"
     end
+    Event.dispatch('stage-changed', pb_text)
 
     self.stageProgress = ProgressBar {
         x = VIRTUAL_WIDTH - 170,
