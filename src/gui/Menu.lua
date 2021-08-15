@@ -10,10 +10,12 @@ function Menu:init(def)
 end
 
 function Menu:next()
+    gSounds['menu-move']:play()
     self.selected = self.selected < #self.texts and self.selected + 1 or 1
 end
 
 function Menu:previous()
+    gSounds['menu-move']:play()
     self.selected = self.selected > 1 and self.selected - 1 or #self.texts
 end
 
@@ -25,6 +27,7 @@ function Menu:update(dt)
     end
 
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+        gSounds['menu-select']:play()
         self.callbacks[self.selected]()
     end
 end

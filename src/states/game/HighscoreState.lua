@@ -14,14 +14,24 @@ function HighscoreState:init(enterParams)
             itemOffsets = { 50, 200 }
         })
     end
+
+    self.menu = Menu {
+        y = 200 + (HIGHSCORES_LIMIT + 2) * 30,
+        texts = {
+            "Return to main menu"
+        },
+        callbacks = {
+            function()
+                gSounds['music-ending']:stop()
+                gStateStack:pop()
+                gStateStack:push(StartState())
+            end
+        }
+    }
 end
 
 function HighscoreState:update(dt)
-    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-        gSounds['music-ending']:stop()
-        gStateStack:pop()
-        gStateStack:push(StartState())
-    end
+    self.menu:update(dt)
 end
 
 function HighscoreState:render()
@@ -36,7 +46,7 @@ function HighscoreState:render()
         love.graphics.printf("No scores", 0, 200 + 30, VIRTUAL_WIDTH, 'center')
     end
     
-    love.graphics.printf("Press [enter] to return to main menu", 0, 200 + (HIGHSCORES_LIMIT + 2) * 30, VIRTUAL_WIDTH, 'center')
+    self.menu:render()
 end
 
 function HighscoreState:readScores(limit)

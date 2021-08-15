@@ -77,8 +77,10 @@ gSounds = {
     ['music-lvl3'] = love.audio.newSource('sounds/music-lvl3.wav'),
     ['music-ending'] = love.audio.newSource('sounds/music-ending.wav'),
 
-    ['pause-start'] = love.audio.newSource('sounds/sfx_sounds_pause6_in.wav'),
-    ['pause-end'] =  love.audio.newSource('sounds/sfx_sounds_pause6_out.wav'),
+    ['menu-move'] = love.audio.newSource('sounds/menu/sfx_menu_move1.wav'),
+    ['menu-select'] = love.audio.newSource('sounds/menu/sfx_menu_select2.wav'),
+    ['pause-start'] = love.audio.newSource('sounds/menu/sfx_sounds_pause6_in.wav'),
+    ['pause-end'] =  love.audio.newSource('sounds/menu/sfx_sounds_pause6_out.wav'),
 
     ['explosion'] = love.audio.newSource('sounds/explosion.wav')
 }
