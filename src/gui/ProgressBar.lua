@@ -24,6 +24,8 @@ function ProgressBar:init(def)
     self.min = def.min or 0
     self.max = def.max
     self.text = def.text
+    self.font = def.font or gFonts['medium']
+    self.separators = def.separators or false
 end
 
 function ProgressBar:setMax(max)
@@ -45,7 +47,7 @@ function ProgressBar:render()
     -- print text above bar (if set)
     local yOffset = self.text and 18 or 0
     if self.text then
-        love.graphics.setFont(gFonts['medium'])
+        love.graphics.setFont(self.font)
         love.graphics.print(self.text, self.x, self.y)
     end
 
@@ -54,15 +56,22 @@ function ProgressBar:render()
     -- multiplier on width based on progress
     local renderWidth = math.min(value / max, 1) * self.width
 
-    -- draw main bar, with calculated width based on value / max
-    love.graphics.setColor(self.color.r, self.color.g, self.color.b, 255)
-    
     if value > 0 then
+        -- draw main bar, with calculated width based on value / max
+        love.graphics.setColor(self.color.r, self.color.g, self.color.b, 255)
         love.graphics.rectangle('fill', self.x, self.y + yOffset, renderWidth, self.height, 2)
     end
 
     -- draw outline around actual bar
     love.graphics.setColor(0, 0, 0, 255)
     love.graphics.rectangle('line', self.x, self.y + yOffset, self.width, self.height, 2)
+
+    if self.separators then
+        love.graphics.setLineWidth(1)
+        for x = self.x, (self.x + self.width), (self.width / max) do
+            love.graphics.line(x, self.y + yOffset, x, self.y + yOffset + self.height)
+        end
+    end
+    
     love.graphics.setColor(255, 255, 255, 255)
 end

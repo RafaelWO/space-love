@@ -52,7 +52,8 @@ function Player:createHealthbar()
         color = {r = 255, g = 255, b = 255},
         max = self.health,
         value = self.health,
-        text = "health"
+        text = "health",
+        separators = true
     }
 end
 

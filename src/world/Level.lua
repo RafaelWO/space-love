@@ -373,12 +373,13 @@ function Level:changeStage(value)
         pb_max = self.stageGoals[self.stage]
         pb_text = "Stage MAX"
     end
+
     self.stageProgress = ProgressBar {
         x = VIRTUAL_WIDTH - 170,
         y = 60,
         width = 160,
-        height = 5,
-        color = {r = 255, g = 255, b = 255},
+        height = 7,
+        color = {r = 230, g = 230, b = 0},
         min = self.stageGoals[self.stage],
         max = pb_max,
         value = self.score,
