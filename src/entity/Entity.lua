@@ -48,6 +48,7 @@ function Entity:init(x, y, def, level, enemyLvl)
     self.shotDuration = 0
     self.shotWaitDuration = 0
     self.shotTimer = 0
+    self.timers = {}
 
     -- https://love2d.org/forums/viewtopic.php?t=79617
     -- white shader that will turn a sprite completely white when used; allows us
@@ -189,7 +190,7 @@ function Entity:reduceHealth(damage)
     if self.healthBar then
         Timer.tween(0.25, {
             [self.healthBar] = {value = self.health - damage}
-        })
+        }):group(self.timers)
     end
     self.health = math.max(0, self.health - damage)
 
@@ -201,12 +202,14 @@ function Entity:reduceHealth(damage)
     Timer.every(0.1, function()
         self.blinking = not self.blinking
     end)
+    :group(self.timers)
     :limit(4)
 
     return true
 end
 
 function Entity:update(dt)
+    Timer.update(dt, self.timers)
     self.shotIntervalTimer = self.shotIntervalTimer + dt
         
     self.stateMachine:update(dt)

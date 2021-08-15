@@ -96,7 +96,7 @@ function Player:increaseHealth(amount)
     local newHealth = math.min(self.maxHealth, self.health + amount)
     Timer.tween(0.5, {
         [self.healthBar] = {value = newHealth}
-    })
+    }):group(self.timers)
     self.health = newHealth
 end
 
@@ -116,10 +116,10 @@ function Player:changeState(name)
 
     if name == "fly" then
         self.jet:changeState('pre-fly')
-        Timer.after(0.1, function () self.jet:changeState(name) end)
+        Timer.after(0.1, function () self.jet:changeState(name) end):group(self.timers)
     elseif name == "idle" then
         self.jet:changeState('pre-fly')
-        Timer.after(0.1, function () self.jet:changeState(name) end)
+        Timer.after(0.1, function () self.jet:changeState(name) end):group(self.timers)
     end
 end
 
@@ -179,5 +179,5 @@ function Player:shieldUp(time)
         self.shieldTimerBar = nil
         gSounds['shield-down']:stop()
         gSounds['shield-down']:play()
-    end)
+    end):group(self.timers)
 end

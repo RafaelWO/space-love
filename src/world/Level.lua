@@ -17,11 +17,12 @@ function Level:init()
     
     self.enemies = { }
 
+    self.timers = {}
     self.score = 0
     self.scoreTimer = Timer.every(5, function() 
         self.score = self.score + 5
         Event.dispatch('score-changed', 5)
-    end)
+    end):group(self.timers)
 
     self.bgOffsetY = 0
     self.bgScrolling = true
@@ -125,6 +126,7 @@ function Level:update(dt)
         gSounds['health-alarm']:stop()
 
         Timer.after(2, function() self:gameOver() end)
+            :group(self.timers)
     elseif not self.player.dead then
         self.player:update(dt)
     end
@@ -386,4 +388,14 @@ function Level:changeStage(value)
         value = self.score,
         text = pb_text
     }
+end
+
+function Level:pauseAudio()
+    gSounds['music-lvl' .. self.stage]:pause()
+    gSounds['health-alarm']:pause()
+end
+
+function Level:resumeAudio()
+    gSounds['music-lvl' .. self.stage]:resume()
+    gSounds['health-alarm']:resume()
 end

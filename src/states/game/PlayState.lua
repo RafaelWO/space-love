@@ -7,6 +7,8 @@ function PlayState:init()
     self.stageLabelY = -64
     self.stageLabelText = ""
 
+    self.timers = {}
+
     --[[
         Based on GD50 Assignment 3 (Match-3)
     ]]
@@ -24,7 +26,7 @@ function PlayState:init()
         :finish(function()
             Timer.tween(0.25, {
                 [self] = {stageLabelY = VIRTUAL_HEIGHT / 2 - 8}
-            })
+            }):group(self.timers)
             
             -- after that, pause for one second with Timer.after
             :finish(function()
@@ -33,25 +35,28 @@ function PlayState:init()
                     -- then, animate the label going down past the bottom edge
                     Timer.tween(0.25, {
                         [self] = {stageLabelY = VIRTUAL_HEIGHT + 30}
-                    })
+                    }):group(self.timers)
                     
                     -- once that's complete, reset the variables
                     :finish(function()
                         self.stageLabelY = -64
                     end)
-                end)
+                end):group(self.timers)
             end)
-        end)
+        end):group(self.timers)
     end)
 
     self.level = Level()
 end
 
 function PlayState:update(dt)
+    Timer.update(dt, self.timers)
+    Timer.update(dt, self.level.timers)
     self.level:update(dt)
 
     if love.keyboard.wasPressed('p') then
-        gStateStack:push(PauseState(gSounds['music-lvl' .. self.level.stage]))
+        -- Pass in level music so that it is paused (and resumed again on pause exit)
+        gStateStack:push(PauseState(self.level))
     end
 end
 

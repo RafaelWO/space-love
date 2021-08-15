@@ -1,17 +1,19 @@
 PauseState = Class{__includes = BaseState}
 
-function PauseState:init(levelMusic)
+function PauseState:init(level)
     self.name = "PauseState"
-    self.levelMusic = levelMusic
+    self.level = level
+    self.ended = false
 end
 
 function PauseState:enter()
-    self.levelMusic:pause()
+    self.level:pauseAudio()
     gSounds['pause-start']:play()
 end
 
 function PauseState:update(dt)
-    if love.keyboard.wasPressed('p') then
+    if love.keyboard.wasPressed('p') and not self.ended then
+        self.ended = true
         gSounds['pause-end']:play()
         Timer.after(1, function() gStateStack:pop() end)
     end
@@ -27,5 +29,5 @@ function PauseState:render()
 end
 
 function PauseState:exit()
-    self.levelMusic:resume()
+    self.level:resumeAudio()
 end
