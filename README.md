@@ -21,6 +21,7 @@ The sprites (plus backgrounds, fonts and some sound effects) used in this game a
 The soundtracks are from Juhani Junkala and can be found [here](https://opengameart.org/content/5-chiptunes-action).
 
 Other sound effects:
+- Various sounds from [512 Sound Effects](https://opengameart.org/content/512-sound-effects-8-bit-style)
 - [Explosion](https://opengameart.org/content/explosion-0)
 
 ### Libraries

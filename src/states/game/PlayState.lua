@@ -3,9 +3,6 @@ PlayState = Class{__includes = BaseState}
 function PlayState:init()
     self.name = "PlayState"
 
-    -- start our transition alpha at full, so we fade in
-    self.transitionAlpha = 255
-
     -- start our level # label off-screen
     self.stageLabelY = -64
     self.stageLabelText = ""
@@ -54,7 +51,7 @@ function PlayState:update(dt)
     self.level:update(dt)
 
     if love.keyboard.wasPressed('p') then
-        self.level.bgScrolling = not self.level.bgScrolling
+        gStateStack:push(PauseState(gSounds['music-lvl' .. self.level.stage]))
     end
 end
 

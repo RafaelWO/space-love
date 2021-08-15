@@ -19,6 +19,7 @@ require 'src/states/StateMachine'
 
 require 'src/states/game/StartState'
 require 'src/states/game/PlayState'
+require 'src/states/game/PauseState'
 require 'src/states/game/GameOverState'
 require 'src/states/game/HighscoreState'
 
@@ -75,6 +76,9 @@ gSounds = {
     ['music-lvl2'] = love.audio.newSource('sounds/music-lvl2.wav'),
     ['music-lvl3'] = love.audio.newSource('sounds/music-lvl3.wav'),
     ['music-ending'] = love.audio.newSource('sounds/music-ending.wav'),
+
+    ['pause-start'] = love.audio.newSource('sounds/sfx_sounds_pause6_in.wav'),
+    ['pause-end'] =  love.audio.newSource('sounds/sfx_sounds_pause6_out.wav'),
 
     ['explosion'] = love.audio.newSource('sounds/explosion.wav')
 }
