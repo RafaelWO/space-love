@@ -1,7 +1,7 @@
 Player = Class{__includes = Entity}
 
-function Player:init(x, y, def, level)
-    Entity.init(self, x, y, def, level)
+function Player:init(x, y, def, level, params)
+    Entity.init(self, x, y, def, level, params)
 
     self.jets = {}
     for k, jetDef in pairs(SHIP_DEFS[self.ship].jetOffset) do

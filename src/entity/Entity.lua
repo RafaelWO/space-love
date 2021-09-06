@@ -5,13 +5,13 @@
 
 Entity = Class{}
 
-function Entity:init(x, y, def, level, enemyLvl)
+function Entity:init(x, y, def, level, params)
     self.direction = DirectionSet("down")
     self.type = def.type
     self.level = level
 
     self.texture = def.texture
-    self.ship = def.ship
+    self.ship = params.ship or def.ship
     self.laser = def.laser
     self.laserType = def.laserType or '05'
     
@@ -19,14 +19,14 @@ function Entity:init(x, y, def, level, enemyLvl)
     self.y = y
 
     if self.type ~= "player" then
-        self.lvl = enemyLvl or 1
+        self.lvl = params.enemyLvl or 1
         self.color = def.levels[self.lvl].color
         self.flySpeed = def.levels[self.lvl].flySpeed
         self.attack = def.levels[self.lvl].attack
         self.shotInterval = def.levels[self.lvl].shotInterval
         self.health = def.levels[self.lvl].health
     else
-        self.color = def.color
+        self.color = params.color or def.color
         self.flySpeed = def.flySpeed
         self.attack = def.attack
         self.shotInterval = def.shotInterval

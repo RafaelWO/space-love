@@ -1,6 +1,6 @@
 PlayState = Class{__includes = BaseState}
 
-function PlayState:init()
+function PlayState:init(params)
     self.name = "PlayState"
 
     -- start our level # label off-screen
@@ -46,7 +46,7 @@ function PlayState:init()
         end):group(self.timers)
     end)
 
-    self.level = Level()
+    self.level = Level(params)
 end
 
 function PlayState:update(dt)

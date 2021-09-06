@@ -22,6 +22,7 @@ require 'src/states/game/PlayState'
 require 'src/states/game/PauseState'
 require 'src/states/game/GameOverState'
 require 'src/states/game/HighscoreState'
+require 'src/states/game/SelectShipState'
 
 require 'src/states/entity/EntityBaseState'
 require 'src/states/entity/EntityFlyState'

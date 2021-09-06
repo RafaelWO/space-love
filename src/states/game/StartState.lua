@@ -15,9 +15,8 @@ function StartState:init()
         },
         callbacks = {
             function()
-                gSounds['music-title-screen']:stop()
                 gStateStack:pop()
-                gStateStack:push(PlayState())
+                gStateStack:push(SelectShipState())
             end,
             function()
                 gStateStack:pop()

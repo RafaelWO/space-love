@@ -1,6 +1,6 @@
 Level = Class{}
 
-function Level:init()
+function Level:init(params)
     self.objects = {
         ['lasers'] = {},
         ['meteors'] = {},
@@ -9,10 +9,11 @@ function Level:init()
         ['visuals'] = {}
     }
     self.player = Player (
-        VIRTUAL_WIDTH / 2,
+        VIRTUAL_WIDTH / 2 - SHIP_DEFS[params.playerShipConfig.ship].width / 2,
         VIRTUAL_HEIGHT / 2,
         ENTITY_DEFS['player'],
-        self
+        self,
+        params.playerShipConfig
     )
     
     self.enemies = { }
@@ -273,7 +274,7 @@ function Level:spawnEnemy(dt)
         -100,
         ENTITY_DEFS[enemyType],
         self,
-        enemyLvl
+        { enemyLvl = enemyLvl }
     ))
     self.enemies[#self.enemies]:processAI({direction = "down"}, dt)
 end
