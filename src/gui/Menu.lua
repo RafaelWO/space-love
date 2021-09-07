@@ -82,13 +82,13 @@ function Menu:render()
         if self.sideOptions[k] then
             -- First print quotes in same color as the menu entry (it's a description in this case) one line below 
             -- The quotes should show that one can use the left/a´right arrow key to change the option
-            local quotes = "«" .. string.rep("\t", 6) .. "»"
+            local quotes = "«" .. string.rep("\t", 7) .. "»"
             offsetY = offsetY + 20
             love.graphics.printf(quotes, self.x, self.y + offsetY, VIRTUAL_WIDTH, 'center')
             
             -- Then print the option text
             if k == self.selected then
-                love.graphics.setColor(150, 150, 150, 255)
+                love.graphics.setColor(200, 200, 200, 255)
             else
                 love.graphics.setColor(50, 50, 50, 255)
             end
