@@ -10,9 +10,30 @@ ENTITY_DEFS = {
         attack = 1,
         health = 6,
         texture = 'sheet',
-        ship = 'playerShip1',
-        color = 'Blue',
-        laser = 'laser-normal'
+        laser = 'laser-normal',
+        ships = {
+            {   -- playerShip1 (base)
+                attack = 1,
+                health = 6,
+                flySpeed = 400,
+                shotInterval = 0.5,
+                laserType = '05'
+            },
+            {   -- playerShip2 (shooter)
+                attack = 0.5,
+                health = 5,
+                flySpeed = 500,
+                shotInterval = 0.2,
+                laserType = '04'
+            },
+            {   -- playerShip3 (sniper)
+                attack = 2.5,
+                health = 4,
+                flySpeed = 300,
+                shotInterval = 1,
+                laserType = '14'
+            }
+        }
     },
     ['enemy-1'] = {
         type = 'simple_enemy',

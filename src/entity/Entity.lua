@@ -18,19 +18,20 @@ function Entity:init(x, y, def, level, params)
     self.x = x
     self.y = y
 
-    if self.type ~= "player" then
+    if self.type == "player" then
+        self.color = params.color
+        self.flySpeed = def.ships[self:getShipType()].flySpeed
+        self.attack = def.ships[self:getShipType()].attack
+        self.shotInterval = def.ships[self:getShipType()].shotInterval
+        self.health = def.ships[self:getShipType()].health
+        self.laserType = def.ships[self:getShipType()].laserType
+    else
         self.lvl = params.enemyLvl or 1
         self.color = def.levels[self.lvl].color
         self.flySpeed = def.levels[self.lvl].flySpeed
         self.attack = def.levels[self.lvl].attack
         self.shotInterval = def.levels[self.lvl].shotInterval
         self.health = def.levels[self.lvl].health
-    else
-        self.color = params.color or def.color
-        self.flySpeed = def.flySpeed
-        self.attack = def.attack
-        self.shotInterval = def.shotInterval
-        self.health = def.health
     end
     self.dead = false
     self.diedNow = false

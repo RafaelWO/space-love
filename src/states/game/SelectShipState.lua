@@ -23,10 +23,10 @@ function SelectShipState:init()
         },
         sideOptions = {
             {
-                "Base", "Sniper"
+                "Classic", "Shooter", "Sniper"
             },
             {
-                "Blue", "Green"
+                "Blue", "Green", "Orange", "Red"
             },
             nil
         }
