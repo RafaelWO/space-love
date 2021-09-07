@@ -19,8 +19,10 @@ SHIP_DEFS = {
             }
         },
         jetOffset = {
-            x = 99 / 2 - GAME_OBJECT_DEFS['jet'].width / 2,
-            y = 75 - 5
+            {
+                x = 99 / 2 - GAME_OBJECT_DEFS['jet'].width / 2,
+                y = 75 - 5
+            }
         }
     },
     ['playerShip2'] = {
@@ -46,8 +48,43 @@ SHIP_DEFS = {
             }
         },
         jetOffset = {
-            x = 112 / 2 - GAME_OBJECT_DEFS['jet'].width / 2,
-            y = 75 - 5
+            {
+                x = 112 / 2 - GAME_OBJECT_DEFS['jet'].width / 2,
+                y = 75 - 5
+            }
+        }
+    },
+    ['playerShip3'] = {
+        width = 98,
+        height = 75,
+        hitboxDefs = {
+            {
+                xOffset = 39, yOffset = 1, width = 20, height = 74
+            },
+            {
+                xOffset = 24, yOffset = 21, width = 50, height = 20
+            },
+            {
+                xOffset = 9, yOffset = 41, width = 80, height = 12
+            },
+            {
+                xOffset = 2, yOffset = 53, width = 94, height = 15
+            }
+        },
+        laserOffsets = {
+            {
+                x = 98 / 2, y = 0
+            }
+        },
+        jetOffset = {
+            {
+                x = 8,
+                y = 64
+            },
+            {
+                x = 73,
+                y = 64
+            }
         }
     },
     ['enemy1'] = {

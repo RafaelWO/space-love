@@ -1,7 +1,12 @@
 # Space-Love
-A space shooter written with [LÖVE❤](https://love2d.org/) in Lua.
+A space shooter written with [LÖVE❤](https://love2d.org/) (version 0.10.2) in Lua.
 
 ![sample](docs/sample_v0.3.png)
+
+## Download
+Download the latest version of the game via the [Releases](https://github.com/RafaelWO/space-love/releases). 
+
+For Windows (win32, win64) and MacOS users, please download the corresponding `.zip` file. To run the game on Linux you have to install LÖVE 0.10.2 - via the [download page](https://love2d.org/#download) or directly via the corresponding [GitHub release](https://github.com/love2d/love/releases/tag/0.10.2) - and then download the `.love` file which can be run afterwards (see also [Game Distribution](https://love2d.org/wiki/Game_Distribution) chapter "Distribution for Linux").
 
 ## Instructions
 #### Menu

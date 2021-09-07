@@ -3,15 +3,18 @@ Player = Class{__includes = Entity}
 function Player:init(x, y, def, level)
     Entity.init(self, x, y, def, level)
 
-    self.jet = GameObject(
-        self.x + SHIP_DEFS[self.ship].jetOffset.x,
-        self.y + SHIP_DEFS[self.ship].jetOffset.y,
-        GAME_OBJECT_DEFS['jet'],
-        {
-            parent = self,
-            parentOffset = SHIP_DEFS[self.ship].jetOffset
-        }
-    )
+    self.jets = {}
+    for k, jetDef in pairs(SHIP_DEFS[self.ship].jetOffset) do
+        table.insert(self.jets, GameObject(
+            self.x + jetDef.x,
+            self.y + jetDef.y,
+            GAME_OBJECT_DEFS['jet'],
+            {
+                parent = self,
+                parentOffset = jetDef
+            }
+        ))
+    end
 
     self.maxHealth = self.health
     self.hits = 0
@@ -61,7 +64,9 @@ function Player:update(dt)
     Entity.update(self, dt)
     self.collisionDamageTimer = self.collisionDamageTimer + dt
     
-    self.jet:update(dt)
+    for k, jet in pairs(self.jets) do
+        jet:update(dt)
+    end
     self.shield:update(dt)
     if self.shieldTimerBar then
         self.shieldTimerBar:update(dt)
@@ -76,6 +81,10 @@ end
 
 function Player:render()
     if not self.dead then
+        for k, jet in pairs(self.jets) do
+            jet:render(dt)
+        end
+
         Entity.render(self)
 
         if self.health < self.maxHealth then
@@ -110,16 +119,14 @@ function Player:takeCollisionDamage(damage)
     end
 end
 
-
-function Player:changeState(name)
-    Entity.changeState(self, name)
-
-    if name == "fly" then
-        self.jet:changeState('pre-fly')
-        Timer.after(0.1, function () self.jet:changeState(name) end):group(self.timers)
-    elseif name == "idle" then
-        self.jet:changeState('pre-fly')
-        Timer.after(0.1, function () self.jet:changeState(name) end):group(self.timers)
+function Player:changeJetState(name)
+    for k, jet in pairs(self.jets) do
+        if name == "fly" then
+            jet:changeState('pre-fly')
+        elseif name == "idle" then
+            jet:changeState('pre-fly')
+        end
+        Timer.after(0.1, function () jet:changeState(name) end):group(self.timers)
     end
 end
 

@@ -21,10 +21,6 @@ function EntityBaseState:exit() end
 function EntityBaseState:processAI(params, dt) end
 
 function EntityBaseState:render()
-    if self.entity.jet then
-        self.entity.jet:render()
-    end
-
     love.graphics.draw(gTextures[self.entity.texture], gFrames[self.entity.texture][self.entity:getFrame()],
         math.floor(self.entity.x), math.floor(self.entity.y))
 

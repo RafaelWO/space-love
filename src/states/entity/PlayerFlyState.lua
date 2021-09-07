@@ -12,6 +12,10 @@ function PlayerFlyState:init(player)
     self.entity = player
 end
 
+function PlayerFlyState:enter(enterParams)
+    self.entity:changeJetState("fly")
+end
+
 function PlayerFlyState:update(dt)
     self.entity.direction:reset()
 
