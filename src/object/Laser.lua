@@ -8,7 +8,7 @@ function Laser:init(x, y, def, direction, source)
     self.direction = direction or "up"
     self.directionMultiplier = (self.direction == "up") and -1 or 1
 
-    if self.source.type == "player" then
+    if self.direction == "up" then
         self.y = self.y - self.height
     end
 end

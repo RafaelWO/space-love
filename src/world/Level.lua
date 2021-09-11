@@ -130,6 +130,9 @@ function Level:update(dt)
             :group(self.timers)
     elseif not self.player.dead then
         self.player:update(dt)
+    elseif self.player.dead then
+        -- Update timer for healthbar going down to zero if dead
+        Timer.update(dt, self.player.timers)
     end
 
     for k, enemy in pairs(self.enemies) do
