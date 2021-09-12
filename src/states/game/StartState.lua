@@ -2,6 +2,7 @@ StartState = Class{__includes = BaseState}
 
 function StartState:init()
     self.name = "StartState"
+    self.background = Background('bg_black')
     
     gSounds['music-title-screen']:setLooping(true)
     gSounds['music-title-screen']:play()
@@ -31,10 +32,12 @@ end
 
 function StartState:update(dt)
     self.menu:update(dt)
+    self.background:update(dt)
 end
 
 function StartState:render()
-    love.graphics.setBackgroundColor(0.5,0,1)
+    self.background:render()
+    -- love.graphics.setBackgroundColor(0.5,0,1)
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Space Love', 0, VIRTUAL_HEIGHT / 2 - 100, VIRTUAL_WIDTH, 'center')

@@ -49,6 +49,7 @@ require 'src/object/Shield'
 require 'src/gui/ProgressBar'
 require 'src/gui/Menu'
 require 'src/gui/Table'
+require 'src/gui/Background'
 
 gFonts = {
     ['small'] = love.graphics.newFont('fonts/kenvector_future.ttf', 8),

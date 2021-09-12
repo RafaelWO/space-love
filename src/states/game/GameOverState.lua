@@ -2,9 +2,9 @@ local utf8 = require("utf8")
 
 GameOverState = Class{__includes = BaseState}
 
-function GameOverState:init(enterParams)
+function GameOverState:init(params)
     self.name = "GameOverState"
-    self.score = enterParams.score
+    self.score = params.score
     self.playerName = ""
     self.cursor = "_"
     self.cursorTimer = Timer.every(0.5, function() 

@@ -2,7 +2,7 @@ local utf8 = require("utf8")
 
 HighscoreState = Class{__includes = BaseState}
 
-function HighscoreState:init(enterParams)
+function HighscoreState:init(params)
     self.name = "HighscoreState"
     self.table = nil
     self.scoreRows = self:readScores()
