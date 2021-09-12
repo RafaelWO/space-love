@@ -61,7 +61,7 @@ function Menu:update(dt)
         end
     end
 
-    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+    if love.keyboard.wasPressed('return') and self.callbacks[self.selected] ~= nil then
         gSounds['menu-select']:play()
         self.callbacks[self.selected]()
     end
@@ -74,7 +74,7 @@ function Menu:render()
         if k == self.selected then
             love.graphics.setColor(100, 100, 200, 255)
         else
-            love.graphics.setColor(50, 50, 50, 255)
+            love.graphics.setColor(100, 100, 100, 255)
         end
         
         love.graphics.printf(text, self.x, self.y + offsetY, VIRTUAL_WIDTH, 'center')
@@ -88,12 +88,14 @@ function Menu:render()
             
             -- Then print the option text
             if k == self.selected then
-                love.graphics.setColor(200, 200, 200, 255)
+                love.graphics.setColor(255, 255, 255, 255)
             else
-                love.graphics.setColor(50, 50, 50, 255)
+                love.graphics.setColor(100, 100, 100, 255)
             end
             love.graphics.printf(self:getSelectedSideText(k), self.x, self.y + offsetY, VIRTUAL_WIDTH, 'center')
         end
         offsetY = offsetY + 30
     end
+
+    love.graphics.setColor(255, 255, 255, 255)
 end

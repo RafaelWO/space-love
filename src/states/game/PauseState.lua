@@ -20,7 +20,8 @@ function PauseState:update(dt)
 end
 
 function PauseState:render()
-    love.graphics.setColor(0, 0, 0, 150)
+    -- black rectangle with lower alpha to let the background (level) appear inactive
+    love.graphics.setColor(0, 0, 0, 180)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 
     love.graphics.setColor(255, 255, 255, 255)

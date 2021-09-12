@@ -3,6 +3,16 @@ SelectShipState = Class{__includes = BaseState}
 function SelectShipState:init()
     self.name = "SelectShipState"
 
+    self.playerShip = {
+        x = VIRTUAL_WIDTH / 2 - SHIP_DEFS["playerShip1"].width / 2 - 120,
+        y = VIRTUAL_HEIGHT / 2 - 60,
+        ship = "playerShip1",
+        color = "Blue",
+        -- for shooting laser
+        type = "player",
+        laserType = "05"
+    }
+
     self.menu = Menu {
         y = VIRTUAL_HEIGHT / 2 + 100,
         texts = {
@@ -11,14 +21,21 @@ function SelectShipState:init()
             "Start"
         },
         callbacks = {
+            nil,
+            nil,
             function()
-            end,
-            function()
-            end,
-            function()
-                gSounds['music-title-screen']:stop()
-                gStateStack:pop()
-                gStateStack:push(PlayState({playerShipConfig = self.playerShip}))
+                self.tweening = true
+                Timer.tween(0.8, {
+                    [self.playerShip] = { 
+                        x = VIRTUAL_WIDTH / 2 - SHIP_DEFS[self.playerShip.ship].width / 2, 
+                        y = VIRTUAL_HEIGHT / 2 + 100
+                    }
+                })
+                :finish(function()
+                    gSounds['music-title-screen']:stop()
+                    gStateStack:pop()
+                    gStateStack:push(PlayState({playerShipConfig = self.playerShip}))
+                end)
             end
         },
         sideOptions = {
@@ -32,15 +49,7 @@ function SelectShipState:init()
         }
     }
 
-    self.playerShip = {
-        x = VIRTUAL_WIDTH / 2 - SHIP_DEFS["playerShip1"].width / 2 - 120,
-        y = VIRTUAL_HEIGHT / 2 - 60,
-        ship = "playerShip1",
-        color = "Blue",
-        -- for shooting laser
-        type = "player",
-        laserType = "05"
-    }
+    self.tweening = false
 
     -- variables for making ship shoot
     self.shotIntervalTimer = 0
@@ -147,7 +156,12 @@ function SelectShipState:update(dt)
     self.shotInterval = self:getShipStats('shotInterval', false)
     self.playerShip.laserType = self:getShipStats('laserType', false)
     self.laserOffsets = SHIP_DEFS[self.playerShip.ship].laserOffsets
-    self.playerShip.x = VIRTUAL_WIDTH / 2 - SHIP_DEFS[self.playerShip.ship].width / 2 - 120
+
+    -- ensure that ship is always centered (due to different ship widths)
+    -- except when tweening ship to match level location
+    if not self.tweening then
+        self.playerShip.x = VIRTUAL_WIDTH / 2 - SHIP_DEFS[self.playerShip.ship].width / 2 - 120
+    end
 
     -- shot or pause
     if self.shotDuration == 0 then
@@ -171,17 +185,16 @@ function SelectShipState:render()
         laser:render()
     end
 
-    love.graphics.setBackgroundColor(0.5,0,1)
-    love.graphics.setColor(250, 250, 250, 255)
+    love.graphics.setBackgroundColor(0.5, 0, 1)
+    love.graphics.setColor(255, 255, 255, 255)
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Select Your Ship', 0, VIRTUAL_HEIGHT / 2 - 200, VIRTUAL_WIDTH, 'center')
+
+    self.menu:render()
 
     love.graphics.draw(gTextures['sheet'], gFrames['sheet'][Player.getFrame(self.playerShip)],
         self.playerShip.x, self.playerShip.y)
 
-    self.menu:render()
-
-    love.graphics.setColor(250, 250, 250, 255)
     for k, bar in pairs(self.shipStatBars) do
         bar:render()
     end

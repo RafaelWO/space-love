@@ -35,7 +35,7 @@ function HighscoreState:update(dt)
 end
 
 function HighscoreState:render()
-    love.graphics.setColor(250, 250, 250, 255)
+    love.graphics.setColor(255, 255, 255, 255)
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Highscores', 0, 100, VIRTUAL_WIDTH, 'center')
 

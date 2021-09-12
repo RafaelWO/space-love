@@ -10,7 +10,7 @@ function Level:init(params)
     }
     self.player = Player (
         VIRTUAL_WIDTH / 2 - SHIP_DEFS[params.playerShipConfig.ship].width / 2,
-        VIRTUAL_HEIGHT / 2,
+        VIRTUAL_HEIGHT / 2 + 100,
         ENTITY_DEFS['player'],
         self,
         params.playerShipConfig
@@ -26,7 +26,6 @@ function Level:init(params)
     end):group(self.timers)
 
     self.bgOffsetY = 0
-    self.bgScrolling = true
     self.background = BACKGROUNDS[math.random(#BACKGROUNDS)]
     
     self.stage = 0
@@ -176,9 +175,7 @@ function Level:update(dt)
 
 
     -- Update scrollingbBackground
-    if self.bgScrolling then
-        self.bgOffsetY = self.bgOffsetY + BACKGROUND_SPEED * dt
-    end
+    self.bgOffsetY = self.bgOffsetY + BACKGROUND_SPEED * dt
     
     if self.bgOffsetY >= BACKGROUND_SIZE then
         self.bgOffsetY = 0

@@ -60,7 +60,7 @@ end
 function GameOverState:render()
     self.menu:render()
 
-    love.graphics.setColor(250, 250, 250, 255)
+    love.graphics.setColor(255, 255, 255, 255)
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Game Over', 0, 200, VIRTUAL_WIDTH, 'center')
 
