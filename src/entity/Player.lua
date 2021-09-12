@@ -70,6 +70,11 @@ function Player:update(dt)
     self.shield:update(dt)
     if self.shieldTimerBar then
         self.shieldTimerBar:update(dt)
+
+        -- if shield is gone in 1 sec, it will blink
+        if self.shieldTimerBar.value < 1 then
+            self.shield:blink(1)
+        end
     end
 
     if self.health <= 1 and not gSounds['health-alarm']:isPlaying() then

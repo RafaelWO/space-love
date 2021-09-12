@@ -179,7 +179,6 @@ function SelectShipState:render()
     love.graphics.draw(gTextures['sheet'], gFrames['sheet'][Player.getFrame(self.playerShip)],
         self.playerShip.x, self.playerShip.y)
 
-
     self.menu:render()
 
     love.graphics.setColor(250, 250, 250, 255)

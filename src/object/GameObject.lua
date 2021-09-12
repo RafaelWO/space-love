@@ -55,6 +55,13 @@ function GameObject:init(x, y, def, params)
     self.consumable = def.consumable or false
     -- default empty consume callback
     self.onConsume = function() end
+    
+    -- for making an object blink
+    self.blinking = false
+    self.blinkTimer = 0
+    self.blinkDuration = 0
+    self.blinkDurationTimer = 0
+    self.blinkInterval = 0
 end
 
 function GameObject:createAnimations(animations)
@@ -117,6 +124,17 @@ function GameObject:update(dt)
         self.x = self.parent.x + self.parentOffset.x
         self.y = self.parent.y + self.parentOffset.y
     end
+
+    if self.blinking then
+        self.blinkTimer = self.blinkTimer + dt
+        self.blinkDurationTimer = self.blinkDurationTimer + dt
+
+        if self.blinkDurationTimer > self.blinkDuration then
+            self.blinking = false
+            self.blinkTimer = 0
+            self.blinkDurationTimer = 0
+        end
+    end
 end
 
 --[[
@@ -131,7 +149,22 @@ function GameObject:getCenter()
     return self.x + self.width / 2, self.y + self.height / 2
 end
 
+function GameObject:blink(duration, interval)
+    self.blinking = true
+    self.blinkDuration = duration or 1
+    self.blinkInterval = interval or 0.2
+end
+
 function GameObject:render()
+    if self.blinking then
+        if self.blinkTimer > self.blinkInterval / 2 then
+            love.graphics.setColor(255, 255, 255, 16)
+        end
+        if self.blinkTimer > self.blinkInterval then
+            self.blinkTimer = 0
+        end
+    end
+
     local frame
     if self.states == nil then
         frame = self.frame
@@ -144,6 +177,8 @@ function GameObject:render()
                 math.floor(self.x), math.floor(self.y), self.rotation, self.scale, self.scale, self.rotOffsetX, self.rotOffsetY)
         end
     end
+
+    love.graphics.setColor(255, 255, 255, 255)
     
     if DEBUG then
         love.graphics.setColor(100, 100, 100, 255)
