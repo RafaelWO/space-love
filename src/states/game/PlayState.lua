@@ -14,7 +14,7 @@ function PlayState:init(params)
     ]]
     Event.on('stage-changed', function(stage)
         self.stageLabelText = stage
-        self.transitionAlpha = 150
+        self.transitionAlpha = 80
 
         -- first, over a period of 1 second, transition our alpha to 0
         Timer.tween(1, {

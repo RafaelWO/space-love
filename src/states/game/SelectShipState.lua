@@ -29,7 +29,8 @@ function SelectShipState:init()
                     [self.playerShip] = { 
                         x = VIRTUAL_WIDTH / 2 - SHIP_DEFS[self.playerShip.ship].width / 2, 
                         y = VIRTUAL_HEIGHT / 2 + 100
-                    }
+                    },
+                    [self] = { blackAlpha = 255 }
                 })
                 :finish(function()
                     gSounds['music-title-screen']:stop()
@@ -50,6 +51,7 @@ function SelectShipState:init()
     }
 
     self.tweening = false
+    self.blackAlpha = 0
 
     -- variables for making ship shoot
     self.shotIntervalTimer = 0
@@ -192,10 +194,15 @@ function SelectShipState:render()
 
     self.menu:render()
 
-    love.graphics.draw(gTextures['sheet'], gFrames['sheet'][Player.getFrame(self.playerShip)],
-        self.playerShip.x, self.playerShip.y)
-
     for k, bar in pairs(self.shipStatBars) do
         bar:render()
     end
+
+    -- black rectangle for fade out (getting dark)
+    love.graphics.setColor(0, 0, 0, self.blackAlpha)
+    love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+    
+    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.draw(gTextures['sheet'], gFrames['sheet'][Player.getFrame(self.playerShip)],
+        self.playerShip.x, self.playerShip.y)
 end
