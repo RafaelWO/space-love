@@ -2,9 +2,10 @@ local utf8 = require("utf8")
 
 GameOverState = Class{__includes = BaseState}
 
-function GameOverState:init(enterParams)
+function GameOverState:init(params)
     self.name = "GameOverState"
-    self.score = enterParams.score
+    self.background = Background(MENU_BACKGROUND)
+    self.score = params.score
     self.playerName = ""
     self.cursor = "_"
     self.cursorTimer = Timer.every(0.5, function() 
@@ -23,13 +24,13 @@ function GameOverState:init(enterParams)
                 if utf8.len(self.playerName) > 0 then
                     self:submitScore()
                     gStateStack:pop()
-                    gStateStack:push(HighscoreState())
+                    gStateStack:push(HighscoreState({background = self.background}))
                 end
             end,
             function()
                 gSounds['music-ending']:stop()
                 gStateStack:pop()
-                gStateStack:push(StartState())
+                gStateStack:push(StartState({background = self.background}))
             end
         }
     }
@@ -40,6 +41,7 @@ end
 
 function GameOverState:update(dt)
     self.menu:update(dt)
+    self.background:update(dt)
 
     if love.keyboard.textInput:gsub("%s+", "") ~= "" and love.keyboard.textInput ~= "," and utf8.len(self.playerName) < 8 then
         self.playerName = self.playerName .. love.keyboard.textInput:upper()
@@ -58,9 +60,10 @@ function GameOverState:update(dt)
 end
 
 function GameOverState:render()
+    self.background:render()
     self.menu:render()
 
-    love.graphics.setColor(250, 250, 250, 255)
+    love.graphics.setColor(255, 255, 255, 255)
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Game Over', 0, 200, VIRTUAL_WIDTH, 'center')
 

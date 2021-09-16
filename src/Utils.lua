@@ -174,6 +174,24 @@ function writeSaveFile(file, data, mode)
 end
 
 
+function color2rgb(color)
+    color = color:lower()
+    if color == "red" then
+        return {r = 255, g = 0, b = 0}
+    elseif color == "green" then
+        return {r = 0, g = 255, b = 0}
+    elseif color == "blue" then
+        return {r = 0, g = 0, b = 255}
+    elseif color == "white" then
+        return {r = 255, g = 255, b = 255}
+    elseif color == "black" then
+        return {r = 0, g = 0, b = 0}
+    elseif color == "orange" then
+        return {r = 255, g = 140, b = 0}
+    end
+end
+
+
 DirectionSet = Class{}
 
 function DirectionSet:init(initialDirection)

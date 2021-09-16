@@ -18,7 +18,9 @@ function ProgressBar:init(def)
     self.width = def.width
     self.height = def.height
     
-    self.color = def.color
+    self.color = def.color or {r = 255, g = 255, b = 255}           -- defaults to white
+    self.outlineColor = def.outlineColor or {r = 0, g = 0, b = 0}   -- defaults to black
+    self.textColor = def.textColor or {r = 255, g = 255, b = 255}   -- defaults to white
 
     self.value = def.value or 0
     self.min = def.min or 0
@@ -47,6 +49,7 @@ function ProgressBar:render()
     -- print text above bar (if set)
     local yOffset = self.text and 18 or 0
     if self.text then
+        love.graphics.setColor(self.textColor.r, self.textColor.g, self.textColor.b, 255)
         love.graphics.setFont(self.font)
         love.graphics.print(self.text, self.x, self.y)
     end
@@ -63,7 +66,7 @@ function ProgressBar:render()
     end
 
     -- draw outline around actual bar
-    love.graphics.setColor(0, 0, 0, 255)
+    love.graphics.setColor(self.outlineColor.r, self.outlineColor.g, self.outlineColor.b, 255)
     love.graphics.rectangle('line', self.x, self.y + yOffset, self.width, self.height, 2)
 
     if self.separators then

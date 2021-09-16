@@ -1,6 +1,6 @@
 Level = Class{}
 
-function Level:init()
+function Level:init(params)
     self.objects = {
         ['lasers'] = {},
         ['meteors'] = {},
@@ -9,10 +9,11 @@ function Level:init()
         ['visuals'] = {}
     }
     self.player = Player (
-        VIRTUAL_WIDTH / 2,
-        VIRTUAL_HEIGHT / 2,
+        VIRTUAL_WIDTH / 2 - SHIP_DEFS[params.playerShipConfig.ship].width / 2,
+        VIRTUAL_HEIGHT / 2 + 100,
         ENTITY_DEFS['player'],
-        self
+        self,
+        params.playerShipConfig
     )
     
     self.enemies = { }
@@ -24,9 +25,7 @@ function Level:init()
         Event.dispatch('score-changed', 5)
     end):group(self.timers)
 
-    self.bgOffsetY = 0
-    self.bgScrolling = true
-    self.background = BACKGROUNDS[math.random(#BACKGROUNDS)]
+    self.background = Background()
     
     self.stage = 0
     self.stageDef = nil
@@ -46,6 +45,7 @@ function Level:init()
 end
 
 function Level:update(dt)
+    self.background:update(dt)
     -- update timers
     self.meteorSpawnTimer = self.meteorSpawnTimer + dt
     self.enemySpawnTimer = self.enemySpawnTimer + dt
@@ -129,6 +129,9 @@ function Level:update(dt)
             :group(self.timers)
     elseif not self.player.dead then
         self.player:update(dt)
+    elseif self.player.dead then
+        -- Update timer for healthbar going down to zero if dead
+        Timer.update(dt, self.player.timers)
     end
 
     for k, enemy in pairs(self.enemies) do
@@ -170,25 +173,11 @@ function Level:update(dt)
         end
     end
 
-
-    -- Update scrollingbBackground
-    if self.bgScrolling then
-        self.bgOffsetY = self.bgOffsetY + BACKGROUND_SPEED * dt
-    end
-    
-    if self.bgOffsetY >= BACKGROUND_SIZE then
-        self.bgOffsetY = 0
-    end
-
     self.stageProgress:setValue(self.score)
 end
 
 function Level:render()
-    for x = 0, 4, 1 do
-        for y = -1, 3, 1 do
-            love.graphics.draw(gTextures[self.background], x * BACKGROUND_SIZE, y * BACKGROUND_SIZE + self.bgOffsetY)
-        end
-    end
+    self.background:render()
 
     for k, object in pairs(self.objects['meteors']) do
         object:render()
@@ -273,7 +262,7 @@ function Level:spawnEnemy(dt)
         -100,
         ENTITY_DEFS[enemyType],
         self,
-        enemyLvl
+        { enemyLvl = enemyLvl }
     ))
     self.enemies[#self.enemies]:processAI({direction = "down"}, dt)
 end

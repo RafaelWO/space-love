@@ -1,6 +1,6 @@
 PlayState = Class{__includes = BaseState}
 
-function PlayState:init()
+function PlayState:init(params)
     self.name = "PlayState"
 
     -- start our level # label off-screen
@@ -14,7 +14,7 @@ function PlayState:init()
     ]]
     Event.on('stage-changed', function(stage)
         self.stageLabelText = stage
-        self.transitionAlpha = 150
+        self.transitionAlpha = 80
 
         -- first, over a period of 1 second, transition our alpha to 0
         Timer.tween(1, {
@@ -46,7 +46,7 @@ function PlayState:init()
         end):group(self.timers)
     end)
 
-    self.level = Level()
+    self.level = Level(params)
 end
 
 function PlayState:update(dt)

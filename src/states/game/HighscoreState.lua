@@ -2,8 +2,9 @@ local utf8 = require("utf8")
 
 HighscoreState = Class{__includes = BaseState}
 
-function HighscoreState:init(enterParams)
+function HighscoreState:init(params)
     self.name = "HighscoreState"
+    self.background = params.background
     self.table = nil
     self.scoreRows = self:readScores()
     if self.scoreRows ~= nil then
@@ -24,7 +25,7 @@ function HighscoreState:init(enterParams)
             function()
                 gSounds['music-ending']:stop()
                 gStateStack:pop()
-                gStateStack:push(StartState())
+                gStateStack:push(StartState({background = self.background}))
             end
         }
     }
@@ -32,10 +33,12 @@ end
 
 function HighscoreState:update(dt)
     self.menu:update(dt)
+    self.background:update(dt)
 end
 
 function HighscoreState:render()
-    love.graphics.setColor(250, 250, 250, 255)
+    love.graphics.setColor(255, 255, 255, 255)
+    self.background:render()
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Highscores', 0, 100, VIRTUAL_WIDTH, 'center')
 
