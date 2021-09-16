@@ -31,7 +31,7 @@ function love.load()
 
     love.graphics.setFont(gFonts['small'])
     gStateStack = StateStack()
-    gStateStack:push(StartState())
+    gStateStack:push(StartState({}))
 
     love.keyboard.keysPressed = {}
     love.keyboard.textInput = ""

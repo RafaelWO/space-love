@@ -1,8 +1,8 @@
 StartState = Class{__includes = BaseState}
 
-function StartState:init()
+function StartState:init(params)
     self.name = "StartState"
-    self.background = Background('bg_black')
+    self.background = params.background or Background(MENU_BACKGROUND)
     
     gSounds['music-title-screen']:setLooping(true)
     gSounds['music-title-screen']:play()
@@ -17,11 +17,11 @@ function StartState:init()
         callbacks = {
             function()
                 gStateStack:pop()
-                gStateStack:push(SelectShipState())
+                gStateStack:push(SelectShipState({background = self.background}))
             end,
             function()
                 gStateStack:pop()
-                gStateStack:push(HighscoreState())
+                gStateStack:push(HighscoreState({background = self.background}))
             end,
             function()
                 love.event.quit()

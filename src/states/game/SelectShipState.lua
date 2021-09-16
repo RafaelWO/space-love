@@ -1,7 +1,8 @@
 SelectShipState = Class{__includes = BaseState}
 
-function SelectShipState:init()
+function SelectShipState:init(params)
     self.name = "SelectShipState"
+    self.background = params.background
 
     self.playerShip = {
         x = VIRTUAL_WIDTH / 2 - SHIP_DEFS["playerShip1"].width / 2 - 120,
@@ -141,6 +142,7 @@ end
 
 function SelectShipState:update(dt)
     self.menu:update(dt)
+    self.background:update(dt)
 
     -- Update playership's last char (number) with the index of the selected option
     self.playerShip.ship = self.playerShip.ship:sub(0, self.playerShip.ship:len()-1) .. self.menu.sideOptionsSelected[1]
@@ -183,6 +185,8 @@ function SelectShipState:update(dt)
 end
 
 function SelectShipState:render()
+    self.background:render()
+
     for k, laser in pairs(self.lasers) do
         laser:render()
     end

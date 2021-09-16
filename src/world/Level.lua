@@ -25,8 +25,7 @@ function Level:init(params)
         Event.dispatch('score-changed', 5)
     end):group(self.timers)
 
-    self.bgOffsetY = 0
-    self.background = BACKGROUNDS[math.random(#BACKGROUNDS)]
+    self.background = Background()
     
     self.stage = 0
     self.stageDef = nil
@@ -46,6 +45,7 @@ function Level:init(params)
 end
 
 function Level:update(dt)
+    self.background:update(dt)
     -- update timers
     self.meteorSpawnTimer = self.meteorSpawnTimer + dt
     self.enemySpawnTimer = self.enemySpawnTimer + dt
@@ -173,23 +173,11 @@ function Level:update(dt)
         end
     end
 
-
-    -- Update scrollingbBackground
-    self.bgOffsetY = self.bgOffsetY + BACKGROUND_SPEED * dt
-    
-    if self.bgOffsetY >= BACKGROUND_SIZE then
-        self.bgOffsetY = 0
-    end
-
     self.stageProgress:setValue(self.score)
 end
 
 function Level:render()
-    for x = 0, 4, 1 do
-        for y = -1, 3, 1 do
-            love.graphics.draw(gTextures[self.background], x * BACKGROUND_SIZE, y * BACKGROUND_SIZE + self.bgOffsetY)
-        end
-    end
+    self.background:render()
 
     for k, object in pairs(self.objects['meteors']) do
         object:render()
