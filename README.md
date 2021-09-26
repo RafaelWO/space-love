@@ -1,7 +1,7 @@
 # Space-Love
 A space shooter written with [LÖVE❤](https://love2d.org/) (version 0.10.2) in Lua.
 
-![sample](assets/space-love_demo-v4.gif)
+![sample](assets/space-love_demo-v0.4.gif)
 
 ## Download
 Download the latest version of the game via the [Releases](https://github.com/RafaelWO/space-love/releases). 
