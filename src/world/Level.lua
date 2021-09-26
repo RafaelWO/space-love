@@ -5,8 +5,7 @@ function Level:init(params)
         ['lasers'] = {},
         ['meteors'] = {},
         ['particles'] = {},
-        ['items'] = {},
-        ['visuals'] = {}
+        ['items'] = {}
     }
     self.player = Player (
         VIRTUAL_WIDTH / 2 - SHIP_DEFS[params.playerShipConfig.ship].width / 2,
@@ -112,10 +111,6 @@ function Level:update(dt)
                 object.onConsume()
                 object.toRemove = true
             end
-
-            if object.toRemove then
-                table.remove(self.objects[gtype], k)
-            end
         end
     end
 
@@ -149,7 +144,6 @@ function Level:update(dt)
         if enemy.dead then
             -- create explosion particle effect
             self:spawnExplosion(enemy, 'short')
-            table.remove(self.enemies, k)
             
             local enemyReward = 20 * enemy:getShipType() + 10 * enemy.lvl
             self.score = self.score + enemyReward
@@ -170,6 +164,22 @@ function Level:update(dt)
         pSystem:update(dt)
         if pSystem:getCount() == 0 then
             table.remove(self.objects['particles'], k)
+        end
+    end
+
+    -- Do objects cleanup
+    for j, gtype in ipairs(GAME_OBJECT_TYPES) do
+        for i = #self.objects[gtype], 1, -1 do
+            if self.objects[gtype][i].toRemove then
+                table.remove(self.objects[gtype], i)
+            end
+        end
+    end
+
+    -- Do enemies cleanup
+    for i = #self.enemies, 1, -1 do
+        if self.enemies[i].dead then
+            table.remove(self.enemies, i)
         end
     end
 
