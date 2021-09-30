@@ -35,7 +35,7 @@ jobs:
         uses: actions/github-script@v3
         with:
           script: |
-              echo ${{ env.TAG_VERSION }} != ${{ env.FILE_VERSION }}
+              echo "${{ env.TAG_VERSION }} != ${{ env.FILE_VERSION }}"
               core.setFailed('TAG_VERSION and FILE_VERSION are not equivalent!')
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
