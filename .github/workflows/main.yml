@@ -22,8 +22,8 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
       - name: Get the version
+        uses: actions/checkout@v2
         id: get_version
         run: |
           ls -lah
@@ -40,8 +40,8 @@ jobs:
               core.setFailed('TAG_VERSION and FILE_VERSION are not equivalent!')
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2          
       - name: LÖVE Build
+        # uses: actions/checkout@v2
         # You may pin to the exact commit or the version.
         # uses: nhartland/love-build@a6462dd03e091b755d320b2b7f9714b461631b63
         # uses: nhartland/love-build@v1-beta2
@@ -56,7 +56,8 @@ jobs:
           # Path to dependencies rockspec relative to GitHub workspace
 
       # Upload the built applications
-      - uses: actions/upload-artifact@v1
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
         with:
           name: built-applications
           path: 'release'
