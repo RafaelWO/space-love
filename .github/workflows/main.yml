@@ -26,8 +26,8 @@ jobs:
       - name: Get the version
         id: get_version
         run: |
-          echo ::set-env name=TAG_VERSION::${GITHUB_REF/refs\/tags\//}
-          echo ::set-env name=FILE_VERSION::${cat VERSION}
+          echo "TAG_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+          echo "FILE_VERSION=${cat VERSION}" >> $GITHUB_ENV
 
       - name: Version Check
         if: ${{ env.TAG_VERSION }} != ${{ env.FILE_VERSION }}
