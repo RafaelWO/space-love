@@ -50,7 +50,7 @@ jobs:
         id: love-build
         with:
           # Name of the application to be built
-          app_name: space-love${{ steps.get_version.outputs.VERSION }}
+          app_name: space-love-${{ env.TAG_VERSION }}
           # Version of LÖVE to be used in building the application
           love_version: 0.10.2
           # Path to dependencies rockspec relative to GitHub workspace
