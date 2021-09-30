@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Love Build
+name: Love Build/Release
 
 # Controls when the action will run. 
 on:
@@ -22,6 +22,21 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - uses: actions/checkout@v2
+      - name: Get the version
+        id: get_version
+        run: |
+          echo ::set-env name=TAG_VERSION::${GITHUB_REF/refs\/tags\//}
+          echo ::set-env name=FILE_VERSION::${cat VERSION}
+
+      - name: Version Check
+        if: ${{ env.TAG_VERSION }} != ${{ env.FILE_VERSION }}
+        uses: actions/github-script@v3
+        with:
+          script: |
+              echo ${{ env.TAG_VERSION }} != ${{ env.FILE_VERSION }}
+              core.setFailed('TAG_VERSION and FILE_VERSION are not equivalent!')
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2          
       - name: LÖVE Build
@@ -34,7 +49,7 @@ jobs:
         id: love-build
         with:
           # Name of the application to be built
-          app_name: space-love
+          app_name: space-love${{ steps.get_version.outputs.VERSION }}
           # Version of LÖVE to be used in building the application
           love_version: 0.10.2
           # Path to dependencies rockspec relative to GitHub workspace
