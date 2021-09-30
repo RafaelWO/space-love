@@ -31,7 +31,7 @@ jobs:
           echo "FILE_VERSION=$(cat VERSION)" >> $GITHUB_ENV
 
       - name: Version Check
-        if: ${{ env.TAG_VERSION }} != ${{ env.FILE_VERSION }}
+        if: ${{ env.TAG_VERSION != env.FILE_VERSION }}
         uses: actions/github-script@v3
         with:
           script: |
