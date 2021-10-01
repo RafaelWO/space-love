@@ -4,9 +4,28 @@ A space shooter written with [LÖVE❤](https://love2d.org/) (version 0.10.2) in
 ![sample](assets/space-love_demo-v0.4.gif)
 
 ## Download
-Download the latest version of the game via the [Releases](https://github.com/RafaelWO/space-love/releases). 
+Download the latest version of the game via the [releases][]. 
 
-For Windows (win32, win64) and MacOS users, please download the corresponding `.zip` file. To run the game on Linux you have to install LÖVE 0.10.2 - via the [download page](https://love2d.org/#download) or directly via the corresponding [GitHub release](https://github.com/love2d/love/releases/tag/0.10.2) - and then download the `.love` file which can be run afterwards (see also [Game Distribution](https://love2d.org/wiki/Game_Distribution) chapter "Distribution for Linux").
+### Windows and MacOS
+For Windows (win32, win64) and MacOS users, please download the corresponding `.zip` file. 
+
+If you have installed LÖVE or want to install it - for this, install the corresponding [release 0.10.2 from GitHub](https://github.com/love2d/love/releases/tag/0.10.2) - you can simply download the `.love` file from the [releases][] and double-click the file to start the game.
+
+### Linux
+To run the game on Linux you have to install LÖVE 0.10.2. You can do this manually using the link above or run the following commands in a terminal.
+
+```bash
+LOVE_URL='https://github.com/love2d/love/releases/download/0.10.2'
+TEMP_DEB1="$(mktemp)"
+TEMP_DEB2="$(mktemp)"
+wget -O "$TEMP_DEB1" "$LOVE_URL/liblove0_0.10.2ppa1_amd64.deb"
+wget -O "$TEMP_DEB2" "$LOVE_URL/love_0.10.2ppa1_amd64.deb"
+sudo dpkg -i "$TEMP_DEB1" "$TEMP_DEB2"
+rm -f "$TEMP_DEB1" "$TEMP_DEB2"
+```
+
+Then download the `.love` file from the [releases][] and simply double-click it.
+
 
 ## Instructions
 #### Menu
@@ -36,3 +55,8 @@ Other sound effects:
  * [Push](https://github.com/Ulydev/push)
  * [Knife](https://github.com/airstruck/knife)
  * [XmlParser](https://github.com/jonathanpoelen/xmlparser)
+
+
+
+ [releases]: https://github.com/RafaelWO/space-love/releases
+ 
