@@ -41,6 +41,12 @@ function generateQuads(atlas, tilewidth, tileheight)
 end
 
 
+function getVersion()
+    local version = love.filesystem.read("VERSION")
+    return version:sub(1, 1) .. "" .. version:sub(2)
+end
+
+
 --[[
     Print utils for xmlparser; from https://github.com/jonathanpoelen/xmlparser
 ]]

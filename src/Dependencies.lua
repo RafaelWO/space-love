@@ -58,6 +58,7 @@ gFonts = {
     ['thin-small'] = love.graphics.newFont('fonts/kenvector_future_thin.ttf', 8),
     ['thin-medium'] = love.graphics.newFont('fonts/kenvector_future_thin.ttf', 16),
     ['thin-large'] = love.graphics.newFont('fonts/kenvector_future_thin.ttf', 32),
+    ['default-small'] = love.graphics.newFont(12)
 }
 
 gSounds = {

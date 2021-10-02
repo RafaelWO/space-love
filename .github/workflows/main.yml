@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Love Build
+name: Love Build/Release
 
 # Controls when the action will run. 
 on:
@@ -22,25 +22,42 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - uses: actions/checkout@v2
+      - name: Get the version
+        id: get_version
+        run: |
+          ls -lah
+          echo "TAG_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+          echo "FILE_VERSION=$(cat VERSION)" >> $GITHUB_ENV
+
+      - name: Version Check
+        if: ${{ env.TAG_VERSION != env.FILE_VERSION }}
+        uses: actions/github-script@v3
+        with:
+          script: |
+              const { TAG_VERSION, FILE_VERSION } = process.env
+              console.log(`${TAG_VERSION} != ${FILE_VERSION}`)
+              core.setFailed('TAG_VERSION and FILE_VERSION are not equivalent!')
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2          
       - name: LÖVE Build
+        # uses: actions/checkout@v2
         # You may pin to the exact commit or the version.
         # uses: nhartland/love-build@a6462dd03e091b755d320b2b7f9714b461631b63
         # uses: nhartland/love-build@v1-beta2
-        uses: nhartland/love-build@674b4d11d31cc1ed67b3f3de4f2887545ab4ef4e
-        # uses: RafaelWO/love-build@fix/macos-build-combatibility
+        uses: nhartland/love-build@master
         
         id: love-build
         with:
           # Name of the application to be built
-          app_name: space-love
+          app_name: space-love-${{ env.TAG_VERSION }}
           # Version of LÖVE to be used in building the application
           love_version: 0.10.2
           # Path to dependencies rockspec relative to GitHub workspace
 
       # Upload the built applications
-      - uses: actions/upload-artifact@v1
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
         with:
           name: built-applications
           path: 'release'

@@ -71,8 +71,11 @@ end
 
 function love.draw()
     push:start()
+    
     gStateStack:render()
-
+    love.graphics.setColor(150, 150, 150, 255)
+    love.graphics.setFont(gFonts['default-small'])
+    love.graphics.printf(VERSION, 10, VIRTUAL_HEIGHT-25, VIRTUAL_WIDTH, 'left')
 
     push:finish()
 end

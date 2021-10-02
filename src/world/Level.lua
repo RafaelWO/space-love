@@ -18,6 +18,7 @@ function Level:init(params)
     self.enemies = { }
 
     self.timers = {}
+    self.noPowerupCount = 0
     self.score = 0
     self.scoreTimer = Timer.every(5, function() 
         self.score = self.score + 5
@@ -151,10 +152,15 @@ function Level:update(dt)
 
             local powerupProbability = enemy:getShipType() * enemy.lvl * 2
             
-            if math.random(100) <= powerupProbability then
+            if math.random(100) <= powerupProbability or self.noPowerupCount >= 10 then
                 self:spawnPowerup('pill', true, enemy:getCenter())
+                self.noPowerupCount = 0
             elseif math.random(100) <= powerupProbability then
                 self:spawnPowerup('powerup-shield', false, enemy:getCenter())
+                self.noPowerupCount = 0
+            else
+                self.noPowerupCount = self.noPowerupCount + 1
+                print("No powerups:", self.noPowerupCount)
             end
         end
     end
@@ -286,7 +292,7 @@ function Level:getValueFromProbs(probabilityMap)
 
     local value
     local rnd = math.random()
-    print("Spawn RNG: " .. string.format("%.2f", rnd))
+    --print("Spawn RNG: " .. string.format("%.2f", rnd))
 
     for i, prob in ipairs(probs) do
         if rnd <= prob then
