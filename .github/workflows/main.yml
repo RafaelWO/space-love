@@ -26,7 +26,7 @@ jobs:
       - name: Get the version
         id: get_version
         run: |
-          ls -lah
+          echo "Action: ${{ github.event.action }}"
           echo "TAG_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
           echo "FILE_VERSION=$(cat VERSION)" >> $GITHUB_ENV
 
