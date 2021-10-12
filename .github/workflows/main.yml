@@ -31,7 +31,7 @@ jobs:
           echo "FILE_VERSION=$(cat VERSION)" >> $GITHUB_ENV
 
       - name: Version Check
-        if: ${{ env.TAG_VERSION != env.FILE_VERSION }}
+        if: ${{ env.TAG_VERSION != env.FILE_VERSION && startsWith(github.ref, 'refs/tags/v')}}
         uses: actions/github-script@v3
         with:
           script: |
@@ -65,7 +65,7 @@ jobs:
           
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/v')
         with:
           files: |
             ${{ steps.love-build.outputs.macos-filename }}
