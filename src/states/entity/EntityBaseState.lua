@@ -21,6 +21,7 @@ function EntityBaseState:exit() end
 function EntityBaseState:processAI(params, dt) end
 
 function EntityBaseState:render()
+    love.graphics.setColor(255, 255, 255, 255)
     love.graphics.draw(gTextures[self.entity.texture], gFrames[self.entity.texture][self.entity:getFrame()],
         math.floor(self.entity.x), math.floor(self.entity.y))
 

@@ -163,6 +163,13 @@ function spairs(t, order)
 end
 
 
+function printTable(tbl)
+    for k, val in pairs(tbl) do
+        print(k, val)
+    end
+end
+
+
 function writeSaveFile(file, data, mode)
     if mode == "append" and love.filesystem.exists(FILE_HIGHSCORES) then
         success, message = love.filesystem.append(FILE_HIGHSCORES, data)
@@ -195,6 +202,41 @@ function color2rgb(color)
     elseif color == "orange" then
         return {r = 255, g = 140, b = 0}
     end
+end
+
+--[[
+    From https://love2d.org/wiki/Gradients
+]]
+function gradient(colors)
+    local direction = colors.direction or "horizontal"
+    if direction == "horizontal" then
+        direction = true
+    elseif direction == "vertical" then
+        direction = false
+    else
+        error("Invalid direction '" .. tostring(direction) .. "' for gradient.  Horizontal or vertical expected.")
+    end
+    local result = love.image.newImageData(direction and 1 or #colors, direction and #colors or 1)
+    for i, color in ipairs(colors) do
+        local x, y
+        if direction then
+            x, y = 0, i - 1
+        else
+            x, y = i - 1, 0
+        end
+        result:setPixel(x, y, color[1], color[2], color[3], color[4] or 255)
+    end
+    result = love.graphics.newImage(result)
+    result:setFilter('linear', 'linear')
+    return result
+end
+
+--[[
+    From https://love2d.org/wiki/Gradients
+]]
+function drawinrect(img, x, y, w, h, r, ox, oy, kx, ky)
+    return -- tail call for a little extra bit of efficiency
+    love.graphics.draw(img, x, y, r, w / img:getWidth(), h / img:getHeight(), ox, oy, kx, ky)
 end
 
 

@@ -163,6 +163,8 @@ function GameObject:render()
         if self.blinkTimer > self.blinkInterval then
             self.blinkTimer = 0
         end
+    else
+        love.graphics.setColor(255, 255, 255, 255)
     end
 
     local frame
