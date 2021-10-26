@@ -26,12 +26,15 @@ jobs:
       - name: Get the version
         id: get_version
         run: |
-          ls -lah
-          echo "TAG_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
-          echo "FILE_VERSION=$(cat VERSION)" >> $GITHUB_ENV
+          if ${{ startsWith(github.ref, 'refs/tags/v') }}; then
+            echo "TAG_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+            echo "FILE_VERSION=$(cat VERSION)" >> $GITHUB_ENV
+          else
+            echo "TAG_VERSION=dev" >> $GITHUB_ENV
+          fi
 
       - name: Version Check
-        if: ${{ env.TAG_VERSION != env.FILE_VERSION }}
+        if: ${{ env.TAG_VERSION != env.FILE_VERSION && startsWith(github.ref, 'refs/tags/v')}}
         uses: actions/github-script@v3
         with:
           script: |
@@ -45,7 +48,8 @@ jobs:
         # You may pin to the exact commit or the version.
         # uses: nhartland/love-build@a6462dd03e091b755d320b2b7f9714b461631b63
         # uses: nhartland/love-build@v1-beta2
-        uses: nhartland/love-build@master
+        # uses: nhartland/love-build@master
+        uses: RafaelWO/love-build@master
         
         id: love-build
         with:
@@ -64,7 +68,7 @@ jobs:
           
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/v')
         with:
           files: |
             ${{ steps.love-build.outputs.macos-filename }}
