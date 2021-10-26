@@ -50,6 +50,8 @@ require 'src/gui/ProgressBar'
 require 'src/gui/Menu'
 require 'src/gui/Table'
 require 'src/gui/Background'
+require 'src/gui/PlayerHealthBar'
+require 'src/gui/LowHealthOverlay'
 
 gFonts = {
     ['small'] = love.graphics.newFont('fonts/kenvector_future.ttf', 8),

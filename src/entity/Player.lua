@@ -20,6 +20,7 @@ function Player:init(x, y, def, level, params)
     self.hits = 0
     self.collisionDamageTimer = 0
     self.collisionDamageInterval = 1
+    self.hasLowHealth = false
 
     local shieldOffset = {
         x = self.width / 2 - GAME_OBJECT_DEFS['shield'].width / 2,
@@ -47,16 +48,13 @@ function Player:createDefaultStates()
 end
 
 function Player:createHealthbar()
-    self.healthBar = ProgressBar {
+    self.healthBar = PlayerHealthBar {
         x = 10,
         y = 10,
         width = 150,
         height = 10,
-        color = {r = 255, g = 255, b = 255},
         max = self.health,
-        value = self.health,
-        text = "health",
-        separators = true
+        value = self.health
     }
 end
 
@@ -77,10 +75,12 @@ function Player:update(dt)
         end
     end
 
-    if self.health <= 1 and not gSounds['health-alarm']:isPlaying() then
-        gSounds['health-alarm']:play()
-    elseif self.health > 1 and gSounds['health-alarm']:isPlaying() then
-        gSounds['health-alarm']:stop()
+    if self.health <= 1 and not self.hasLowHealth then
+        self.hasLowHealth = true
+        Event.dispatch('health-low')
+    elseif self.health > 1 and self.hasLowHealth then
+        self.hasLowHealth = false
+        Event.dispatch('health-ok')
     end
 end
 

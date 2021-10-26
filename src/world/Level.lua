@@ -15,7 +15,7 @@ function Level:init(params)
         params.playerShipConfig
     )
     
-    self.enemies = { }
+    self.enemies = {}
 
     self.timers = {}
     self.noPowerupCount = 0
@@ -26,6 +26,12 @@ function Level:init(params)
     end):group(self.timers)
 
     self.background = Background()
+    self.lowHealthOverlay = LowHealthOverlay({
+        color = {r = 255, g = 0, b = 0},
+        interval = 1,
+        maxAlpha = 15,
+        mode = 'full'
+    })
     
     self.stage = 0
     self.stageDef = nil
@@ -46,6 +52,7 @@ end
 
 function Level:update(dt)
     self.background:update(dt)
+    self.lowHealthOverlay:update(dt)
     -- update timers
     self.meteorSpawnTimer = self.meteorSpawnTimer + dt
     self.enemySpawnTimer = self.enemySpawnTimer + dt
@@ -211,6 +218,8 @@ function Level:render()
         end
     end
 
+    self.lowHealthOverlay:render()
+
     for k, pSystem in pairs(self.objects['particles']) do
         love.graphics.draw(pSystem, 0, 0)
     end
@@ -257,6 +266,16 @@ function Level:initEvents()
                 break
             end
         end
+    end)
+
+    Event.on('health-low', function()
+        gSounds['health-alarm']:play()
+        self.lowHealthOverlay:enable()
+    end)
+
+    Event.on('health-ok', function()
+        gSounds['health-alarm']:stop()
+        self.lowHealthOverlay:disable()
     end)
 end
 
