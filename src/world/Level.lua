@@ -15,7 +15,7 @@ function Level:init(params)
         params.playerShipConfig
     )
     
-    self.enemies = { }
+    self.enemies = {}
 
     self.timers = {}
     self.noPowerupCount = 0
@@ -26,11 +26,11 @@ function Level:init(params)
     end):group(self.timers)
 
     self.background = Background()
-    self.lowHealthOverlay = BreathingOverlay({
+    self.lowHealthOverlay = LowHealthOverlay({
         color = {r = 255, g = 0, b = 0},
         interval = 1,
-        maxAlpha = 20,
-        width = 180
+        maxAlpha = 15,
+        mode = 'full'
     })
     
     self.stage = 0
