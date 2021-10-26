@@ -42,6 +42,8 @@ Press <kbd>esc</kbd> to quit.
 ### Art Pack
 The sprites (plus backgrounds, fonts and some sound effects) used in this game are from the art pack [Space Shooter Redux](https://opengameart.org/content/space-shooter-redux) by [Kenny](www.kenney.nl).
 
+Some UI elements are from the [UI Pack: RPG Expansion](https://www.kenney.nl/assets/ui-pack-rpg-expansion) by Kenny.
+
 
 ### Sounds
 The soundtracks are from Juhani Junkala and can be found [here](https://opengameart.org/content/5-chiptunes-action).

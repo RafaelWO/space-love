@@ -12,6 +12,9 @@ function Menu:init(def)
         table.insert(self.sideOptionsSelected, 1)
     end
     self.selected = 1
+
+    self.arrowScale = 0.7
+    self.arrowWidth = 22 * self.arrowScale
 end
 
 --[[
@@ -80,11 +83,10 @@ function Menu:render()
         love.graphics.printf(text, self.x, self.y + offsetY, VIRTUAL_WIDTH, 'center')
 
         if self.sideOptions[k] then
-            -- First print quotes in same color as the menu entry (it's a description in this case) one line below 
-            -- The quotes should show that one can use the left/a´right arrow key to change the option
-            local quotes = "«" .. string.rep("\t", 7) .. "»"
             offsetY = offsetY + 20
-            love.graphics.printf(quotes, self.x, self.y + offsetY, VIRTUAL_WIDTH, 'center')
+
+            love.graphics.draw(gTextures['arrow-left'], VIRTUAL_WIDTH / 2 - 70 - self.arrowWidth / 2, self.y + offsetY, 0, self.arrowScale, self.arrowScale)
+            love.graphics.draw(gTextures['arrow-right'], VIRTUAL_WIDTH / 2 + 70 - self.arrowWidth / 2, self.y + offsetY, 0, self.arrowScale, self.arrowScale)
             
             -- Then print the option text
             if k == self.selected then
