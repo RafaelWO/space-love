@@ -67,7 +67,8 @@ function SelectShipState:init(params)
     -- Define tables for ship stats display
     self.shipStats = {
         ['health'] = {
-            max = 6,
+            max = 5,
+            min = 3,
             text = 'health',
             pos = 1
         },

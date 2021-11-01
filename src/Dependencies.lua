@@ -115,6 +115,9 @@ gTextures = {
     ['bg_blue'] = love.graphics.newImage('graphics/backgrounds/blue.png'),
     ['bg_dark-purple'] = love.graphics.newImage('graphics/backgrounds/darkPurple.png'),
     ['bg_purple'] = love.graphics.newImage('graphics/backgrounds/purple.png'),
+
+    ['arrow-left'] = love.graphics.newImage('graphics/ui/arrowSilver_left.png'),
+    ['arrow-right'] = love.graphics.newImage('graphics/ui/arrowSilver_right.png'),
 }
 
 gFrames = {
