@@ -12,23 +12,23 @@ ENTITY_DEFS = {
         texture = 'sheet',
         laser = 'laser-normal',
         ships = {
-            {   -- playerShip1 (base)
+            {   -- playerShip1 (classic)
                 attack = 1,
-                health = 6,
+                health = 5,
                 flySpeed = 400,
-                shotInterval = 0.5,
+                shotInterval = 0.6,
                 laserType = '05'
             },
             {   -- playerShip2 (shooter)
-                attack = 0.5,
-                health = 5,
+                attack = 0.75,
+                health = 4,
                 flySpeed = 500,
-                shotInterval = 0.2,
+                shotInterval = 0.15,
                 laserType = '04'
             },
             {   -- playerShip3 (sniper)
                 attack = 2.5,
-                health = 4,
+                health = 4.5,
                 flySpeed = 300,
                 shotInterval = 1,
                 laserType = '14'
