@@ -1,5 +1,17 @@
 # Space-Love
-A space shooter written with [LÖVE❤](https://love2d.org/) (version 0.10.2) in Lua.
+<p>
+    <a href="https://github.com/RafaelWO/space-love/releases">
+        <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/rafaelwo/space-love">
+    </a>
+    <a href="https://github.com/RafaelWO/space-love/releases">
+        <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/rafaelwo/space-love/total">
+    </a>
+    <a href="https://github.com/love2d/love/releases/tag/0.10.2">
+        <img alt="Love2d version" src="https://img.shields.io/badge/love2d-0.10.2-%23ea316e">
+    </a>
+</p>
+
+A space shooter written with [LÖVE❤](https://love2d.org/) in Lua.
 
 ![sample](assets/space-love_demo-v0.4.gif)
 
