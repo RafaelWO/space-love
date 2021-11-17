@@ -27,7 +27,7 @@ function Entity:init(x, y, def, level, params)
         self.laserType = def.ships[self:getShipType()].laserType
     else
         self.lvl = params.enemyLvl or 1
-        self.color = def.levels[self.lvl].color
+        self.color = def.levels[self.lvl].color or params.color
         self.flySpeed = def.levels[self.lvl].flySpeed
         self.attack = def.levels[self.lvl].attack
         self.shotInterval = def.levels[self.lvl].shotInterval
@@ -38,7 +38,7 @@ function Entity:init(x, y, def, level, params)
     self.invulnerable = false
 
     -- so that enemies cannot move randomly to the bottom of the screen
-    self.bottomScreenBarrier = (self.type == "player") and 0 or 200
+    self.bottomScreenBarrier = (self.type == "player" or self.type == "ufo") and 0 or 200
     
     self.width = SHIP_DEFS[self.ship].width
     self.height = SHIP_DEFS[self.ship].height

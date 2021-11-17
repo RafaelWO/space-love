@@ -217,5 +217,19 @@ ENTITY_DEFS = {
         ship = 'enemy5',
         laser = 'laser-normal',
         laserType = '14'
+    },
+    ['ufo'] = {
+        type = 'ufo',
+        levels = {
+            {
+                flySpeed = 200,
+                shotInterval = 0.8,
+                attack = 0.5,
+                health = 5,
+            }
+        },
+        texture = 'sheet',
+        ship = 'ufo',
+        laser = 'laser-normal'
     }
 }

@@ -14,8 +14,16 @@ function Level:init(params)
         self,
         params.playerShipConfig
     )
-    
+
     self.enemies = {}
+
+    table.insert(self.enemies, Ufo (
+        math.random(0, VIRTUAL_WIDTH - 100),
+        300,
+        ENTITY_DEFS['ufo'],
+        self,
+        { color = params.playerShipConfig.color }
+    ))
 
     self.timers = {}
     self.noPowerupCount = 0

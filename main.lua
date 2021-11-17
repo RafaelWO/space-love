@@ -58,6 +58,7 @@ function love.textinput(t)
 end
 
 function love.update(dt)
+    require("lovebird").update()
     Timer.update(dt)
     gStateStack:update(dt)
 

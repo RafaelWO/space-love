@@ -180,5 +180,19 @@ SHIP_DEFS = {
                 x = 97 / 2, y = 84
             }
         }
+    },
+    ['ufo'] = {
+        width = 91,
+        height = 91,
+        hitboxDefs = {
+            {
+                xOffset = 10, yOffset = 10, width = 71, height = 71
+            }
+        },
+        laserOffsets = {
+            {
+                x = 91 / 2, y = 8
+            }
+        }
     }
 }
