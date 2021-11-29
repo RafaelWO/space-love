@@ -1,7 +1,7 @@
 GameObject = Class{}
 
 function GameObject:init(x, y, def, params)
-    -- string identifying this object type
+    self.meta = "GameObject"
     self.type = def.type
 
     if not params then
@@ -114,7 +114,7 @@ function GameObject:update(dt)
         self.currentAnimation:update(dt)
     end
 
-    if self.y > VIRTUAL_HEIGHT then
+    if self.y > VIRTUAL_HEIGHT or self.y < -200 or self.x > VIRTUAL_WIDTH or self.x < -self.width then
         self.toRemove = true
     else
         self.y = self.y + self.speed * dt

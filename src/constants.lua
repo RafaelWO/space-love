@@ -9,8 +9,6 @@ BACKGROUND_SPEED = 50
 BACKGROUNDS = {'bg_black', 'bg_blue', 'bg_dark-purple'}
 MENU_BACKGROUND = 'bg_black'
 
-GAME_OBJECT_TYPES = {'meteors', 'lasers', 'particles', 'items'}
-
 PLAYER_LASER_SPEED = 500
 
 METEOR_SPEED = 80

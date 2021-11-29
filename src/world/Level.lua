@@ -1,12 +1,11 @@
 Level = Class{}
 
 function Level:init(params)
-    self.objects = {
-        ['lasers'] = {},
-        ['meteors'] = {},
-        ['particles'] = {},
-        ['items'] = {}
-    }
+    self.lasers = {}
+    self.meteors = {}
+    self.particles = {}
+    self.items = {}
+    
     self.player = Player (
         VIRTUAL_WIDTH / 2 - SHIP_DEFS[params.playerShipConfig.ship].width / 2,
         VIRTUAL_HEIGHT / 2 + 100,
@@ -18,13 +17,13 @@ function Level:init(params)
     self.enemies = {}
     self.allies = {}
 
-    table.insert(self.allies, Ufo (
-        math.random(0, VIRTUAL_WIDTH - 100),
-        300,
-        ENTITY_DEFS['ufo'],
-        self,
-        { color = params.playerShipConfig.color }
-    ))
+    -- table.insert(self.allies, Ufo (
+    --     math.random(0, VIRTUAL_WIDTH - 100),
+    --     300,
+    --     ENTITY_DEFS['ufo'],
+    --     self,
+    --     { color = params.playerShipConfig.color }
+    -- ))
 
     self.timers = {}
     self.noPowerupCount = 0
@@ -73,7 +72,7 @@ function Level:update(dt)
         
         local meteorDef = GAME_OBJECT_DEFS['meteor']
         meteorDef.frame = METEOR_TYPES[math.random(#METEOR_TYPES)]
-        table.insert(self.objects['meteors'], Meteor (
+        table.insert(self.meteors, Meteor (
             math.random(0, VIRTUAL_WIDTH),
             -100,
             meteorDef,
@@ -87,56 +86,48 @@ function Level:update(dt)
         self:spawnEnemy(dt)
     end
 
-    for i, gtype in ipairs(GAME_OBJECT_TYPES) do
-        for k, object in pairs(self.objects[gtype]) do
-            object:update(dt)
+    for k, laser in pairs(self.lasers) do
+        laser:update(dt)
+        if laser.state == "fly" then
+            if laser.source.type == "player" or laser.source.type == "ufo" then
+                -- check if player/ally laser hits a meteor
+                for j, meteor in pairs(self.meteors) do
+                    self:checkLaserCollision(laser, meteor)
+                end
+                
+                -- check if player/ally laser hits an enemy
+                for j, enemy in pairs(self.enemies) do
+                    self:checkLaserCollision(laser, enemy)
+                end
+            else
+                -- check if enemy laser hits player
+                if not self.player.dead then
+                    self:checkLaserCollision(laser, self.player)
+                end
 
-            if gtype == "lasers" and object.state == "fly" then
-                if object.source.type == "player" or object.source.type == "ufo" then
-                    -- check if player laser hits a meteor
-                    for j, meteor in pairs(self.objects["meteors"]) do
-                        if meteor:collides(object) then
-                            object:changeState("hit")
-                            object:stickToObject(meteor)
-                        end
-                    end
-                    
-                    -- check if player laser hits an enemy
-                    for j, enemy in pairs(self.enemies) do
-                        if object.state == "fly" and enemy:collides(object) then
-                            object:changeState("hit")
-                            object:stickToObject(enemy)
-                            enemy:reduceHealth(object.source.attack)
-                        end
-                    end
-                else
-                    -- Enemy laser hits player
-                    if object.state == "fly" then
-                        if self.player:collides(object) and not self.player.dead then
-                            object:changeState("hit")
-                            object:stickToObject(self.player)
-                            if self.player:reduceHealth(object.source.attack) then
-                                gSounds['impact']:stop()
-                                gSounds['impact']:play()
-                            end
-                        end
-                        for idx, ally in pairs(self.allies) do
-                            if ally:collides(object) then
-                                object:changeState("hit")
-                                object:stickToObject(ally)
-                                ally:reduceHealth(object.source.attack)
-                            end
-                        end
-                    end
-                end            
-            -- check player with meteor collision
-            elseif gtype == "meteors" and self.player:collides(object:getHitbox()) then
-                self.player:takeCollisionDamage(METEOR_COLLISION_DAMAGE)
-                self:playerHits()
-            elseif object.consumable and self.player:collides(object) then
-                object.onConsume()
-                object.toRemove = true
+                -- check if enemy laser hits ally
+                for idx, ally in pairs(self.allies) do
+                    self:checkLaserCollision(laser, ally)
+                end
             end
+        end
+    end
+
+    -- check player with meteor collision
+    for k, meteor in pairs(self.meteors) do
+        meteor:update(dt)
+        if self.player:collides(meteor:getHitbox()) then
+            self.player:takeCollisionDamage(METEOR_COLLISION_DAMAGE)
+            self:playerHits()
+        end
+    end
+
+    -- Check whether player has picked up an item
+    for k, item in pairs(self.items) do
+        item:update(dt)
+        if item.consumable and self.player:collides(item) then
+            item.onConsume()
+            item.toRemove = true
         end
     end
 
@@ -199,33 +190,16 @@ function Level:update(dt)
     end
 
     -- Update particles
-    for k, pSystem in pairs(self.objects['particles']) do
+    for k, pSystem in pairs(self.particles) do
         pSystem:update(dt)
         if pSystem:getCount() == 0 then
-            table.remove(self.objects['particles'], k)
+            table.remove(self.particles, k)
         end
     end
 
-    -- Do objects cleanup
-    for j, gtype in ipairs(GAME_OBJECT_TYPES) do
-        for i = #self.objects[gtype], 1, -1 do
-            if self.objects[gtype][i].toRemove then
-                table.remove(self.objects[gtype], i)
-            end
-        end
-    end
-
-    -- Do enemies cleanup
-    for i = #self.enemies, 1, -1 do
-        if self.enemies[i].dead then
-            table.remove(self.enemies, i)
-        end
-    end
-
-    for i = #self.allies, 1, -1 do
-        if self.allies[i].dead then
-            table.remove(self.allies, i)
-        end
+    -- Do cleanup
+    for j, tbl in ipairs({self.lasers, self.meteors, self.particles, self.items, self.enemies, self.allies}) do
+        self:removeDead(tbl)
     end
 
     self.stageProgress:setValue(self.score)
@@ -234,29 +208,20 @@ end
 function Level:render()
     self.background:render()
 
-    for k, object in pairs(self.objects['meteors']) do
-        object:render()
-    end
-
-    self.player:render()
-
-    for k, enemy in pairs(self.enemies) do
-        enemy:render()
-    end
-
-    for k, ally in pairs(self.allies) do
-        ally:render()
-    end
-
-    for i, gtype in ipairs({'lasers', 'items'}) do
-        for k, object in pairs(self.objects[gtype]) do
+    for j, tbl in ipairs({self.meteors, self.enemies, self.allies, self.lasers, self.items}) do
+        for k, object in pairs(tbl) do
             object:render()
+        end
+
+        -- render player after meteors
+        if j == 1 then
+            self.player:render()
         end
     end
 
     self.lowHealthOverlay:render()
 
-    for k, pSystem in pairs(self.objects['particles']) do
+    for k, pSystem in pairs(self.particles) do
         love.graphics.draw(pSystem, 0, 0)
     end
 
@@ -343,6 +308,27 @@ function Level:spawnEnemy(dt)
     self.enemies[#self.enemies]:processAI({direction = "down"}, dt)
 end
 
+function Level:checkLaserCollision(laser, object)
+    if object:collides(laser) then
+        laser:changeState("hit")
+        laser:stickToObject(object)
+        if object.meta == "Entity" then
+            if object:reduceHealth(laser.source.attack) and object.type == "player" then
+                gSounds['impact']:stop()
+                gSounds['impact']:play()
+            end
+        end
+    end
+end
+
+function Level:removeDead(tbl)
+    for i = #tbl, 1, -1 do
+        if (tbl[i].meta == "Entity" and tbl[i].dead) or tbl[i].toRemove then
+            table.remove(tbl, i)
+        end
+    end
+end
+
 function Level:getValueFromProbs(probabilityMap)
     local probs = {}
     for k, _ in pairs(probabilityMap) do
@@ -374,7 +360,7 @@ function Level:spawnExplosion(object, length)
     local explosion = getExplosion(EXPLOSION_BLAST)
     explosion:setPosition(object.x + object.width/2, object.y + object.height/2)
     explosion:emit(10)
-    table.insert(self.objects['particles'], explosion)
+    table.insert(self.particles, explosion)
 
     if length == 'short' then
         expl_num = math.random(1, EXPLOSION_SHORT_COUNT)
@@ -413,7 +399,7 @@ function Level:spawnPowerup(name, colorLower, x, y)
         end
     end
     
-    table.insert(self.objects['items'], object)
+    table.insert(self.items, object)
 end
 
 function Level:changeStage(value)

@@ -32,7 +32,7 @@ function Ufo:shoot()
         
         local directions = {"up", "down", "left", "right"}
         for i, offset in ipairs(self.laserOffsets) do 
-            table.insert(self.level.objects['lasers'], Laser (
+            table.insert(self.level.lasers, Laser (
                 self.x + offset.x,
                 self.y + offset.y,
                 GAME_OBJECT_DEFS[self.laser],
