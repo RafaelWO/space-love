@@ -1,5 +1,5 @@
 --[[
-
+    Definitions of entities
 ]]
 
 ENTITY_DEFS = {
@@ -223,8 +223,8 @@ ENTITY_DEFS = {
         levels = {
             {
                 flySpeed = 200,
-                shotInterval = 0.8,
-                attack = 0.5,
+                shotInterval = 0.7,
+                attack = 1,
                 health = 5,
             }
         },

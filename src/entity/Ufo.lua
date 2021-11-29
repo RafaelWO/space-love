@@ -16,7 +16,7 @@ function Ufo:processAI(params, dt)
         self.shotDuration = math.random(4)
         self.shotWaitDuration = math.random(3)
     elseif self.shotTimer < self.shotDuration then
-        self:shoot("up")
+        self:shoot()
     elseif self.shotTimer > (self.shotDuration + self.shotWaitDuration) then
         self.shotDuration = math.random(4)
         self.shotWaitDuration = math.random(3)
@@ -24,4 +24,25 @@ function Ufo:processAI(params, dt)
     end
 
     self.shotTimer = self.shotTimer + dt
+end
+
+function Ufo:shoot()
+    if self.shotIntervalTimer > self.shotInterval then
+        self.shotIntervalTimer = 0
+        
+        local directions = {"up", "down", "left", "right"}
+        for i, offset in ipairs(self.laserOffsets) do 
+            table.insert(self.level.objects['lasers'], Laser (
+                self.x + offset.x,
+                self.y + offset.y,
+                GAME_OBJECT_DEFS[self.laser],
+                directions[i],
+                self
+            ))
+        end
+
+        gSounds['laser-1']:stop()
+        gSounds['laser-1']:play()
+        Event.dispatch('objects-changed')
+    end
 end

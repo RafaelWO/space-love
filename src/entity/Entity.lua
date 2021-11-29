@@ -38,7 +38,10 @@ function Entity:init(x, y, def, level, params)
     self.invulnerable = false
 
     -- so that enemies cannot move randomly to the bottom of the screen
-    self.bottomScreenBarrier = (self.type == "player" or self.type == "ufo") and 0 or 200
+    self.screenBarrier = {
+        bottom = (self.type == "player" or self.type == "ufo") and 0 or SCREEN_BARRIER_SIZE,
+        top = (self.type == "ufo") and SCREEN_BARRIER_SIZE or 0
+    }
     
     self.width = SHIP_DEFS[self.ship].width
     self.height = SHIP_DEFS[self.ship].height
@@ -76,7 +79,11 @@ function Entity:createDefaultStates()
         ['fly'] = function() return EntityFlyState(self) end
     }
 
-    self:changeState('fly')
+    if self.type ~= "ufo" then
+        self:changeState('fly')
+    else
+        self:changeState('idle')
+    end
 end
 
 function Entity:createHealthbar()

@@ -16,8 +16,9 @@ function Level:init(params)
     )
 
     self.enemies = {}
+    self.allies = {}
 
-    table.insert(self.enemies, Ufo (
+    table.insert(self.allies, Ufo (
         math.random(0, VIRTUAL_WIDTH - 100),
         300,
         ENTITY_DEFS['ufo'],
@@ -90,8 +91,8 @@ function Level:update(dt)
         for k, object in pairs(self.objects[gtype]) do
             object:update(dt)
 
-            if gtype == "lasers" then
-                if object.source.type == "player" then
+            if gtype == "lasers" and object.state == "fly" then
+                if object.source.type == "player" or object.source.type == "ufo" then
                     -- check if player laser hits a meteor
                     for j, meteor in pairs(self.objects["meteors"]) do
                         if meteor:collides(object) then
@@ -110,12 +111,21 @@ function Level:update(dt)
                     end
                 else
                     -- Enemy laser hits player
-                    if object.state == "fly" and self.player:collides(object) and not self.player.dead then
-                        object:changeState("hit")
-                        object:stickToObject(self.player)
-                        if self.player:reduceHealth(object.source.attack) then
-                            gSounds['impact']:stop()
-                            gSounds['impact']:play()
+                    if object.state == "fly" then
+                        if self.player:collides(object) and not self.player.dead then
+                            object:changeState("hit")
+                            object:stickToObject(self.player)
+                            if self.player:reduceHealth(object.source.attack) then
+                                gSounds['impact']:stop()
+                                gSounds['impact']:play()
+                            end
+                        end
+                        for idx, ally in pairs(self.allies) do
+                            if ally:collides(object) then
+                                object:changeState("hit")
+                                object:stickToObject(ally)
+                                ally:reduceHealth(object.source.attack)
+                            end
                         end
                     end
                 end            
@@ -145,6 +155,15 @@ function Level:update(dt)
         Timer.update(dt, self.player.timers)
     end
 
+    for k, ally in pairs(self.allies) do
+        ally:processAI({}, dt)
+        ally:update(dt)
+
+        if ally.dead then
+            self:spawnExplosion(ally, 'short')
+        end
+    end
+
     for k, enemy in pairs(self.enemies) do
         enemy:processAI({}, dt)
         enemy:update(dt)
@@ -158,7 +177,6 @@ function Level:update(dt)
         end
 
         if enemy.dead then
-            -- create explosion particle effect
             self:spawnExplosion(enemy, 'short')
             
             local enemyReward = 20 * enemy:getShipType() + 10 * enemy.lvl
@@ -204,6 +222,12 @@ function Level:update(dt)
         end
     end
 
+    for i = #self.allies, 1, -1 do
+        if self.allies[i].dead then
+            table.remove(self.allies, i)
+        end
+    end
+
     self.stageProgress:setValue(self.score)
 end
 
@@ -218,6 +242,10 @@ function Level:render()
 
     for k, enemy in pairs(self.enemies) do
         enemy:render()
+    end
+
+    for k, ally in pairs(self.allies) do
+        ally:render()
     end
 
     for i, gtype in ipairs({'lasers', 'items'}) do
@@ -255,10 +283,15 @@ function Level:render()
         local collisionCooldown = 1 - math.min(self.player.collisionDamageTimer, self.player.collisionDamageInterval)
         love.graphics.printf("Collision Cooldown: " .. string.format("%.1f", collisionCooldown), 10, 90, VIRTUAL_WIDTH, 'left')
 
-        for y = 10, (#self.enemies * 20 - 10), 20 do
-            local idx = (y + 10) / 20
+        for y = 50, (#self.enemies * 20 + 30), 20 do
+            local idx = (y - 30) / 20
             love.graphics.printf("Enemy #" .. idx .. " Health: " .. self.enemies[idx].health, VIRTUAL_WIDTH - 200, y + 50, VIRTUAL_WIDTH, 'left')
         end
+
+        -- Draw screen barriers (for enemies and ufo)
+        love.graphics.setColor(150, 150, 150, 255)
+        love.graphics.line(0, SCREEN_BARRIER_SIZE, VIRTUAL_WIDTH, SCREEN_BARRIER_SIZE)
+        love.graphics.line(0, VIRTUAL_HEIGHT - SCREEN_BARRIER_SIZE, VIRTUAL_WIDTH, VIRTUAL_HEIGHT - SCREEN_BARRIER_SIZE)
     end
 end
 
