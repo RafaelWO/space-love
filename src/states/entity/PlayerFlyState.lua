@@ -1,11 +1,3 @@
---[[
-    GD50
-    Legend of Zelda
-
-    Author: Colton Ogden
-    cogden@cs50.harvard.edu
-]]
-
 PlayerFlyState = Class{__includes = EntityFlyState}
 
 function PlayerFlyState:init(player)

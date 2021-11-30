@@ -1,11 +1,3 @@
---[[
-    GD50
-    Legend of Zelda
-
-    Author: Colton Ogden
-    cogden@cs50.harvard.edu
-]]
-
 EntityFlyState = Class{__includes = EntityBaseState}
 
 function EntityFlyState:init(entity)
@@ -59,13 +51,14 @@ end
 function EntityFlyState:processAI(params, dt)
     local directions = {'left', 'right', 'up', 'down'}
 
-    if self.moveDuration == 0 or self.bumped then
-        
-        -- set an initial move duration and direction
+    if self.moveDuration == 0 then
+        -- set an initial move duration
         self.initialMove = true
         self.moveDuration = params.duration or math.random(3)
+    elseif self.bumped then
+        self.moveDuration = math.random(3)
         self.entity.direction:reset()
-        self.entity.direction:add(params.direction or directions[math.random(#directions)])
+        self.entity.direction:add(directions[math.random(#directions)])
     elseif self.movementTimer > self.moveDuration and not self.initialMove then
         self.movementTimer = 0
 
@@ -79,7 +72,7 @@ function EntityFlyState:processAI(params, dt)
         end
     end
 
-    if self.initialMove and self.entity.y > 25 then
+    if self.initialMove and self.entity.y > 25 and self.entity.x > 0 and self.entity.x < VIRTUAL_WIDTH - self.entity.width then
         self.initialMove = false
     end
 

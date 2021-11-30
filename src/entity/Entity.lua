@@ -7,7 +7,7 @@ Entity = Class{}
 
 function Entity:init(x, y, def, level, params)
     self.meta = "Entity"
-    self.direction = DirectionSet("down")
+    self.direction = DirectionSet(params.direction or "down")
     self.type = def.type
     self.level = level
 
@@ -80,11 +80,7 @@ function Entity:createDefaultStates()
         ['fly'] = function() return EntityFlyState(self) end
     }
 
-    if self.type ~= "ufo" then
-        self:changeState('fly')
-    else
-        self:changeState('idle')
-    end
+    self:changeState('fly')
 end
 
 function Entity:createHealthbar()

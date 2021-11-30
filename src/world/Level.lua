@@ -17,14 +17,6 @@ function Level:init(params)
     self.enemies = {}
     self.allies = {}
 
-    -- table.insert(self.allies, Ufo (
-    --     math.random(0, VIRTUAL_WIDTH - 100),
-    --     300,
-    --     ENTITY_DEFS['ufo'],
-    --     self,
-    --     { color = params.playerShipConfig.color }
-    -- ))
-
     self.timers = {}
     self.noPowerupCount = 0
     self.score = 0
@@ -50,41 +42,16 @@ function Level:init(params)
     }
     self:changeStage(1)
 
-    self.meteorSpawnTimer = 0
-    self.meteorSpawnEta = math.random(unpack(self.stageDef['meteor-spawn-interval']))
-    self.enemySpawnTimer = 0
-    self.enemySpawnEta = math.random(unpack(self.stageDef['enemy-spawn-interval']))
-
+    self.spawner = Spawner(self)
     self:initEvents()
 end
 
 function Level:update(dt)
     self.background:update(dt)
     self.lowHealthOverlay:update(dt)
-    -- update timers
-    self.meteorSpawnTimer = self.meteorSpawnTimer + dt
-    self.enemySpawnTimer = self.enemySpawnTimer + dt
 
-    -- spawn meteor
-    if self.meteorSpawnTimer > self.meteorSpawnEta then
-        self.meteorSpawnTimer = 0
-        self.meteorSpawnEta = math.random(unpack(self.stageDef['meteor-spawn-interval']))
-        
-        local meteorDef = GAME_OBJECT_DEFS['meteor']
-        meteorDef.frame = METEOR_TYPES[math.random(#METEOR_TYPES)]
-        table.insert(self.meteors, Meteor (
-            math.random(0, VIRTUAL_WIDTH),
-            -100,
-            meteorDef,
-            {
-                speed = METEOR_SPEED
-            }
-        ))
-    end
-    
-    if self.enemySpawnTimer > self.enemySpawnEta then
-        self:spawnEnemy(dt)
-    end
+    -- update spawn timings and spawn objects/entities if it's time
+    self.spawner:update(dt)
 
     for k, laser in pairs(self.lasers) do
         laser:update(dt)
@@ -134,7 +101,7 @@ function Level:update(dt)
     if self.player.dead and self.player.diedNow then
         self.scoreTimer:remove()
         self.player.diedNow = false
-        self:spawnExplosion(self.player, 'medium')
+        self.spawner:spawnExplosion(self.player, 'medium')
         gSounds['health-alarm']:stop()
 
         Timer.after(2, function() self:gameOver() end)
@@ -151,7 +118,7 @@ function Level:update(dt)
         ally:update(dt)
 
         if ally.dead then
-            self:spawnExplosion(ally, 'short')
+            self.spawner:spawnExplosion(ally, 'short')
         end
     end
 
@@ -168,23 +135,57 @@ function Level:update(dt)
         end
 
         if enemy.dead then
-            self:spawnExplosion(enemy, 'short')
+            self.spawner:spawnExplosion(enemy, 'short')
             
             local enemyReward = 20 * enemy:getShipType() + 10 * enemy.lvl
             self.score = self.score + enemyReward
             Event.dispatch('score-changed', enemyReward)
 
+            -- will be between [2; 40]
             local powerupProbability = enemy:getShipType() * enemy.lvl * 2
             
-            if math.random(100) <= powerupProbability or self.noPowerupCount >= 10 then
-                self:spawnPowerup('pill', true, enemy:getCenter())
-                self.noPowerupCount = 0
-            elseif math.random(100) <= powerupProbability then
-                self:spawnPowerup('powerup-shield', false, enemy:getCenter())
+            if math.random(POWERUP_PROB_MAX) <= powerupProbability or self.noPowerupCount >= NO_POWERUP_THRESH then
+                -- powerup star (spawn UFO) is available from stage 2
+                local powerupType = math.random(1, (self.stage >= 2 and 3 or 2))
+
+                if powerupType == 1 or self.noPowerupCount >= NO_POWERUP_THRESH then
+                    self.spawner:spawnPowerup(
+                        'pill', 
+                        true, 
+                        function()
+                            gSounds['powerup-health']:stop()
+                            gSounds['powerup-health']:play()
+                            self.player:increaseHealth(1)
+                        end,
+                        enemy:getCenter()
+                    )
+                elseif powerupType == 2 then
+                    self.spawner:spawnPowerup(
+                        'powerup-shield', 
+                        false, 
+                        function()
+                            self.player:shieldUp(5)
+                        end,
+                        enemy:getCenter()
+                    )
+                elseif powerupType == 3 then
+                    self.spawner:spawnPowerup(
+                        'powerup-star', 
+                        false, 
+                        function()
+                            self.spawner:spawnUfo()
+                        end,
+                        enemy:getCenter()
+                    )
+                end
                 self.noPowerupCount = 0
             else
                 self.noPowerupCount = self.noPowerupCount + 1
-                print("No powerups:", self.noPowerupCount)
+            end
+            
+            if DEBUG then
+                print("Powerup probability:", powerupProbability)
+                print("No powerup  (" .. self.noPowerupCount .. "/" .. NO_POWERUP_THRESH .. ")")
             end
         end
     end
@@ -243,10 +244,18 @@ function Level:render()
     -- DEBUG INFO
     if DEBUG then
         love.graphics.setFont(gFonts['thin-medium'])
-        love.graphics.printf("Health: " .. self.player.health, 10, 50, VIRTUAL_WIDTH, 'left')
-        love.graphics.printf("Collision: " .. self.player.hits, 10, 70, VIRTUAL_WIDTH, 'left')
         local collisionCooldown = 1 - math.min(self.player.collisionDamageTimer, self.player.collisionDamageInterval)
-        love.graphics.printf("Collision Cooldown: " .. string.format("%.1f", collisionCooldown), 10, 90, VIRTUAL_WIDTH, 'left')
+        local onScreenData = {
+            "Health: " .. self.player.health,
+            "Collision: " .. self.player.hits,
+            "Collision Cooldown: " .. string.format("%.1f", collisionCooldown),
+            "Lasers: " .. #self.lasers
+        }
+
+        local yOffset = 30
+        for i, item in ipairs(onScreenData) do
+            love.graphics.printf(item, 10, yOffset + i * 20, VIRTUAL_WIDTH, 'left')
+        end
 
         for y = 50, (#self.enemies * 20 + 30), 20 do
             local idx = (y - 30) / 20
@@ -289,25 +298,6 @@ function Level:playerHits()
     self.player.hits = self.player.hits + 1
 end
 
-function Level:spawnEnemy(dt)
-    self.enemySpawnTimer = 0
-    self.enemySpawnEta = math.random(unpack(self.stageDef['enemy-spawn-interval']))
-
-
-    local enemyType = self:getValueFromProbs(self.stageDef['enemy-spawn-probs'])
-    local enemyLvl = self:getValueFromProbs(self.stageDef['enemy-level-probs'])
-
-    print("Spawning: " .. enemyType .. " | lvl " .. enemyLvl)
-    table.insert(self.enemies, Entity (
-        math.random(0, VIRTUAL_WIDTH - 100),
-        -100,
-        ENTITY_DEFS[enemyType],
-        self,
-        { enemyLvl = enemyLvl }
-    ))
-    self.enemies[#self.enemies]:processAI({direction = "down"}, dt)
-end
-
 function Level:checkLaserCollision(laser, object)
     if object:collides(laser) then
         laser:changeState("hit")
@@ -329,100 +319,31 @@ function Level:removeDead(tbl)
     end
 end
 
-function Level:getValueFromProbs(probabilityMap)
-    local probs = {}
-    for k, _ in pairs(probabilityMap) do
-        table.insert(probs, k)
-    end
-    table.sort(probs)
-
-    local value
-    local rnd = math.random()
-    --print("Spawn RNG: " .. string.format("%.2f", rnd))
-
-    for i, prob in ipairs(probs) do
-        if rnd <= prob then
-            value = probabilityMap[prob]
-            break
-        end
-    end
-
-    return value
-end
-
 function Level:gameOver()
     gSounds['music-lvl' .. self.stage]:stop()
     gStateStack:pop()
     gStateStack:push(GameOverState({score = self.score}))
 end
 
-function Level:spawnExplosion(object, length)
-    local explosion = getExplosion(EXPLOSION_BLAST)
-    explosion:setPosition(object.x + object.width/2, object.y + object.height/2)
-    explosion:emit(10)
-    table.insert(self.particles, explosion)
-
-    if length == 'short' then
-        expl_num = math.random(1, EXPLOSION_SHORT_COUNT)
-    elseif length == 'medium' then
-        expl_num = math.random(1, EXPLOSION_MEDIUM_COUNT)
-    end
-    gSounds['explosion-' .. length .. '-' .. expl_num]:stop()
-    gSounds['explosion-' .. length .. '-' .. expl_num]:play()
-end
-
-function Level:spawnPowerup(name, colorLower, x, y)
-    local object_def = GAME_OBJECT_DEFS[name]
-    local x = x - object_def.width / 2
-    local y = y - object_def.height / 2
-
-    -- There are no orange powerups -> use red for orange
-    local color = self.player.color == "Orange" and "Red" or self.player.color
-    if colorLower then
-        color = color:lower()
-    end
-
-    local object = GameObject(
-        x,
-        y,
-        object_def,
-        {
-            color = color,
-            speed = POWERUP_SPEED
-        }
-    )
-
-    if name == "pill" then
-        object.onConsume = function()
-            gSounds['powerup-health']:stop()
-            gSounds['powerup-health']:play()
-            self.player:increaseHealth(1)
-        end
-    elseif name == "powerup-shield" then
-        object.onConsume = function()
-            self.player:shieldUp(5)
-        end
-    end
-    
-    print("Spawning powerup", name)
-    table.insert(self.items, object)
-end
-
 function Level:changeStage(value)
     self.stage = value
     self.stageDef = LEVEL_DIFFICULTY[self.stage]
-    print("Music: " .. self.stage)
+
     if self.stage > 1 then
         gSounds['music-lvl' .. self.stage - 1]:stop()
     end
     gSounds['music-lvl' .. self.stage]:play()
+
     print("Entered stage " .. self.stage .. "!")
-    for name, def in pairs(self.stageDef) do
-        print(name .. ":")
-        for k, v in spairs(def, function(t,a,b) return t[a] < t[b] end) do
-            print(k, v)
+    if DEBUG then
+        for name, def in pairs(self.stageDef) do
+            print(name .. ":")
+            for k, v in spairs(def, function(t,a,b) return t[a] < t[b] end) do
+                print(k, v)
+            end
         end
     end
+
 
     local pb_max, pb_text
     if #self.stageGoals > self.stage then
