@@ -27,11 +27,11 @@ LEVEL_DIFFICULTY = {
             The enemy spawn interval contains a range for which a random integer is sampled, 
             i.e. in this case it is a random value between 3 and 7 seconds.
         ]]
-        ['enemy-spawn-interval'] = {3, 7},
+        ['enemy-spawn-interval'] = {3, 6},
         --[[
             The meteor spawn interval works in the same way as the enemy spawn interval.
         ]]
-        ['meteor-spawn-interval'] = {1, 5}
+        ['meteor-spawn-interval'] = {2, 5}
     },
     {
         ['enemy-spawn-probs'] = {
@@ -47,7 +47,7 @@ LEVEL_DIFFICULTY = {
             [0.2] = 3,
             [0.1] = 4
         },
-        ['enemy-spawn-interval'] = {2, 6},
+        ['enemy-spawn-interval'] = {2, 5},
         ['meteor-spawn-interval'] = {1, 4}
     },
     {

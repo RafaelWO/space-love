@@ -3,6 +3,12 @@ Background = Class{}
 function Background:init(sprite)
     self.sprite = sprite or BACKGROUNDS[math.random(#BACKGROUNDS)]
     self.bgOffsetY = 0
+    self.bgRepeat = {
+        x = math.ceil(VIRTUAL_WIDTH / BACKGROUND_SIZE),
+        y = math.ceil(VIRTUAL_HEIGHT / BACKGROUND_SIZE)
+    }
+    print(self.bgRepeat.x)
+    print(self.bgRepeat.y)
 end
 
 function Background:update(dt)
@@ -14,8 +20,8 @@ function Background:update(dt)
 end
 
 function Background:render()
-    for x = 0, 4, 1 do
-        for y = -1, 3, 1 do
+    for x = 0, self.bgRepeat.x, 1 do
+        for y = -1, self.bgRepeat.y, 1 do
             love.graphics.draw(gTextures[self.sprite], x * BACKGROUND_SIZE, y * BACKGROUND_SIZE + self.bgOffsetY)
         end
     end

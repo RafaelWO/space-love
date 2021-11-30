@@ -41,8 +41,8 @@ function EntityFlyState:update(dt)
     elseif self.entity.direction:contains('down') then
         self.entity.y = self.entity.y + self.entity.flySpeed * dt
 
-        if self.entity.y + self.entity.height >= VIRTUAL_HEIGHT - self.entity.screenBarrier.bottom then
-            self.entity.y = VIRTUAL_HEIGHT - self.entity.height - self.entity.screenBarrier.bottom
+        if self.entity.y + self.entity.height >= VIRTUAL_HEIGHT - 20 - self.entity.screenBarrier.bottom then
+            self.entity.y = VIRTUAL_HEIGHT - 20 - self.entity.height - self.entity.screenBarrier.bottom
             self.bumped = true
         end
     end
@@ -54,9 +54,9 @@ function EntityFlyState:processAI(params, dt)
     if self.moveDuration == 0 then
         -- set an initial move duration
         self.initialMove = true
-        self.moveDuration = params.duration or math.random(3)
+        self.moveDuration = params.duration or math.random(2, 5)
     elseif self.bumped then
-        self.moveDuration = math.random(3)
+        self.moveDuration = math.random(2, 5)
         self.entity.direction:reset()
         self.entity.direction:add(directions[math.random(#directions)])
     elseif self.movementTimer > self.moveDuration and not self.initialMove then
@@ -66,7 +66,7 @@ function EntityFlyState:processAI(params, dt)
         if math.random(3) == 1 then
             self.entity:changeState('idle')
         else
-            self.moveDuration = math.random(5)
+            self.moveDuration = math.random(2, 5)
             self.entity.direction:reset()
             self.entity.direction:add(directions[math.random(#directions)])
         end
