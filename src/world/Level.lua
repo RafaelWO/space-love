@@ -375,7 +375,12 @@ function Level:spawnPowerup(name, colorLower, x, y)
     local object_def = GAME_OBJECT_DEFS[name]
     local x = x - object_def.width / 2
     local y = y - object_def.height / 2
-    local color = colorLower and self.player.color:lower() or self.player.color
+
+    -- There are no orange powerups -> use red for orange
+    local color = self.player.color == "Orange" and "Red" or self.player.color
+    if colorLower then
+        color = color:lower()
+    end
 
     local object = GameObject(
         x,
@@ -399,6 +404,7 @@ function Level:spawnPowerup(name, colorLower, x, y)
         end
     end
     
+    print("Spawning powerup", name)
     table.insert(self.items, object)
 end
 
