@@ -265,8 +265,8 @@ function DirectionSet:remove(key)
 end
 
 function DirectionSet:reset()
-    for k, direction in pairs(self.set) do
-        self.set[k] = false
+    for direction, enabled in pairs(self.set) do
+        self.set[direction] = false
     end
 end
 
@@ -275,10 +275,20 @@ function DirectionSet:contains(key)
 end
 
 function DirectionSet:isEmpty()
-    for k, direction in pairs(self.set) do
-        if direction then
+    for direction, enabled in pairs(self.set) do
+        if enabled then
             return false
         end
     end
     return true
+end
+
+function DirectionSet:current()
+    local msg = ""
+    for direction, enabled in pairs(self.set) do
+        if enabled then
+            msg = direction .. ", " .. msg
+        end
+    end
+    return msg:sub(0, msg:len()-2)
 end

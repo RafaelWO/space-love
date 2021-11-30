@@ -1,5 +1,5 @@
 --[[
-
+    Definitions of entities
 ]]
 
 ENTITY_DEFS = {
@@ -217,5 +217,19 @@ ENTITY_DEFS = {
         ship = 'enemy5',
         laser = 'laser-normal',
         laserType = '14'
+    },
+    ['ufo'] = {
+        type = 'ufo',
+        levels = {
+            {
+                flySpeed = 200,
+                shotInterval = 0.7,
+                attack = 1,
+                health = 5,
+            }
+        },
+        texture = 'sheet',
+        ship = 'ufo',
+        laser = 'laser-normal'
     }
 }

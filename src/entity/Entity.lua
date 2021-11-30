@@ -6,7 +6,8 @@
 Entity = Class{}
 
 function Entity:init(x, y, def, level, params)
-    self.direction = DirectionSet("down")
+    self.meta = "Entity"
+    self.direction = DirectionSet(params.direction or "down")
     self.type = def.type
     self.level = level
 
@@ -27,7 +28,7 @@ function Entity:init(x, y, def, level, params)
         self.laserType = def.ships[self:getShipType()].laserType
     else
         self.lvl = params.enemyLvl or 1
-        self.color = def.levels[self.lvl].color
+        self.color = def.levels[self.lvl].color or params.color
         self.flySpeed = def.levels[self.lvl].flySpeed
         self.attack = def.levels[self.lvl].attack
         self.shotInterval = def.levels[self.lvl].shotInterval
@@ -38,7 +39,10 @@ function Entity:init(x, y, def, level, params)
     self.invulnerable = false
 
     -- so that enemies cannot move randomly to the bottom of the screen
-    self.bottomScreenBarrier = (self.type == "player") and 0 or 200
+    self.screenBarrier = {
+        bottom = (self.type == "player" or self.type == "ufo") and 0 or SCREEN_BARRIER_SIZE,
+        top = (self.type == "ufo") and SCREEN_BARRIER_SIZE or 0
+    }
     
     self.width = SHIP_DEFS[self.ship].width
     self.height = SHIP_DEFS[self.ship].height
@@ -168,7 +172,7 @@ function Entity:shoot(direction)
         self.shotIntervalTimer = 0
         
         for i, offset in ipairs(self.laserOffsets) do 
-            table.insert(self.level.objects['lasers'], Laser (
+            table.insert(self.level.lasers, Laser (
                 self.x + offset.x,
                 self.y + offset.y,
                 GAME_OBJECT_DEFS[self.laser],

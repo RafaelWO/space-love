@@ -37,9 +37,10 @@ require 'src/world/level_defs'
 
 require 'src/entity/Entity'
 require 'src/entity/Player'
+require 'src/entity/Ufo'
 
 require 'src/world/Level'
-
+require 'src/world/Spawner'
 
 require 'src/object/GameObject'
 require 'src/object/Laser'

@@ -20,14 +20,16 @@ function love.load()
     })
 
     -- comment out the following lines to print the StateStack to the console (requires game to be started with 'love . --console')
-    Event.on('stack-changed', function()
-        local stateString = ""
-        for k, state in ipairs(gStateStack.states) do
-            stateString = stateString .. " | " .. state.name
+    if DEBUG then
+        Event.on('stack-changed', function()
+            local stateString = ""
+            for k, state in ipairs(gStateStack.states) do
+                stateString = stateString .. " | " .. state.name
+            end
+            print(stateString)
         end
-        print(stateString)
+        )
     end
-    )
 
     love.graphics.setFont(gFonts['small'])
     gStateStack = StateStack()
@@ -58,6 +60,7 @@ function love.textinput(t)
 end
 
 function love.update(dt)
+    require("lovebird").update()
     Timer.update(dt)
     gStateStack:update(dt)
 
