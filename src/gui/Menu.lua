@@ -12,6 +12,8 @@ function Menu:init(def)
         table.insert(self.sideOptionsSelected, 1)
     end
     self.selected = 1
+    self.rowOffset = def.rowOffset or 40
+    self.sideOptionsRowOffset = def.sideOptionsRowOffset or 20
 
     self.arrowScale = 0.7
     self.arrowWidth = 22 * self.arrowScale
@@ -83,10 +85,10 @@ function Menu:render()
         love.graphics.printf(text, self.x, self.y + offsetY, VIRTUAL_WIDTH, 'center')
 
         if self.sideOptions[k] then
-            offsetY = offsetY + 20
+            offsetY = offsetY + self.sideOptionsRowOffset
 
-            love.graphics.draw(gTextures['arrow-left'], VIRTUAL_WIDTH / 2 - 70 - self.arrowWidth / 2, self.y + offsetY, 0, self.arrowScale, self.arrowScale)
-            love.graphics.draw(gTextures['arrow-right'], VIRTUAL_WIDTH / 2 + 70 - self.arrowWidth / 2, self.y + offsetY, 0, self.arrowScale, self.arrowScale)
+            love.graphics.draw(gTextures['arrow-left'], VIRTUAL_WIDTH / 2 - 84 - self.arrowWidth / 2, self.y + offsetY + 4, 0, self.arrowScale, self.arrowScale)
+            love.graphics.draw(gTextures['arrow-right'], VIRTUAL_WIDTH / 2 + 80 - self.arrowWidth / 2, self.y + offsetY + 4, 0, self.arrowScale, self.arrowScale)
             
             -- Then print the option text
             if k == self.selected then
@@ -96,7 +98,7 @@ function Menu:render()
             end
             love.graphics.printf(self:getSelectedSideText(k), self.x, self.y + offsetY, VIRTUAL_WIDTH, 'center')
         end
-        offsetY = offsetY + 30
+        offsetY = offsetY + self.rowOffset
     end
 
     love.graphics.setColor(255, 255, 255, 255)

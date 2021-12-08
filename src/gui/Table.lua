@@ -5,7 +5,7 @@ function Table:init(def)
     self.y = def.y or (VIRTUAL_HEIGHT / 2)
 
     self.rows = def.rows
-    self.rowOffset = def.rowOffset or 30
+    self.rowOffset = def.rowOffset or 40
     self.itemOffsets = def.itemOffsets
 end
 

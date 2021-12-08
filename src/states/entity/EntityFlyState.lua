@@ -63,7 +63,7 @@ function EntityFlyState:processAI(params, dt)
         self.movementTimer = 0
 
         -- chance to go idle
-        if math.random(3) == 1 then
+        if math.random(5) == 1 then
             self.entity:changeState('idle')
         else
             self.moveDuration = math.random(2, 5)

@@ -231,9 +231,9 @@ function Level:render()
 
     -- render score
     local scoreString = string.rep("0", 8 - tostring(self.score):len()) .. tostring(self.score)
-    local scoreOffset = 10 + (scoreString:len() * 20)
+    local scoreOffset = 20 + (scoreString:len() * 20)
     for char in scoreString:gmatch"." do
-        love.graphics.draw(gTextures['sheet'], gFrames['sheet']['numeral' .. char], VIRTUAL_WIDTH - scoreOffset, 10)
+        love.graphics.draw(gTextures['sheet'], gFrames['sheet']['numeral' .. char], VIRTUAL_WIDTH - scoreOffset, 20)
         scoreOffset = scoreOffset - 20
     end
 
@@ -356,8 +356,8 @@ function Level:changeStage(value)
     Event.dispatch('stage-changed', pb_text)
 
     self.stageProgress = ProgressBar {
-        x = VIRTUAL_WIDTH - 170,
-        y = 60,
+        x = VIRTUAL_WIDTH - 180,
+        y = 70,
         width = 160,
         height = 7,
         color = {r = 230, g = 230, b = 0},

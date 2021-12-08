@@ -26,7 +26,7 @@ function ProgressBar:init(def)
     self.min = def.min or 0
     self.max = def.max
     self.text = def.text
-    self.font = def.font or gFonts['medium']
+    self.font = def.font or gFonts['small']
     self.separators = def.separators or false
 end
 

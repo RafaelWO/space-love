@@ -4,9 +4,10 @@ function SelectShipState:init(params)
     self.name = "SelectShipState"
     self.background = params.background
 
+    local shipY = VIRTUAL_HEIGHT / 2 - 90
     self.playerShip = {
         x = VIRTUAL_WIDTH / 2 - SHIP_DEFS["playerShip1"].width / 2 - 120,
-        y = VIRTUAL_HEIGHT / 2 - 60,
+        y = shipY,
         ship = "playerShip1",
         color = "Blue",
         -- for shooting laser
@@ -95,7 +96,7 @@ function SelectShipState:init(params)
     for name, stats in spairs(self.shipStats, function(t,a,b) return t[a].pos < t[b].pos end) do
         self.shipStatBars[name] = ProgressBar {
             x = VIRTUAL_WIDTH / 2 + 40,
-            y = VIRTUAL_HEIGHT / 2 - 80 + yOffset,
+            y = shipY - 20 + yOffset,
             width = 150,
             height = 5,
             value = self:getShipStats(name, true),
@@ -195,7 +196,7 @@ function SelectShipState:render()
     love.graphics.setBackgroundColor(0.5, 0, 1)
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.setFont(gFonts['large'])
-    love.graphics.printf('Select Your Ship', 0, VIRTUAL_HEIGHT / 2 - 200, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('Select Your Ship', 0, VIRTUAL_HEIGHT / 2 - 240, VIRTUAL_WIDTH, 'center')
 
     self.menu:render()
 

@@ -49,8 +49,8 @@ end
 
 function Player:createHealthbar()
     self.healthBar = PlayerHealthBar {
-        x = 10,
-        y = 10,
+        x = 20,
+        y = 20,
         width = 150,
         height = 10,
         max = self.health,

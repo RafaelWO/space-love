@@ -5,19 +5,20 @@ HighscoreState = Class{__includes = BaseState}
 function HighscoreState:init(params)
     self.name = "HighscoreState"
     self.background = params.background
-    self.table = nil
+    self.scoreBoardY = 330
+    self.scoreBoard = nil
     self.scoreRows = self:readScores()
     if self.scoreRows ~= nil then
-        self.table = Table({
-            x = 490,
-            y = 200,
+        self.scoreBoard = Table({
+            x = VIRTUAL_WIDTH / 2 - 150,
+            y = 330,
             rows = self.scoreRows,
             itemOffsets = { 50, 200 }
         })
     end
 
     self.menu = Menu {
-        y = 200 + (HIGHSCORES_LIMIT + 2) * 30,
+        y = 800,
         texts = {
             "Return to main menu"
         },
@@ -40,13 +41,13 @@ function HighscoreState:render()
     love.graphics.setColor(255, 255, 255, 255)
     self.background:render()
     love.graphics.setFont(gFonts['large'])
-    love.graphics.printf('Highscores', 0, 100, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('Highscores', 0, 200, VIRTUAL_WIDTH, 'center')
 
     love.graphics.setFont(gFonts['medium'])
-    if self.table then
-        self.table:render()
+    if self.scoreBoard then
+        self.scoreBoard:render()
     else
-        love.graphics.printf("No scores", 0, 200 + 30, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf("No scores found", 0, self.scoreBoardY, VIRTUAL_WIDTH, 'center')
     end
     
     self.menu:render()

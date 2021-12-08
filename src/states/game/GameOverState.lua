@@ -14,7 +14,7 @@ function GameOverState:init(params)
     end)
 
     self.menu = Menu {
-        y = VIRTUAL_HEIGHT / 2 + 130,
+        y = VIRTUAL_HEIGHT / 2 + 150,
         texts = {
             "Submit Score",
             "Skip"
@@ -65,16 +65,16 @@ function GameOverState:render()
 
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.setFont(gFonts['large'])
-    love.graphics.printf('Game Over', 0, 200, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('Game Over', 0, VIRTUAL_HEIGHT / 2 - 200, VIRTUAL_WIDTH, 'center')
 
     love.graphics.setFont(gFonts['medium'])
-    love.graphics.printf('Your score was:', 0, 290, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('Your score was:', 0, VIRTUAL_HEIGHT / 2 - 100, VIRTUAL_WIDTH, 'center')
     love.graphics.setFont(gFonts['large'])
-    love.graphics.printf(self.score, 0, 320, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf(self.score, 0, VIRTUAL_HEIGHT / 2 - 60, VIRTUAL_WIDTH, 'center')
 
     love.graphics.setFont(gFonts['medium'])
-    love.graphics.printf('Enter name:', 0, VIRTUAL_HEIGHT / 2 + 30, VIRTUAL_WIDTH, 'center')
-    love.graphics.printf(self.playerName .. self.cursor, VIRTUAL_WIDTH / 2 - 50, VIRTUAL_HEIGHT / 2 + 60, VIRTUAL_WIDTH)
+    love.graphics.printf('Enter name:', 0, VIRTUAL_HEIGHT / 2 + 50, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf(self.playerName .. self.cursor, VIRTUAL_WIDTH / 2 - 50, VIRTUAL_HEIGHT / 2 + 80, VIRTUAL_WIDTH)
 end
 
 function GameOverState:exit()
