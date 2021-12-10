@@ -40,6 +40,17 @@ function love.load()
 
     METEOR_TYPES = getFrameNamesFromSheet('sheet', 'meteor')
     EXPLOSION_BLAST = getBlast(100)
+
+    local menuBlinkInterval = 0.6
+    Timer.every(menuBlinkInterval, function()
+        Timer.tween(menuBlinkInterval / 2, {
+            [MENU_SELECTED_COLOR] = { r = 100, g = 100, b = 100}
+        }):finish(function ()
+            Timer.tween(menuBlinkInterval / 2, {
+                [MENU_SELECTED_COLOR] = {r = 150, g = 100, b = 255}
+            })
+        end)
+    end)
 end
 
 function love.resize(w, h)

@@ -11,6 +11,8 @@ BACKGROUND_SPEED = 50
 BACKGROUNDS = {'bg_black', 'bg_blue', 'bg_dark-purple'}
 MENU_BACKGROUND = 'bg_black'
 
+MENU_SELECTED_COLOR = {r = 150, g = 100, b = 255}
+
 PLAYER_LASER_SPEED = 600 * GAME_SPEED_MULTIPLIER
 
 METEOR_SPEED = 80

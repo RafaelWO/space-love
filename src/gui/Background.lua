@@ -7,8 +7,6 @@ function Background:init(sprite)
         x = math.ceil(VIRTUAL_WIDTH / BACKGROUND_SIZE),
         y = math.ceil(VIRTUAL_HEIGHT / BACKGROUND_SIZE)
     }
-    print(self.bgRepeat.x)
-    print(self.bgRepeat.y)
 end
 
 function Background:update(dt)

@@ -77,7 +77,7 @@ function Menu:render()
     local offsetY = 0
     for k, text in pairs(self.texts) do
         if k == self.selected then
-            love.graphics.setColor(100, 100, 200, 255)
+            love.graphics.setColor(MENU_SELECTED_COLOR.r, MENU_SELECTED_COLOR.g, MENU_SELECTED_COLOR.b, 255)
         else
             love.graphics.setColor(100, 100, 100, 255)
         end

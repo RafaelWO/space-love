@@ -65,7 +65,7 @@ function PlayState:render()
 
     -- render Stage # label and background rect
     love.graphics.setColor(95, 205, 228, 200)
-    love.graphics.rectangle('fill', 0, self.stageLabelY - 8, VIRTUAL_WIDTH, 48)
+    love.graphics.rectangle('fill', 0, self.stageLabelY - 2, VIRTUAL_WIDTH, 48)
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf(self.stageLabelText, 0, self.stageLabelY, VIRTUAL_WIDTH, 'center')
