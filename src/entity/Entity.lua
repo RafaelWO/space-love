@@ -55,6 +55,8 @@ function Entity:init(x, y, def, level, params)
     self.shotTimer = 0
     self.timers = {}
 
+    self.flySpeed = self.flySpeed * GAME_SPEED_MULTIPLIER
+
     -- https://love2d.org/forums/viewtopic.php?t=79617
     -- white shader that will turn a sprite completely white when used; allows us
     -- to brightly blink the sprite when it's acting

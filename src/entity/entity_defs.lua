@@ -5,10 +5,6 @@
 ENTITY_DEFS = {
     ['player'] = {
         type = 'player',
-        flySpeed = 400,
-        shotInterval = 0.4,
-        attack = 1,
-        health = 6,
         texture = 'sheet',
         laser = 'laser-normal',
         ships = {

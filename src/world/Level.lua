@@ -231,9 +231,9 @@ function Level:render()
 
     -- render score
     local scoreString = string.rep("0", 8 - tostring(self.score):len()) .. tostring(self.score)
-    local scoreOffset = 10 + (scoreString:len() * 20)
+    local scoreOffset = HUD_PADDING + (scoreString:len() * 20)
     for char in scoreString:gmatch"." do
-        love.graphics.draw(gTextures['sheet'], gFrames['sheet']['numeral' .. char], VIRTUAL_WIDTH - scoreOffset, 10)
+        love.graphics.draw(gTextures['sheet'], gFrames['sheet']['numeral' .. char], VIRTUAL_WIDTH - scoreOffset, HUD_PADDING)
         scoreOffset = scoreOffset - 20
     end
 
@@ -243,7 +243,7 @@ function Level:render()
 
     -- DEBUG INFO
     if DEBUG then
-        love.graphics.setFont(gFonts['thin-medium'])
+        love.graphics.setFont(gFonts['default-small'])
         local collisionCooldown = 1 - math.min(self.player.collisionDamageTimer, self.player.collisionDamageInterval)
         local onScreenData = {
             "Health: " .. self.player.health,
@@ -252,9 +252,9 @@ function Level:render()
             "Lasers: " .. #self.lasers
         }
 
-        local yOffset = 30
+        local yOffset = HUD_PADDING + HUD_ITEM_MARGIN * 2
         for i, item in ipairs(onScreenData) do
-            love.graphics.printf(item, 10, yOffset + i * 20, VIRTUAL_WIDTH, 'left')
+            love.graphics.printf(item, HUD_PADDING, yOffset + i * 20, VIRTUAL_WIDTH, 'left')
         end
 
         for y = 50, (#self.enemies * 20 + 30), 20 do
@@ -355,10 +355,11 @@ function Level:changeStage(value)
     end
     Event.dispatch('stage-changed', pb_text)
 
+    local pbWidth = 160
     self.stageProgress = ProgressBar {
-        x = VIRTUAL_WIDTH - 170,
-        y = 60,
-        width = 160,
+        x = VIRTUAL_WIDTH - pbWidth - HUD_PADDING,
+        y = HUD_PADDING + HUD_ITEM_MARGIN,
+        width = pbWidth,
         height = 7,
         color = {r = 230, g = 230, b = 0},
         min = self.stageGoals[self.stage],

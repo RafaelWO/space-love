@@ -40,7 +40,7 @@ function StartState:render()
     -- love.graphics.setBackgroundColor(0.5,0,1)
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.setFont(gFonts['large'])
-    love.graphics.printf('Space Love', 0, VIRTUAL_HEIGHT / 2 - 100, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('Space Love', 0, VIRTUAL_HEIGHT / 2 - 120, VIRTUAL_WIDTH, 'center')
 
     self.menu:render()
 end

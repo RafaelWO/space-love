@@ -55,12 +55,12 @@ require 'src/gui/PlayerHealthBar'
 require 'src/gui/LowHealthOverlay'
 
 gFonts = {
-    ['small'] = love.graphics.newFont('fonts/kenvector_future.ttf', 8),
-    ['medium'] = love.graphics.newFont('fonts/kenvector_future.ttf', 16),
-    ['large'] = love.graphics.newFont('fonts/kenvector_future.ttf', 32),
-    ['thin-small'] = love.graphics.newFont('fonts/kenvector_future_thin.ttf', 8),
-    ['thin-medium'] = love.graphics.newFont('fonts/kenvector_future_thin.ttf', 16),
-    ['thin-large'] = love.graphics.newFont('fonts/kenvector_future_thin.ttf', 32),
+    ['small'] = love.graphics.newFont('fonts/kenvector_future.ttf', 14),
+    ['medium'] = love.graphics.newFont('fonts/kenvector_future.ttf', 20),
+    ['large'] = love.graphics.newFont('fonts/kenvector_future.ttf', 40),
+    ['thin-small'] = love.graphics.newFont('fonts/kenvector_future_thin.ttf', 14),
+    ['thin-medium'] = love.graphics.newFont('fonts/kenvector_future_thin.ttf', 20),
+    ['thin-large'] = love.graphics.newFont('fonts/kenvector_future_thin.ttf', 40),
     ['default-small'] = love.graphics.newFont(12)
 }
 
