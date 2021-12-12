@@ -173,8 +173,8 @@ function Player:shieldUp(time)
     gSounds['shield-up']:play()
 
     self.shieldTimerBar = ProgressBar {
-        x = 10,
-        y = 50,
+        x = HUD_PADDING,
+        y = HUD_PADDING + HUD_ITEM_MARGIN,
         width = 150,
         height = 10,
         color = {r = 255, g = 255, b = 255},
