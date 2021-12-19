@@ -144,7 +144,7 @@ function Level:update(dt)
             -- will be between [2; 40]
             local powerupProbability = enemy:getShipType() * enemy.lvl * 2
             
-            if math.random(1) <= powerupProbability or self.noPowerupCount >= NO_POWERUP_THRESH then
+            if math.random(POWERUP_PROB_MAX) <= powerupProbability or self.noPowerupCount >= NO_POWERUP_THRESH then
                 -- powerup star (spawn UFO) is available from stage 2
                 local powerupType = math.random(1, (self.stage >= 2 and 3 or 2))
 
