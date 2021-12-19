@@ -158,13 +158,13 @@ end
 function GameObject:render()
     if self.blinking then
         if self.blinkTimer > self.blinkInterval / 2 then
-            love.graphics.setColor(255, 255, 255, 16)
+            love.graphics.setColor(1, 1, 1, 16/255)
         end
         if self.blinkTimer > self.blinkInterval then
             self.blinkTimer = 0
         end
     else
-        love.graphics.setColor(255, 255, 255, 255)
+        love.graphics.setColor(1, 1, 1, 1)
     end
 
     local frame
@@ -180,18 +180,18 @@ function GameObject:render()
         end
     end
 
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
     
     if DEBUG then
-        love.graphics.setColor(100, 100, 100, 255)
+        love.graphics.setColor(100/255, 100/255, 100/255, 1)
         love.graphics.rectangle('line', self.x, self.y, self.width, self.height)
-        love.graphics.setColor(255, 255, 255, 255)
+        love.graphics.setColor(1, 1, 1, 1)
 
         if self.type == "meteor" then
             local hitbox = self:getHitbox()
-            love.graphics.setColor(0, 255, 255, 255)
+            love.graphics.setColor(0, 1, 1, 1)
             love.graphics.rectangle('line', hitbox.x, hitbox.y, hitbox.width, hitbox.height)
-            love.graphics.setColor(255, 255, 255, 255)
+            love.graphics.setColor(1, 1, 1, 1)
         end
     end
 end

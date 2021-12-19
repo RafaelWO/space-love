@@ -118,7 +118,7 @@ end
 function getBlast(size)
     local blast = love.graphics.newCanvas(size, size)
     love.graphics.setCanvas(blast)
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.circle("fill", size/2, size/2, size/2)
     love.graphics.setCanvas()
     return blast
@@ -131,7 +131,7 @@ function getExplosion(image)
     pSystem = love.graphics.newParticleSystem(image, 50)
     pSystem:setParticleLifetime(0.8, 0.8)
     pSystem:setLinearAcceleration(-100, -100, 100, 100)
-    pSystem:setColors(255, 255, 0, 255, 255, 153, 51, 255, 64, 64, 64, 0)
+    pSystem:setColors(255/255, 255/255, 0, 255/255, 255/255, 153/255, 51/255, 255/255, 64/255, 64/255, 64/255, 0)
     pSystem:setSizes(0.5, 0.7)
     return pSystem
 end
@@ -171,7 +171,7 @@ end
 
 
 function writeSaveFile(file, data, mode)
-    if mode == "append" and love.filesystem.exists(FILE_HIGHSCORES) then
+    if mode == "append" and love.filesystem.getInfo(FILE_HIGHSCORES) then
         success, message = love.filesystem.append(FILE_HIGHSCORES, data)
         fsType = "fs-append"
     else
@@ -190,17 +190,17 @@ end
 function color2rgb(color)
     color = color:lower()
     if color == "red" then
-        return {r = 255, g = 0, b = 0}
+        return {r = 1, g = 0, b = 0}
     elseif color == "green" then
-        return {r = 0, g = 255, b = 0}
+        return {r = 0, g = 1, b = 0}
     elseif color == "blue" then
-        return {r = 0, g = 0, b = 255}
+        return {r = 0, g = 0, b = 1}
     elseif color == "white" then
-        return {r = 255, g = 255, b = 255}
+        return {r = 1, g = 1, b = 1}
     elseif color == "black" then
         return {r = 0, g = 0, b = 0}
     elseif color == "orange" then
-        return {r = 255, g = 140, b = 0}
+        return {r = 1, g = 140/255, b = 0}
     end
 end
 
@@ -224,7 +224,7 @@ function gradient(colors)
         else
             x, y = i - 1, 0
         end
-        result:setPixel(x, y, color[1], color[2], color[3], color[4] or 255)
+        result:setPixel(x, y, color[1], color[2], color[3], color[4] or 1)
     end
     result = love.graphics.newImage(result)
     result:setFilter('linear', 'linear')

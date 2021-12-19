@@ -79,7 +79,7 @@ function Menu:render()
         if k == self.selected then
             love.graphics.setColor(MENU_SELECTED_COLOR.r, MENU_SELECTED_COLOR.g, MENU_SELECTED_COLOR.b, 255)
         else
-            love.graphics.setColor(100, 100, 100, 255)
+            love.graphics.setColor(100/255, 100/255, 100/255, 255/255)
         end
         
         love.graphics.printf(text, self.x, self.y + offsetY, VIRTUAL_WIDTH, 'center')
@@ -92,14 +92,14 @@ function Menu:render()
             
             -- Then print the option text
             if k == self.selected then
-                love.graphics.setColor(255, 255, 255, 255)
+                love.graphics.setColor(1, 1, 1, 1)
             else
-                love.graphics.setColor(100, 100, 100, 255)
+                love.graphics.setColor(100/255, 100/255, 100/255, 255/255)
             end
             love.graphics.printf(self:getSelectedSideText(k), self.x, self.y + offsetY, VIRTUAL_WIDTH, 'center')
         end
         offsetY = offsetY + self.rowOffset
     end
 
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
 end

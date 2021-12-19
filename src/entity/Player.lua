@@ -177,7 +177,6 @@ function Player:shieldUp(time)
         y = HUD_PADDING + HUD_ITEM_MARGIN,
         width = 150,
         height = 10,
-        color = {r = 255, g = 255, b = 255},
         max = time,
         value = time,
         text = "shield"

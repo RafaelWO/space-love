@@ -14,7 +14,7 @@ function PlayState:init(params)
     ]]
     Event.on('stage-changed', function(stage)
         self.stageLabelText = stage
-        self.transitionAlpha = 80
+        self.transitionAlpha = 80/255
 
         -- first, over a period of 1 second, transition our alpha to 0
         Timer.tween(1, {
@@ -64,14 +64,14 @@ function PlayState:render()
     self.level:render()
 
     -- render Stage # label and background rect
-    love.graphics.setColor(95, 205, 228, 200)
+    love.graphics.setColor(95/255, 205/255, 228/255, 200/255)
     love.graphics.rectangle('fill', 0, self.stageLabelY - 2, VIRTUAL_WIDTH, 48)
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf(self.stageLabelText, 0, self.stageLabelY, VIRTUAL_WIDTH, 'center')
 
     -- our transition foreground rectangle
-    love.graphics.setColor(255, 255, 255, self.transitionAlpha)
+    love.graphics.setColor(1, 1, 1, self.transitionAlpha)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 end
 

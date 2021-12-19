@@ -45,7 +45,7 @@ function LowHealthOverlay:render()
         if self.mode == "full" then
             love.graphics.setColor(self.color.r, self.color.g, self.color.b, self.alpha)
             love.graphics.rectangle('fill', 0, 0 , VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
-            love.graphics.setColor(255, 255, 255, 255)
+            love.graphics.setColor(1, 1, 1, 1)
         elseif self.mode == "edge" then
             loc = {
                 {x = 0, y = 0, w = self.width, h = VIRTUAL_HEIGHT},

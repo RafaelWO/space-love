@@ -32,7 +32,7 @@ function SelectShipState:init(params)
                         x = VIRTUAL_WIDTH / 2 - SHIP_DEFS[self.playerShip.ship].width / 2, 
                         y = VIRTUAL_HEIGHT / 2 + 100
                     },
-                    [self] = { blackAlpha = 255 }
+                    [self] = { blackAlpha = 1 }
                 })
                 :finish(function()
                     gSounds['music-title-screen']:stop()
@@ -193,8 +193,7 @@ function SelectShipState:render()
         laser:render()
     end
 
-    love.graphics.setBackgroundColor(0.5, 0, 1)
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Select Your Ship', 0, VIRTUAL_HEIGHT / 2 - 240, VIRTUAL_WIDTH, 'center')
 
@@ -208,7 +207,7 @@ function SelectShipState:render()
     love.graphics.setColor(0, 0, 0, self.blackAlpha)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
     
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(gTextures['sheet'], gFrames['sheet'][Player.getFrame(self.playerShip)],
         self.playerShip.x, self.playerShip.y)
 end

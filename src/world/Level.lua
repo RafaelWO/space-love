@@ -27,9 +27,9 @@ function Level:init(params)
 
     self.background = Background()
     self.lowHealthOverlay = LowHealthOverlay({
-        color = {r = 255, g = 0, b = 0},
+        color = {r = 1, g = 0, b = 0},
         interval = 1,
-        maxAlpha = 15,
+        maxAlpha = 15/255,
         mode = 'full'
     })
     
@@ -144,7 +144,7 @@ function Level:update(dt)
             -- will be between [2; 40]
             local powerupProbability = enemy:getShipType() * enemy.lvl * 2
             
-            if math.random(POWERUP_PROB_MAX) <= powerupProbability or self.noPowerupCount >= NO_POWERUP_THRESH then
+            if math.random(1) <= powerupProbability or self.noPowerupCount >= NO_POWERUP_THRESH then
                 -- powerup star (spawn UFO) is available from stage 2
                 local powerupType = math.random(1, (self.stage >= 2 and 3 or 2))
 
@@ -263,7 +263,7 @@ function Level:render()
         end
 
         -- Draw screen barriers (for enemies and ufo)
-        love.graphics.setColor(150, 150, 150, 255)
+        love.graphics.setColor(150/255, 150/255, 150/255, 1)
         love.graphics.line(0, SCREEN_BARRIER_SIZE, VIRTUAL_WIDTH, SCREEN_BARRIER_SIZE)
         love.graphics.line(0, VIRTUAL_HEIGHT - SCREEN_BARRIER_SIZE, VIRTUAL_WIDTH, VIRTUAL_HEIGHT - SCREEN_BARRIER_SIZE)
     end

@@ -98,7 +98,6 @@ function Entity:createHealthbar()
         parentOffset = offset,
         width = barWidth,
         height = 5,
-        color = {r = 255, g = 255, b = 255},
         max = self.health,
         value = self.health,
         separators = true
