@@ -47,7 +47,7 @@ end
 
 function ProgressBar:render()
     -- print text above bar (if set)
-    local yOffset = self.text and 18 or 0
+    local yOffset = self.text and HEALTH_BAR_TEXT_OFFSET or 0
     if self.text then
         love.graphics.setColor(self.textColor.r, self.textColor.g, self.textColor.b, 255)
         love.graphics.setFont(self.font)

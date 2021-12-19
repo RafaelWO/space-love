@@ -15,6 +15,27 @@ function Ufo:processAI(params, dt)
     self:shoot()
 end
 
+function Ufo:createHealthbar()
+    local barWidth = 100
+    local offset = {
+        x = self.width / 2 - barWidth / 2,
+        y = -15 - HEALTH_BAR_TEXT_OFFSET
+    }
+    self.healthBar = ProgressBar {
+        x = self.x + offset.x,
+        y = self.y + offset.y,
+        parent = self,
+        parentOffset = offset,
+        width = barWidth,
+        height = 5,
+        color = {r = 255, g = 255, b = 255},
+        max = self.health,
+        value = self.health,
+        separators = true,
+        text = "Friend"
+    }
+end
+
 function Ufo:shoot()
     if self.shotIntervalTimer > self.shotInterval then
         self.shotIntervalTimer = 0
