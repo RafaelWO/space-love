@@ -38,6 +38,7 @@ require 'src/world/level_defs'
 require 'src/entity/Entity'
 require 'src/entity/Player'
 require 'src/entity/Ufo'
+require 'src/entity/DirectionSet'
 
 require 'src/world/Level'
 require 'src/world/Spawner'
