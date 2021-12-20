@@ -371,10 +371,14 @@ end
 
 function Level:pauseAudio()
     gSounds['music-lvl' .. self.stage]:pause()
-    gSounds['health-alarm']:pause()
+    if self.lowHealthOverlay.enabled then
+        gSounds['health-alarm']:pause()
+    end
 end
 
 function Level:resumeAudio()
-    gSounds['music-lvl' .. self.stage]:resume()
-    gSounds['health-alarm']:resume()
+    gSounds['music-lvl' .. self.stage]:play()
+    if self.lowHealthOverlay.enabled then
+        gSounds['health-alarm']:play()
+    end
 end
