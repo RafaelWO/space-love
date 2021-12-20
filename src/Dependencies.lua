@@ -88,8 +88,6 @@ gSounds = {
     ['menu-select'] = love.audio.newSource('sounds/menu/sfx_menu_select2.wav', 'static'),
     ['pause-start'] = love.audio.newSource('sounds/menu/sfx_sounds_pause6_in.wav', 'static'),
     ['pause-end'] =  love.audio.newSource('sounds/menu/sfx_sounds_pause6_out.wav', 'static'),
-
-    -- ['explosion'] = love.audio.newSource('sounds/explosion.wav')
 }
 
 for i = 1, EXPLOSION_SHORT_COUNT, 1 do
@@ -106,7 +104,7 @@ for k, sound in pairs(gSounds) do
         sound:setLooping(true)
     end
 end
--- gSounds['explosion']:setVolume(0.7)
+
 gSounds['health-alarm']:setLooping(true)
 
 

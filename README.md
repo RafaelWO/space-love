@@ -6,8 +6,8 @@
     <a href="https://github.com/RafaelWO/space-love/releases">
         <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/rafaelwo/space-love/total">
     </a>
-    <a href="https://github.com/love2d/love/releases/tag/0.10.2">
-        <img alt="Love2d version" src="https://img.shields.io/badge/love2d-0.10.2-%23ea316e">
+    <a href="https://github.com/love2d/love/releases/tag/11.3">
+        <img alt="Love2d version" src="https://img.shields.io/badge/love2d-11.3-%23ea316e">
     </a>
 </p>
 
@@ -21,23 +21,11 @@ Download the latest version of the game via the [releases][].
 ### Windows and MacOS
 For Windows (win32, win64) and MacOS users, please download the corresponding `.zip` file. 
 
-If you have installed LÖVE or want to install it - for this, install the corresponding [release 0.10.2 from GitHub](https://github.com/love2d/love/releases/tag/0.10.2) - you can simply download the `.love` file from the [releases][] and double-click the file to start the game.
+If you have installed LÖVE or want to install it (see the [official website](https://love2d.org/) for installing it) you can simply download the `.love` file from the [releases][] and double-click the file to start the game.
 
 ### Linux
-To run the game on Linux you have to install LÖVE 0.10.2. You can do this manually using the link above or run the following commands in a terminal.
-
-```bash
-LOVE_URL='https://github.com/love2d/love/releases/download/0.10.2'
-TEMP_DEB1="$(mktemp)"
-TEMP_DEB2="$(mktemp)"
-wget -O "$TEMP_DEB1" "$LOVE_URL/liblove0_0.10.2ppa1_amd64.deb"
-wget -O "$TEMP_DEB2" "$LOVE_URL/love_0.10.2ppa1_amd64.deb"
-sudo dpkg -i "$TEMP_DEB1" "$TEMP_DEB2"
-rm -f "$TEMP_DEB1" "$TEMP_DEB2"
-```
-
+To run the game on Linux you have to install LÖVE 11.3 from the [official website](https://love2d.org/).
 Then download the `.love` file from the [releases][] and simply double-click it.
-
 
 ## Instructions
 #### Menu
@@ -52,7 +40,7 @@ Press <kbd>esc</kbd> to quit.
 
 ## Used Libraries, Art Packs, Sounds
 ### Art Pack
-The sprites (plus backgrounds, fonts and some sound effects) used in this game are from the art pack [Space Shooter Redux](https://opengameart.org/content/space-shooter-redux) by [Kenny](www.kenney.nl).
+The sprites (plus backgrounds, fonts and some sound effects) used in this game are from the art pack [Space Shooter Redux](https://opengameart.org/content/space-shooter-redux) by [Kenny](https://www.kenney.nl).
 
 Some UI elements are from the [UI Pack: RPG Expansion](https://www.kenney.nl/assets/ui-pack-rpg-expansion) by Kenny.
 
@@ -62,7 +50,6 @@ The soundtracks are from Juhani Junkala and can be found [here](https://opengame
 
 Other sound effects:
 - Various sounds from [512 Sound Effects](https://opengameart.org/content/512-sound-effects-8-bit-style)
-- [Explosion](https://opengameart.org/content/explosion-0)
 
 ### Libraries
  * [Class](https://github.com/vrld/hump)
