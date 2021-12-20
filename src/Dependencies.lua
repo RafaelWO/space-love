@@ -66,38 +66,36 @@ gFonts = {
 }
 
 gSounds = {
-    ['laser-1'] = love.audio.newSource('sounds/sfx_laser1.ogg'),
-    ['laser-2'] = love.audio.newSource('sounds/sfx_laser2.ogg'),
-    ['lose'] = love.audio.newSource('sounds/sfx_lose.ogg'),
-    ['shield-down'] = love.audio.newSource('sounds/sfx_shieldDown.ogg'),
-    ['shield-up'] = love.audio.newSource('sounds/sfx_shieldUp.ogg'),
-    ['two-tone'] = love.audio.newSource('sounds/sfx_twoTone.ogg'),
-    ['zap'] = love.audio.newSource('sounds/sfx_zap.ogg'),
-    ['powerup-health'] = love.audio.newSource('sounds/sfx_sounds_powerup12.wav'),
-    ['health-alarm'] = love.audio.newSource('sounds/sfx_alarm_loop6.wav'),
-    ['impact'] = love.audio.newSource('sounds/sfx_sounds_impact8.wav'),
-    ['collision'] = love.audio.newSource('sounds/sfx_sounds_impact11.wav'),
+    ['laser-1'] = love.audio.newSource('sounds/sfx_laser1.ogg', 'static'),
+    ['laser-2'] = love.audio.newSource('sounds/sfx_laser2.ogg', 'static'),
+    ['lose'] = love.audio.newSource('sounds/sfx_lose.ogg', 'static'),
+    ['shield-down'] = love.audio.newSource('sounds/sfx_shieldDown.ogg', 'static'),
+    ['shield-up'] = love.audio.newSource('sounds/sfx_shieldUp.ogg', 'static'),
+    ['two-tone'] = love.audio.newSource('sounds/sfx_twoTone.ogg', 'static'),
+    ['zap'] = love.audio.newSource('sounds/sfx_zap.ogg', 'static'),
+    ['powerup-health'] = love.audio.newSource('sounds/sfx_sounds_powerup12.wav', 'static'),
+    ['health-alarm'] = love.audio.newSource('sounds/sfx_alarm_loop6.wav', 'static'),
+    ['impact'] = love.audio.newSource('sounds/sfx_sounds_impact8.wav', 'static'),
+    ['collision'] = love.audio.newSource('sounds/sfx_sounds_impact11.wav', 'static'),
 
-    ['music-title-screen'] = love.audio.newSource('sounds/music/music-title-screen.wav'),
-    ['music-lvl1'] = love.audio.newSource('sounds/music/music-lvl1.wav'),
-    ['music-lvl2'] = love.audio.newSource('sounds/music/music-lvl2.wav'),
-    ['music-lvl3'] = love.audio.newSource('sounds/music/music-lvl3.wav'),
-    ['music-ending'] = love.audio.newSource('sounds/music/music-ending.wav'),
+    ['music-title-screen'] = love.audio.newSource('sounds/music/music-title-screen.wav', 'stream'),
+    ['music-lvl1'] = love.audio.newSource('sounds/music/music-lvl1.wav', 'stream'),
+    ['music-lvl2'] = love.audio.newSource('sounds/music/music-lvl2.wav', 'stream'),
+    ['music-lvl3'] = love.audio.newSource('sounds/music/music-lvl3.wav', 'stream'),
+    ['music-ending'] = love.audio.newSource('sounds/music/music-ending.wav', 'stream'),
 
-    ['menu-move'] = love.audio.newSource('sounds/menu/sfx_menu_move1.wav'),
-    ['menu-select'] = love.audio.newSource('sounds/menu/sfx_menu_select2.wav'),
-    ['pause-start'] = love.audio.newSource('sounds/menu/sfx_sounds_pause6_in.wav'),
-    ['pause-end'] =  love.audio.newSource('sounds/menu/sfx_sounds_pause6_out.wav'),
-
-    ['explosion'] = love.audio.newSource('sounds/explosion.wav')
+    ['menu-move'] = love.audio.newSource('sounds/menu/sfx_menu_move1.wav', 'static'),
+    ['menu-select'] = love.audio.newSource('sounds/menu/sfx_menu_select2.wav', 'static'),
+    ['pause-start'] = love.audio.newSource('sounds/menu/sfx_sounds_pause6_in.wav', 'static'),
+    ['pause-end'] =  love.audio.newSource('sounds/menu/sfx_sounds_pause6_out.wav', 'static'),
 }
 
 for i = 1, EXPLOSION_SHORT_COUNT, 1 do
-    gSounds['explosion-short-' .. i] = love.audio.newSource('sounds/explosion_short/sfx_exp_short_hard' .. i ..'.wav')
+    gSounds['explosion-short-' .. i] = love.audio.newSource('sounds/explosion_short/sfx_exp_short_hard' .. i ..'.wav', 'static')
 end
 
 for i = 1, EXPLOSION_MEDIUM_COUNT, 1 do
-    gSounds['explosion-medium-' .. i] = love.audio.newSource('sounds/explosion_medium/sfx_exp_medium' .. i ..'.wav')
+    gSounds['explosion-medium-' .. i] = love.audio.newSource('sounds/explosion_medium/sfx_exp_medium' .. i ..'.wav', 'static')
 end
 
 for k, sound in pairs(gSounds) do
@@ -106,7 +104,7 @@ for k, sound in pairs(gSounds) do
         sound:setLooping(true)
     end
 end
-gSounds['explosion']:setVolume(0.7)
+
 gSounds['health-alarm']:setLooping(true)
 
 

@@ -27,9 +27,9 @@ function Level:init(params)
 
     self.background = Background()
     self.lowHealthOverlay = LowHealthOverlay({
-        color = {r = 255, g = 0, b = 0},
+        color = {r = 1, g = 0, b = 0},
         interval = 1,
-        maxAlpha = 15,
+        maxAlpha = 15/255,
         mode = 'full'
     })
     
@@ -263,7 +263,7 @@ function Level:render()
         end
 
         -- Draw screen barriers (for enemies and ufo)
-        love.graphics.setColor(150, 150, 150, 255)
+        love.graphics.setColor(150/255, 150/255, 150/255, 1)
         love.graphics.line(0, SCREEN_BARRIER_SIZE, VIRTUAL_WIDTH, SCREEN_BARRIER_SIZE)
         love.graphics.line(0, VIRTUAL_HEIGHT - SCREEN_BARRIER_SIZE, VIRTUAL_WIDTH, VIRTUAL_HEIGHT - SCREEN_BARRIER_SIZE)
     end
@@ -371,10 +371,14 @@ end
 
 function Level:pauseAudio()
     gSounds['music-lvl' .. self.stage]:pause()
-    gSounds['health-alarm']:pause()
+    if self.lowHealthOverlay.enabled then
+        gSounds['health-alarm']:pause()
+    end
 end
 
 function Level:resumeAudio()
-    gSounds['music-lvl' .. self.stage]:resume()
-    gSounds['health-alarm']:resume()
+    gSounds['music-lvl' .. self.stage]:play()
+    if self.lowHealthOverlay.enabled then
+        gSounds['health-alarm']:play()
+    end
 end

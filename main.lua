@@ -44,10 +44,10 @@ function love.load()
     local menuBlinkInterval = 0.6
     Timer.every(menuBlinkInterval, function()
         Timer.tween(menuBlinkInterval / 2, {
-            [MENU_SELECTED_COLOR] = { r = 100, g = 100, b = 100}
+            [MENU_SELECTED_COLOR] = { r = 100/255, g = 100/255, b = 100/255}
         }):finish(function ()
             Timer.tween(menuBlinkInterval / 2, {
-                [MENU_SELECTED_COLOR] = {r = 150, g = 100, b = 255}
+                [MENU_SELECTED_COLOR] = {r = 150/255, g = 100/255, b = 255/255}
             })
         end)
     end)
@@ -89,7 +89,7 @@ function love.draw()
     push:start()
     
     gStateStack:render()
-    love.graphics.setColor(150, 150, 150, 255)
+    love.graphics.setColor(150/255, 150/255, 150/255, 255/255)
     love.graphics.setFont(gFonts['default-small'])
     love.graphics.printf(VERSION, 10, VIRTUAL_HEIGHT-25, VIRTUAL_WIDTH, 'left')
 

@@ -38,7 +38,7 @@ function HighscoreState:update(dt)
 end
 
 function HighscoreState:render()
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
     self.background:render()
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Highscores', 0, 200, VIRTUAL_WIDTH, 'center')
@@ -54,7 +54,7 @@ function HighscoreState:render()
 end
 
 function HighscoreState:readScores(limit)
-    if love.filesystem.exists(FILE_HIGHSCORES) then
+    if love.filesystem.getInfo(FILE_HIGHSCORES) then
         content, size = love.filesystem.read(FILE_HIGHSCORES)
         limitedContent = ""
         local rows = {}

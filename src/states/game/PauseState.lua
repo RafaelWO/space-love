@@ -21,10 +21,10 @@ end
 
 function PauseState:render()
     -- black rectangle with lower alpha to let the background (level) appear inactive
-    love.graphics.setColor(0, 0, 0, 180)
+    love.graphics.setColor(0, 0, 0, 180/255)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
 
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf("Game paused", 0, VIRTUAL_HEIGHT / 2 - 200, VIRTUAL_WIDTH, 'center')
 end
