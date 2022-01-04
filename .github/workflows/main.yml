@@ -9,6 +9,8 @@ on:
   push:
     tags:
       - 'v*'
+    branches:
+      - 'test'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -30,7 +32,7 @@ jobs:
             echo "TAG_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
             echo "FILE_VERSION=$(cat VERSION)" >> $GITHUB_ENV
           else
-            echo "TAG_VERSION=dev" >> $GITHUB_ENV
+            echo "TAG_VERSION=$(cat VERSION)-dev" >> $GITHUB_ENV
           fi
 
       - name: Version Check
