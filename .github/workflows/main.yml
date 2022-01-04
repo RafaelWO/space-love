@@ -62,12 +62,24 @@ jobs:
           # Path to dependencies rockspec relative to GitHub workspace
 
       # Upload the built applications
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v2
         with:
-          name: built-applications
-          path: 'release'
-          
+          name: space-love_macos-build
+          path: ${{ steps.love-build.outputs.macos-filename }}
+      - uses: actions/upload-artifact@v2
+        with:
+          name: space-love_win32-build
+          path: ${{ steps.love-build.outputs.win32-filename }}
+      - uses: actions/upload-artifact@v2
+        with:
+          name: space-love_win64-build
+          path: ${{ steps.love-build.outputs.win64-filename }}
+      - uses: actions/upload-artifact@v2
+        with:
+          name: space-love_love-build
+          path: ${{ steps.love-build.outputs.love-filename }}
+      
+      # If a tag was pushed, create a release
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/v')
