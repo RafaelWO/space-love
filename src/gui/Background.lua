@@ -28,7 +28,7 @@ function Background:update(dt)
         self.nebulaTimer = self.nebulaTimer + dt
 
         if self.nebulaTimer >= self.nebulaEta then
-            self.nebulaScale = math.random()
+            self.nebulaScale = math.max(math.random(), 0.1)
             self.nebulaY = -self.nebulaScale * NEBULA_HEIGHT
             self.nebulaX = math.random(-NEBULA_WIDTH * self.nebulaScale / 2, VIRTUAL_WIDTH - (NEBULA_WIDTH * self.nebulaScale / 2))
             self.nebulaType = math.random(1, 3)
