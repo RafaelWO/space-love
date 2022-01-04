@@ -147,7 +147,6 @@ function Level:update(dt)
             if math.random(POWERUP_PROB_MAX) <= powerupProbability or self.noPowerupCount >= NO_POWERUP_THRESH then
                 -- powerup star (spawn UFO) is available from stage 2
                 local powerupType = math.random(1, (self.stage >= 2 and 3 or 2))
-                -- powerupType = 3
 
                 if powerupType == 1 or self.noPowerupCount >= NO_POWERUP_THRESH then
                     self.spawner:spawnPowerup(

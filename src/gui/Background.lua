@@ -32,10 +32,6 @@ function Background:update(dt)
             self.nebulaY = -self.nebulaScale * NEBULA_HEIGHT
             self.nebulaX = math.random(-NEBULA_WIDTH * self.nebulaScale / 2, VIRTUAL_WIDTH - (NEBULA_WIDTH * self.nebulaScale / 2))
             self.nebulaType = math.random(1, 3)
-            print("Nebula of type " .. self.nebulaType .. " spawned")
-            print("X:", self.nebulaX)
-            print("Y:", self.nebulaY)
-            print("Scale:", self.nebulaScale)
             self.drawNebula = true
         end
     end
@@ -45,7 +41,6 @@ function Background:update(dt)
         if self.nebulaY > VIRTUAL_HEIGHT then
             self.drawNebula = false
             self.nebulaEta = math.random(20, 40)
-            print("Nebula drawing done. Next one appears in " .. self.nebulaEta .. " seconds")
         end
     end
 end

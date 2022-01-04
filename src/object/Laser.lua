@@ -18,7 +18,7 @@ function Laser:init(x, y, def, direction, source)
         local width = self.width
         self.width = self.height
         self.height = width
-        self.rotation = -math.pi/2
+        self.rotation = degree2radian(-90)
         self.rotOffsetX = self.height
     end
 
