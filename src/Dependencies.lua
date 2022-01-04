@@ -118,6 +118,10 @@ gTextures = {
 
     ['arrow-left'] = love.graphics.newImage('graphics/ui/arrowSilver_left.png'),
     ['arrow-right'] = love.graphics.newImage('graphics/ui/arrowSilver_right.png'),
+
+    ['nebula-1'] = love.graphics.newImage('graphics/backgrounds/nebula_blue_yellow.png'),
+    ['nebula-2'] = love.graphics.newImage('graphics/backgrounds/nebula_pink_turqoise.png'),
+    ['nebula-3'] = love.graphics.newImage('graphics/backgrounds/nebula_violet_green.png'),
 }
 
 gFrames = {

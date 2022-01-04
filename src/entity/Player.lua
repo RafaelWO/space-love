@@ -17,7 +17,6 @@ function Player:init(x, y, def, level, params)
     end
 
     self.maxHealth = self.health
-    self.hits = 0
     self.collisionDamageTimer = 0
     self.collisionDamageInterval = 1
     self.hasLowHealth = false

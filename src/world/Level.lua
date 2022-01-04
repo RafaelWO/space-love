@@ -85,7 +85,6 @@ function Level:update(dt)
         meteor:update(dt)
         if self.player:collides(meteor:getHitbox()) then
             self.player:takeCollisionDamage(METEOR_COLLISION_DAMAGE)
-            self:playerHits()
         end
     end
 
@@ -130,7 +129,6 @@ function Level:update(dt)
         for j, enemyHitbox in pairs(enemy:getHitboxes()) do
             if self.player:collides(enemyHitbox) then
                 self.player:takeCollisionDamage(ENEMY_COLLOSION_DAMAGE)
-                self:playerHits()
             end
         end
 
@@ -247,9 +245,9 @@ function Level:render()
         local collisionCooldown = 1 - math.min(self.player.collisionDamageTimer, self.player.collisionDamageInterval)
         local onScreenData = {
             "Health: " .. self.player.health,
-            "Collision: " .. self.player.hits,
             "Collision Cooldown: " .. string.format("%.1f", collisionCooldown),
-            "Lasers: " .. #self.lasers
+            "Lasers: " .. #self.lasers,
+            "Items: " .. #self.items
         }
 
         local yOffset = HUD_PADDING + HUD_ITEM_MARGIN * 2
@@ -292,10 +290,6 @@ function Level:initEvents()
         gSounds['health-alarm']:stop()
         self.lowHealthOverlay:disable()
     end)
-end
-
-function Level:playerHits()
-    self.player.hits = self.player.hits + 1
 end
 
 function Level:checkLaserCollision(laser, object)
