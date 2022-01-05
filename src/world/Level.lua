@@ -56,12 +56,11 @@ function Level:update(dt)
     for k, laser in pairs(self.lasers) do
         laser:update(dt)
         if laser.state == "fly" then
+            -- check if any laser hits a meteor
+            for j, meteor in pairs(self.meteors) do
+                self:checkLaserCollision(laser, meteor)
+            end
             if laser.source.type == "player" or laser.source.type == "ufo" then
-                -- check if player/ally laser hits a meteor
-                for j, meteor in pairs(self.meteors) do
-                    self:checkLaserCollision(laser, meteor)
-                end
-                
                 -- check if player/ally laser hits an enemy
                 for j, enemy in pairs(self.enemies) do
                     self:checkLaserCollision(laser, enemy)
@@ -84,7 +83,22 @@ function Level:update(dt)
     for k, meteor in pairs(self.meteors) do
         meteor:update(dt)
         if self.player:collides(meteor:getHitbox()) then
-            self.player:takeCollisionDamage(METEOR_COLLISION_DAMAGE)
+            if self.player:takeCollisionDamage(METEOR_COLLISION_DAMAGE) then
+                meteor:reduceHealth(METEOR_COLLISION_DAMAGE)
+            end
+        end
+
+        if meteor.dead then
+            local blast
+            if meteor.frame:match("med") then
+                blast = EXPLOSION_BLAST_METEOR_MD
+            elseif meteor.frame:match("big") then
+                blast = EXPLOSION_BLAST_METEOR_LG
+            else
+                blast = EXPLOSION_BLAST_METEOR_SM
+            end
+            self.spawner:spawnExplosion(meteor, blast, 'medium', 'meteor')
+            meteor.toRemove = true
         end
     end
 
@@ -100,7 +114,7 @@ function Level:update(dt)
     if self.player.dead and self.player.diedNow then
         self.scoreTimer:remove()
         self.player.diedNow = false
-        self.spawner:spawnExplosion(self.player, 'medium')
+        self.spawner:spawnExplosion(self.player, EXPLOSION_BLAST_SHIP, 'medium')
         gSounds['health-alarm']:stop()
 
         Timer.after(2, function() self:gameOver() end)
@@ -117,7 +131,7 @@ function Level:update(dt)
         ally:update(dt)
 
         if ally.dead then
-            self.spawner:spawnExplosion(ally, 'short')
+            self.spawner:spawnExplosion(ally, EXPLOSION_BLAST_SHIP, 'short')
         end
     end
 
@@ -133,7 +147,7 @@ function Level:update(dt)
         end
 
         if enemy.dead then
-            self.spawner:spawnExplosion(enemy, 'short')
+            self.spawner:spawnExplosion(enemy, EXPLOSION_BLAST_SHIP, 'short')
             
             local enemyReward = 20 * enemy:getShipType() + 10 * enemy.lvl
             self.score = self.score + enemyReward
@@ -301,6 +315,8 @@ function Level:checkLaserCollision(laser, object)
                 gSounds['impact']:stop()
                 gSounds['impact']:play()
             end
+        elseif object.meta == "GameObject" and object.type == "meteor" then
+            object:reduceHealth(laser.source.attack)
         end
     end
 end

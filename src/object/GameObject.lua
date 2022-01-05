@@ -62,6 +62,8 @@ function GameObject:init(x, y, def, params)
     self.blinkDuration = 0
     self.blinkDurationTimer = 0
     self.blinkInterval = 0
+
+    self.timers = {}
 end
 
 function GameObject:createAnimations(animations)
@@ -110,6 +112,7 @@ function GameObject:changeState(name)
 end
 
 function GameObject:update(dt)
+    Timer.update(dt, self.timers)
     if self.currentAnimation then
         self.currentAnimation:update(dt)
     end

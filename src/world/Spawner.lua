@@ -26,8 +26,7 @@ function Spawner:spawnMeteor()
     self.meteorSpawnTimer = 0
     self.meteorSpawnEta = math.random(unpack(self.level.stageDef['meteor-spawn-interval']))
     
-    local meteorDef = GAME_OBJECT_DEFS['meteor']
-    meteorDef.frame = METEOR_TYPES[math.random(#METEOR_TYPES)]
+    local meteorDef = GAME_OBJECT_DEFS['meteor-' .. math.random(4)]
     table.insert(self.level.meteors, Meteor (
         math.random(0, VIRTUAL_WIDTH),
         -100,
@@ -102,8 +101,8 @@ function Spawner:spawnPowerup(name, colorLower, onConsume, x, y)
     table.insert(self.level.items, object)
 end
 
-function Spawner:spawnExplosion(object, length)
-    local explosion = getExplosion(EXPLOSION_BLAST)
+function Spawner:spawnExplosion(object, blast, length, source)
+    local explosion = getExplosion(blast, source or 'ship')
     explosion:setPosition(object.x + object.width/2, object.y + object.height/2)
     explosion:emit(10)
     table.insert(self.level.particles, explosion)

@@ -40,7 +40,12 @@ HIGHSCORES_LIMIT = 10
 
 EXPLOSION_SHORT_COUNT = 17
 EXPLOSION_MEDIUM_COUNT = 13
-EXPLOSION_BLAST = nil   -- gets set after load
+
+-- get set in love.load() (main.lua)
+EXPLOSION_BLAST_SHIP = nil   
+EXPLOSION_BLAST_METEOR_SM = nil
+EXPLOSION_BLAST_METEOR_MD = nil
+EXPLOSION_BLAST_METEOR_LG = nil
 
 VERSION = getVersion()
 DEBUG = false
