@@ -122,6 +122,7 @@ gTextures = {
     ['nebula-1'] = love.graphics.newImage('graphics/backgrounds/nebula_blue_yellow.png'),
     ['nebula-2'] = love.graphics.newImage('graphics/backgrounds/nebula_pink_turqoise.png'),
     ['nebula-3'] = love.graphics.newImage('graphics/backgrounds/nebula_violet_green.png'),
+    ['nebula-4'] = love.graphics.newImage('graphics/backgrounds/nebula_green_red.png'),
 }
 
 gFrames = {

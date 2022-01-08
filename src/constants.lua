@@ -16,6 +16,7 @@ BACKGROUND_SPEED = 50
 BACKGROUNDS = {'bg_black', 'bg_blue', 'bg_dark-purple'}
 MENU_BACKGROUND = 'bg_black'
 
+NEBULA_COUNT = 4
 NEBULA_HEIGHT = 2160
 NEBULA_WIDTH = 2160
 NEBULA_SPEED = 30
