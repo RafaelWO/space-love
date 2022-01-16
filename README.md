@@ -13,7 +13,7 @@
 
 A space shooter written with [LÖVE❤](https://love2d.org/) in Lua.
 
-![sample](assets/space-love_demo-v0.4.gif)
+![sample](assets/space-love-v0.4-sm.gif)
 
 ## Download
 Download the latest version of the game via the [releases][]. 
