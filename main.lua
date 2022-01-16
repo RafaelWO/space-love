@@ -39,7 +39,10 @@ function love.load()
     love.keyboard.textInput = ""
 
     METEOR_TYPES = getFrameNamesFromSheet('sheet', 'meteor')
-    EXPLOSION_BLAST = getBlast(100)
+    EXPLOSION_BLAST_SHIP = getBlast(120)
+    EXPLOSION_BLAST_METEOR_SM = getBlast(50)
+    EXPLOSION_BLAST_METEOR_MD = getBlast(100)
+    EXPLOSION_BLAST_METEOR_LG = getBlast(150)
 
     local menuBlinkInterval = 0.6
     Timer.every(menuBlinkInterval, function()

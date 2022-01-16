@@ -17,11 +17,33 @@ GAME_OBJECT_DEFS = {
             }
         }
     },
-    ['meteor'] = {
+    ['meteor-1'] = {
         type = 'meteor',
         texture = 'sheet',
-        frame = 'OVERRIDE',
-        solid = true
+        frame = 'meteor<color>_tiny<type>',
+        solid = true,
+        health = 0.5
+    },
+    ['meteor-2'] = {
+        type = 'meteor',
+        texture = 'sheet',
+        frame = 'meteor<color>_small<type>',
+        solid = true,
+        health = 2
+    },
+    ['meteor-3'] = {
+        type = 'meteor',
+        texture = 'sheet',
+        frame = 'meteor<color>_med<type>',
+        solid = true,
+        health = 4
+    },
+    ['meteor-4'] = {
+        type = 'meteor',
+        texture = 'sheet',
+        frame = 'meteor<color>_big<type>',
+        solid = true,
+        health = 6
     },
     ['jet'] = {
         type = 'jet',

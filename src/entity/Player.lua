@@ -120,7 +120,9 @@ function Player:takeCollisionDamage(damage)
             gSounds['collision']:stop()
             gSounds['collision']:play()
         end
+        return true
     end
+    return false
 end
 
 function Player:changeJetState(name)

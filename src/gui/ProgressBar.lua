@@ -28,6 +28,7 @@ function ProgressBar:init(def)
     self.text = def.text
     self.font = def.font or gFonts['small']
     self.separators = def.separators or false
+    self.cornerRadius = def.cornerRadius or 2
 end
 
 function ProgressBar:setMax(max)
@@ -62,12 +63,12 @@ function ProgressBar:render()
     if value > 0 then
         -- draw main bar, with calculated width based on value / max
         love.graphics.setColor(self.color.r, self.color.g, self.color.b, 1)
-        love.graphics.rectangle('fill', self.x, self.y + yOffset, renderWidth, self.height, 2)
+        love.graphics.rectangle('fill', self.x, self.y + yOffset, renderWidth, self.height, self.cornerRadius)
     end
 
     -- draw outline around actual bar
     love.graphics.setColor(self.outlineColor.r, self.outlineColor.g, self.outlineColor.b, 1)
-    love.graphics.rectangle('line', self.x, self.y + yOffset, self.width, self.height, 2)
+    love.graphics.rectangle('line', self.x, self.y + yOffset, self.width, self.height, self.cornerRadius)
 
     if self.separators then
         love.graphics.setLineWidth(1)

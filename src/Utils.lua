@@ -127,11 +127,15 @@ end
 --[[
     See https://dev.to/jeansberg/make-a-shooter-in-lualove2d---animations-and-particles
 ]]
-function getExplosion(image)
+function getExplosion(image, source)
     pSystem = love.graphics.newParticleSystem(image, 50)
     pSystem:setParticleLifetime(0.8, 0.8)
     pSystem:setLinearAcceleration(-100, -100, 100, 100)
-    pSystem:setColors(255/255, 255/255, 0, 255/255, 255/255, 153/255, 51/255, 255/255, 64/255, 64/255, 64/255, 0)
+    if source == "ship" then
+        pSystem:setColors(255/255, 255/255, 0, 255/255, 255/255, 153/255, 51/255, 255/255, 64/255, 64/255, 64/255, 0)
+    elseif source == "meteor" then
+        pSystem:setColors(100/255, 100/255, 100/255, 255/255, 180/255, 180/255, 180/255, 255/255, 64/255, 64/255, 64/255, 0)
+    end
     pSystem:setSizes(0.5, 0.7)
     return pSystem
 end
