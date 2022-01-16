@@ -48,5 +48,33 @@ EXPLOSION_BLAST_METEOR_SM = nil
 EXPLOSION_BLAST_METEOR_MD = nil
 EXPLOSION_BLAST_METEOR_LG = nil
 
+-- https://love2d.org/forums/viewtopic.php?t=79617
+-- white shader that will turn a sprite completely white when used; allows us
+-- to brightly blink the sprite when it's acting
+WHITE_SHADER = [[
+    extern number WhiteFactor;
+
+    vec4 effect(vec4 vcolor, Image tex, vec2 texcoord, vec2 pixcoord)
+    {
+        vec4 outputcolor = Texel(tex, texcoord) * vcolor;
+        outputcolor.rgb += vec3(WhiteFactor);
+        return outputcolor;
+    }
+]]
+
+RED_HIGHLIGHT_SHADER = [[
+    extern bool isActive;
+
+    vec4 effect(vec4 vcolor, Image tex, vec2 texcoord, vec2 pixcoord)
+    {
+        vec4 outputcolor = Texel(tex, texcoord) * vcolor;
+        if (isActive) {
+            outputcolor.b = 0;
+            outputcolor.r = outputcolor.r * 1.7;
+        }
+        return outputcolor;
+    }
+]]
+
 VERSION = getVersion()
 DEBUG = false

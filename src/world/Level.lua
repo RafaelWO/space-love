@@ -105,7 +105,7 @@ function Level:update(dt)
     -- Check whether player has picked up an item
     for k, item in pairs(self.items) do
         item:update(dt)
-        if item.consumable and self.player:collides(item) then
+        if item.consumable and self.player:collides(item) and not self.player.dead then
             item.onConsume()
             item.toRemove = true
         end

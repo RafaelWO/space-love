@@ -41,6 +41,7 @@ function GameObject:init(x, y, def, params)
     self.rotation = def.rotation or 0
     self.rotOffsetX = 0
     self.rotOffsetY = 0
+    self.color = {r = 1, g = 1, b = 1, a = 1}
 
     -- get width and height from associated Quad
     if def.width and def.height then
@@ -161,13 +162,13 @@ end
 function GameObject:render()
     if self.blinking then
         if self.blinkTimer > self.blinkInterval / 2 then
-            love.graphics.setColor(1, 1, 1, 16/255)
+            love.graphics.setColor(self.color.r, self.color.b, self.color.g, 16/255)
         end
         if self.blinkTimer > self.blinkInterval then
             self.blinkTimer = 0
         end
     else
-        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.setColor(self.color.r, self.color.b, self.color.g, self.color.a)
     end
 
     local frame

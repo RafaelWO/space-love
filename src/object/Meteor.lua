@@ -12,7 +12,10 @@ function Meteor:init(x, y, def, params)
         self.hitmargin = 5
     end
 
+    self.shader = love.graphics.newShader(RED_HIGHLIGHT_SHADER)
+    self.shaderActive = false
     self.health = def.health
+    self.maxHealth = def.health
     self.dead = false
     self.showHealth = false
     self.showHealthTimer = nil
@@ -22,10 +25,17 @@ end
 function Meteor:update(dt)
     GameObject.update(self, dt)
     self.healthBar:update(dt)
+
+    -- The lower the health of a meteor, the lower it's alpha
+    self.color.a = math.max(self.health / self.maxHealth, 0.25)
 end
 
 function Meteor:render()
+    love.graphics.setShader(self.shader)
+    self.shader:send('isActive', self.shaderActive)
     GameObject.render(self)
+    love.graphics.setShader()
+
     if self.showHealth then
         self.healthBar:render()
     end
@@ -58,7 +68,11 @@ function Meteor:reduceHealth(damage)
         self.dead = true
     end
 
-    self:blink(0.4, 0.2)
+    Timer.every(0.1, function()
+        self.shaderActive = not self.shaderActive
+    end)
+    :group(self.timers)
+    :limit(4)
 
     self.showHealth = true
     if self.showHealthTimer then

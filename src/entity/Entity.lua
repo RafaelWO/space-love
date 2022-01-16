@@ -57,19 +57,8 @@ function Entity:init(x, y, def, level, params)
 
     self.flySpeed = self.flySpeed * GAME_SPEED_MULTIPLIER
 
-    -- https://love2d.org/forums/viewtopic.php?t=79617
-    -- white shader that will turn a sprite completely white when used; allows us
-    -- to brightly blink the sprite when it's acting
-    self.whiteShader = love.graphics.newShader[[
-        extern float WhiteFactor;
 
-        vec4 effect(vec4 vcolor, Image tex, vec2 texcoord, vec2 pixcoord)
-        {
-            vec4 outputcolor = Texel(tex, texcoord) * vcolor;
-            outputcolor.rgb += vec3(WhiteFactor);
-            return outputcolor;
-        }
-    ]]
+    self.whiteShader = love.graphics.newShader(WHITE_SHADER)
     self.blinking = false
 
     self:createDefaultStates()
