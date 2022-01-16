@@ -206,7 +206,7 @@ end
 function Entity:update(dt)
     Timer.update(dt, self.timers)
     self.shotIntervalTimer = self.shotIntervalTimer + dt
-        
+
     self.stateMachine:update(dt)
     self.healthBar:update(dt)
 end
