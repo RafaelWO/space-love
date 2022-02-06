@@ -119,8 +119,8 @@ function Player:takeCollisionDamage(damage)
         if self:reduceHealth(damage) then
             gSounds['collision']:stop()
             gSounds['collision']:play()
+            return true
         end
-        return true
     end
     return false
 end
