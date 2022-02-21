@@ -8,6 +8,7 @@ function LowHealthOverlay:init(def)
     self.alpha = 0
     self.width = def.width or 180
     self.enabled = false
+    self.blinking = false
     self.timer = nil
     self.timers = {}
 end
@@ -27,6 +28,24 @@ function LowHealthOverlay:enable()
     end)
 end
 
+function LowHealthOverlay:blink()
+    if self.enabled then
+        return
+    end
+    self.blinking = true
+    local duration = 0.8
+
+    Timer.tween(duration / 2, {
+        [self] = {alpha = self.maxAlpha}
+    }):group(self.timers)
+    :finish(function()
+        Timer.tween(duration / 2, {
+            [self] = {alpha = 0}
+        }):group(self.timers)
+        self.blinking = false
+    end)
+end
+
 function LowHealthOverlay:disable()
     self.enabled = false
     if self.timer then
@@ -35,13 +54,13 @@ function LowHealthOverlay:disable()
 end
 
 function LowHealthOverlay:update(dt)
-    if self.enabled then
+    if self.enabled or self.blinking then
         Timer.update(dt, self.timers)
     end
 end
 
 function LowHealthOverlay:render()
-    if self.enabled then
+    if self.enabled or self.blinking then
         if self.mode == "full" then
             love.graphics.setColor(self.color.r, self.color.g, self.color.b, self.alpha)
             love.graphics.rectangle('fill', 0, 0 , VIRTUAL_WIDTH, VIRTUAL_HEIGHT)

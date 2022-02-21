@@ -26,6 +26,7 @@ function ProgressBar:init(def)
     self.min = def.min or 0
     self.max = def.max
     self.text = def.text
+    self.textAlign = def.textAlign or "left"
     self.font = def.font or gFonts['small']
     self.separators = def.separators or false
     self.cornerRadius = def.cornerRadius or 2
@@ -52,7 +53,7 @@ function ProgressBar:render()
     if self.text then
         love.graphics.setColor(self.textColor.r, self.textColor.g, self.textColor.b, 1)
         love.graphics.setFont(self.font)
-        love.graphics.print(self.text, self.x, self.y)
+        love.graphics.printf(self.text, self.x, self.y, self.width, self.textAlign)
     end
 
     local value = self.value - self.min

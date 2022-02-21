@@ -29,7 +29,7 @@ function Level:init(params)
     self.lowHealthOverlay = LowHealthOverlay({
         color = {r = 1, g = 0, b = 0},
         interval = 1,
-        maxAlpha = 15/255,
+        maxAlpha = 25/255,
         mode = 'full'
     })
     
@@ -85,6 +85,7 @@ function Level:update(dt)
         if self.player:collides(meteor:getHitbox()) then
             if self.player:takeCollisionDamage(METEOR_COLLISION_DAMAGE) then
                 meteor:reduceHealth(METEOR_COLLISION_DAMAGE)
+                self.lowHealthOverlay:blink()
             end
         end
 
@@ -142,7 +143,9 @@ function Level:update(dt)
         -- Player collision with enemy
         for j, enemyHitbox in pairs(enemy:getHitboxes()) do
             if self.player:collides(enemyHitbox) then
-                self.player:takeCollisionDamage(ENEMY_COLLOSION_DAMAGE)
+                if self.player:takeCollisionDamage(ENEMY_COLLOSION_DAMAGE) then
+                    self.lowHealthOverlay:blink()
+                end
             end
         end
 
@@ -314,6 +317,7 @@ function Level:checkLaserCollision(laser, object)
             if object:reduceHealth(laser.source.attack) and object.type == "player" then
                 gSounds['impact']:stop()
                 gSounds['impact']:play()
+                self.lowHealthOverlay:blink()
             end
         elseif object.meta == "GameObject" and object.type == "meteor" then
             object:reduceHealth(laser.source.attack)
