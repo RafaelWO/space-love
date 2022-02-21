@@ -2,17 +2,12 @@ name: Merge main branch to test
 on:
   push:
     branches:
-      - 'main'
+      - '**'
 jobs:
   merge-branch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
 
-      - name: Merge main -> test
-        uses: devmasx/merge-branch@master
-        with:
-          type: now
-          target_branch: test
-          github_token: ${{ github.token }}
-          message: '[Automated] Merged `main` into target `test`'
+      - name: Luacheck
+        uses: nebularg/actions-luacheck@v1
