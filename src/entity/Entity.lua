@@ -78,7 +78,7 @@ function Entity:createHealthbar()
     local barWidth = 100
     local offset = {
         x = self.width / 2 - barWidth / 2,
-        y = -20
+        y = -20 - HEALTH_BAR_TEXT_OFFSET
     }
     self.healthBar = ProgressBar {
         x = self.x + offset.x,
@@ -89,7 +89,10 @@ function Entity:createHealthbar()
         height = 5,
         max = self.health,
         value = self.health,
-        separators = true
+        separators = true,
+        text = string.rep("* ", self.lvl),
+        textAlign = "center",
+        font = gFonts['medium']
     }
 end
 
