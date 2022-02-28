@@ -4,7 +4,7 @@ function Player:init(x, y, def, level, params)
     Entity.init(self, x, y, def, level, params)
 
     self.jets = {}
-    for k, jetDef in pairs(SHIP_DEFS[self.ship].jetOffset) do
+    for _, jetDef in pairs(SHIP_DEFS[self.ship].jetOffset) do
         table.insert(self.jets, GameObject(
             self.x + jetDef.x,
             self.y + jetDef.y,
@@ -60,8 +60,8 @@ end
 function Player:update(dt)
     Entity.update(self, dt)
     self.collisionDamageTimer = self.collisionDamageTimer + dt
-    
-    for k, jet in pairs(self.jets) do
+
+    for _, jet in pairs(self.jets) do
         jet:update(dt)
     end
     self.shield:update(dt)
@@ -85,8 +85,8 @@ end
 
 function Player:render()
     if not self.dead then
-        for k, jet in pairs(self.jets) do
-            jet:render(dt)
+        for _, jet in pairs(self.jets) do
+            jet:render()
         end
 
         Entity.render(self)
@@ -126,7 +126,7 @@ function Player:takeCollisionDamage(damage)
 end
 
 function Player:changeJetState(name)
-    for k, jet in pairs(self.jets) do
+    for _, jet in pairs(self.jets) do
         if name == "fly" then
             jet:changeState('pre-fly')
         elseif name == "idle" then
