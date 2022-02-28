@@ -1,4 +1,4 @@
-name: Merge main branch to test
+name: Luacheck
 on:
   push:
     branches:
@@ -11,3 +11,6 @@ jobs:
 
       - name: Luacheck
         uses: nebularg/actions-luacheck@v1
+        with:
+          files: main.lua src/*
+          args: --std +love -g
