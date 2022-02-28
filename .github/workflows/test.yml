@@ -4,7 +4,7 @@ on:
     branches:
       - '**'
 jobs:
-  merge-branch:
+  luacheck:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -12,5 +12,4 @@ jobs:
       - name: Luacheck
         uses: nebularg/actions-luacheck@v1
         with:
-          files: main.lua src/*
-          args: --std +love -g
+          config: ".luacheckrc"
