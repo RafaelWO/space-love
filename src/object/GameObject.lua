@@ -52,11 +52,11 @@ function GameObject:init(x, y, def, params)
 
     -- default empty collision callback
     self.onCollide = function() end
-    
+
     self.consumable = def.consumable or false
     -- default empty consume callback
     self.onConsume = function() end
-    
+
     -- for making an object blink
     self.blinking = false
     self.blinkTimer = 0
@@ -88,7 +88,7 @@ function GameObject:changeState(name)
     end
 
     local newState = nil
-    for key, value in pairs(self.states) do
+    for key, _ in pairs(self.states) do
         if key == name then
             newState = name
         end
@@ -174,18 +174,24 @@ function GameObject:render()
     local frame
     if self.states == nil then
         frame = self.frame
-        love.graphics.draw(gTextures[self.texture], gFrames[self.texture][frame],
-            math.floor(self.x), math.floor(self.y), self.rotation, self.scale, self.scale, self.rotOffsetX, self.rotOffsetY)
+        love.graphics.draw(
+            gTextures[self.texture], gFrames[self.texture][frame],
+            math.floor(self.x), math.floor(self.y),
+            self.rotation, self.scale, self.scale, self.rotOffsetX, self.rotOffsetY
+        )
     else
         local anim = self.currentAnimation
         if self.currentAnimation:getCurrentFrame() then
-            love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
-                math.floor(self.x), math.floor(self.y), self.rotation, self.scale, self.scale, self.rotOffsetX, self.rotOffsetY)
+            love.graphics.draw(
+                gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
+                math.floor(self.x), math.floor(self.y),
+                self.rotation, self.scale, self.scale, self.rotOffsetX, self.rotOffsetY
+            )
         end
     end
 
     love.graphics.setColor(1, 1, 1, 1)
-    
+
     if DEBUG then
         love.graphics.setColor(100/255, 100/255, 100/255, 1)
         love.graphics.rectangle('line', self.x, self.y, self.width, self.height)

@@ -16,13 +16,13 @@ function PlayerFlyState:update(dt)
     elseif love.keyboard.isDown('right') then
         self.entity.direction:add('right')
     end
-    
+
     if love.keyboard.isDown('up') then
         self.entity.direction:add('up')
     elseif love.keyboard.isDown('down') then
         self.entity.direction:add('down')
     end
-    
+
     if self.entity.direction:isEmpty() then
         self.entity:changeState('idle')
     end

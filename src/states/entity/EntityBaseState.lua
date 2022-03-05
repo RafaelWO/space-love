@@ -5,7 +5,6 @@ function EntityBaseState:init(entity)
 end
 
 function EntityBaseState:update(dt)
-    
 end
 
 function EntityBaseState:enter() end
@@ -21,7 +20,7 @@ function EntityBaseState:render()
         love.graphics.setColor(1, 0, 1, 1)
         love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
         love.graphics.setColor(1, 1, 1, 1)
-        
+
         local hitboxes = self.entity:getHitboxes()
         for k, hitbox in pairs(hitboxes) do
             love.graphics.setColor(0, 1, 1, 1)

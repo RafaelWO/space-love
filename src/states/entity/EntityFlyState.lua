@@ -17,8 +17,8 @@ function EntityFlyState:update(dt)
 
     if self.entity.direction:contains('left') then
         self.entity.x = self.entity.x - self.entity.flySpeed * dt
-        
-        if self.entity.x <= 0 then 
+
+        if self.entity.x <= 0 then
             self.entity.x = 0
             self.bumped = true
         end
@@ -34,7 +34,7 @@ function EntityFlyState:update(dt)
     if self.entity.direction:contains('up') then
         self.entity.y = self.entity.y - self.entity.flySpeed * dt
 
-        if self.entity.y <= 25 + self.entity.screenBarrier.top then 
+        if self.entity.y <= 25 + self.entity.screenBarrier.top then
             self.entity.y = 25 + self.entity.screenBarrier.top
             self.bumped = true
         end
@@ -72,7 +72,8 @@ function EntityFlyState:processAI(params, dt)
         end
     end
 
-    if self.initialMove and self.entity.y > 25 and self.entity.x > 0 and self.entity.x < VIRTUAL_WIDTH - self.entity.width then
+    if self.initialMove and self.entity.y > 25 and self.entity.x > 0
+            and self.entity.x < VIRTUAL_WIDTH - self.entity.width then
         self.initialMove = false
     end
 

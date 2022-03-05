@@ -11,13 +11,13 @@ ProgressBar = Class{}
 function ProgressBar:init(def)
     self.x = def.x
     self.y = def.y
-    
+
     self.parent = def.parent
     self.parentOffset = def.parentOffset
-    
+
     self.width = def.width
     self.height = def.height
-    
+
     self.color = def.color or {r = 1, g = 1, b = 1}           -- defaults to white
     self.outlineColor = def.outlineColor or {r = 0, g = 0, b = 0}   -- defaults to black
     self.textColor = def.textColor or {r = 1, g = 1, b = 1}   -- defaults to white
@@ -77,6 +77,6 @@ function ProgressBar:render()
             love.graphics.line(x, self.y + yOffset, x, self.y + yOffset + self.height)
         end
     end
-    
+
     love.graphics.setColor(1, 1, 1, 1)
 end

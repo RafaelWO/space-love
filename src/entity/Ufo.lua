@@ -38,9 +38,9 @@ end
 function Ufo:shoot()
     if self.shotIntervalTimer > self.shotInterval then
         self.shotIntervalTimer = 0
-        
+
         local directions = {"up", "down", "left", "right"}
-        for i, offset in ipairs(self.laserOffsets) do 
+        for i, offset in ipairs(self.laserOffsets) do
             table.insert(self.level.lasers, Laser (
                 self.x + offset.x,
                 self.y + offset.y,

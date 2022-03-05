@@ -1,5 +1,5 @@
 LEVEL_DIFFICULTY = {
-    {   
+    {
         --[[
             Spawn probabilites for enemies
             The key is the "less-than-probability", i.e. 'enemy-1' spawns with a probability of 1 - 0.6 = 0.4
@@ -14,7 +14,7 @@ LEVEL_DIFFICULTY = {
         --[[
             Level probabilites for enemies
             The probabilties below define the level of an enemey that is spawned (higher = stronger).
-            The calculation is done in the same way as above. In this case the enemy will be level 3 with a 
+            The calculation is done in the same way as above. In this case the enemy will be level 3 with a
             probability of 0.1 - 0.0 = 0.1
         ]]
         ['enemy-level-probs'] = {
@@ -24,7 +24,7 @@ LEVEL_DIFFICULTY = {
             [0.0] = 4
         },
         --[[
-            The enemy spawn interval contains a range for which a random integer is sampled, 
+            The enemy spawn interval contains a range for which a random integer is sampled,
             i.e. in this case it is a random value between 3 and 7 seconds.
         ]]
         ['enemy-spawn-interval'] = {3, 6},

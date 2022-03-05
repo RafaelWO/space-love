@@ -20,23 +20,23 @@ function PlayState:init(params)
         Timer.tween(1, {
             [self] = {transitionAlpha = 0}
         })
-        
+
         -- once that's finished, start a transition of our text label to
         -- the center of the screen over 0.25 seconds
         :finish(function()
             Timer.tween(0.25, {
                 [self] = {stageLabelY = VIRTUAL_HEIGHT / 2 - 8}
             }):group(self.timers)
-            
+
             -- after that, pause for one second with Timer.after
             :finish(function()
                 Timer.after(1, function()
-                    
+
                     -- then, animate the label going down past the bottom edge
                     Timer.tween(0.25, {
                         [self] = {stageLabelY = VIRTUAL_HEIGHT + 30}
                     }):group(self.timers)
-                    
+
                     -- once that's complete, reset the variables
                     :finish(function()
                         self.stageLabelY = -64
@@ -76,5 +76,5 @@ function PlayState:render()
 end
 
 function PlayState:exit()
-    
+
 end

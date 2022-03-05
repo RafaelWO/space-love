@@ -91,11 +91,15 @@ gSounds = {
 }
 
 for i = 1, EXPLOSION_SHORT_COUNT, 1 do
-    gSounds['explosion-short-' .. i] = love.audio.newSource('sounds/explosion_short/sfx_exp_short_hard' .. i ..'.wav', 'static')
+    gSounds['explosion-short-' .. i] = love.audio.newSource(
+        'sounds/explosion_short/sfx_exp_short_hard' .. i ..'.wav', 'static'
+    )
 end
 
 for i = 1, EXPLOSION_MEDIUM_COUNT, 1 do
-    gSounds['explosion-medium-' .. i] = love.audio.newSource('sounds/explosion_medium/sfx_exp_medium' .. i ..'.wav', 'static')
+    gSounds['explosion-medium-' .. i] = love.audio.newSource(
+        'sounds/explosion_medium/sfx_exp_medium' .. i ..'.wav', 'static'
+    )
 end
 
 for k, sound in pairs(gSounds) do
