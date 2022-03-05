@@ -16,7 +16,7 @@ function Spawner:update(dt)
     if self.meteorSpawnTimer > self.meteorSpawnEta then
         self:spawnMeteor()
     end
-    
+
     if self.enemySpawnTimer > self.enemySpawnEta then
         self:spawnEnemy()
     end
@@ -25,7 +25,7 @@ end
 function Spawner:spawnMeteor()
     self.meteorSpawnTimer = 0
     self.meteorSpawnEta = math.random(unpack(self.level.stageDef['meteor-spawn-interval']))
-    
+
     local meteorDef = GAME_OBJECT_DEFS['meteor-' .. math.random(4)]
     table.insert(self.level.meteors, Meteor (
         math.random(0, VIRTUAL_WIDTH),
@@ -76,8 +76,8 @@ end
 
 function Spawner:spawnPowerup(name, colorLower, onConsume, x, y)
     local object_def = GAME_OBJECT_DEFS[name]
-    local x = x - object_def.width / 2
-    local y = y - object_def.height / 2
+    x = x - object_def.width / 2
+    y = y - object_def.height / 2
 
     -- There are no orange powerups -> use red for orange
     local color = self.level.player.color == "Orange" and "Red" or self.level.player.color

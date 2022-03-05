@@ -15,7 +15,7 @@ function Entity:init(x, y, def, level, params)
     self.ship = params.ship or def.ship
     self.laser = def.laser
     self.laserType = def.laserType or '05'
-    
+
     self.x = x
     self.y = y
 
@@ -43,7 +43,7 @@ function Entity:init(x, y, def, level, params)
         bottom = (self.type == "player" or self.type == "ufo") and 0 or SCREEN_BARRIER_SIZE,
         top = (self.type == "ufo") and SCREEN_BARRIER_SIZE or 0
     }
-    
+
     self.width = SHIP_DEFS[self.ship].width
     self.height = SHIP_DEFS[self.ship].height
     self.hitboxDefs = SHIP_DEFS[self.ship].hitboxDefs
@@ -118,7 +118,6 @@ end
 ]]
 function Entity:collides(target)
     local hitboxes = self:getHitboxes()
-    local collides = false
     for k, hitbox in pairs(hitboxes) do
         if hitbox:collides(target) then
             return true
@@ -163,8 +162,8 @@ end
 function Entity:shoot(direction)
     if self.shotIntervalTimer > self.shotInterval then
         self.shotIntervalTimer = 0
-        
-        for i, offset in ipairs(self.laserOffsets) do 
+
+        for i, offset in ipairs(self.laserOffsets) do
             table.insert(self.level.lasers, Laser (
                 self.x + offset.x,
                 self.y + offset.y,

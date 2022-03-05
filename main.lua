@@ -19,7 +19,8 @@ function love.load()
         resizable = true
     })
 
-    -- comment out the following lines to print the StateStack to the console (requires game to be started with 'love . --console')
+    -- comment out the following lines to print the StateStack to the console
+    -- this requires game to be started with 'love . --console'
     if DEBUG then
         Event.on('stack-changed', function()
             local stateString = ""
@@ -90,7 +91,7 @@ end
 
 function love.draw()
     push:start()
-    
+
     gStateStack:render()
     love.graphics.setColor(150/255, 150/255, 150/255, 255/255)
     love.graphics.setFont(gFonts['default-small'])

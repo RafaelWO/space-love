@@ -8,7 +8,7 @@ function GameOverState:init(params)
     self.score = params.score
     self.playerName = ""
     self.cursor = "_"
-    self.cursorTimer = Timer.every(0.5, function() 
+    self.cursorTimer = Timer.every(0.5, function()
         local cursorSymbol = utf8.len(self.playerName) < 8 and "_" or ""
         self.cursor = (self.cursor == cursorSymbol) and " " or cursorSymbol
     end)
@@ -43,7 +43,8 @@ function GameOverState:update(dt)
     self.menu:update(dt)
     self.background:update(dt)
 
-    if love.keyboard.textInput:gsub("%s+", "") ~= "" and love.keyboard.textInput ~= "," and utf8.len(self.playerName) < 8 then
+    if love.keyboard.textInput:gsub("%s+", "") ~= "" and
+            love.keyboard.textInput ~= "," and utf8.len(self.playerName) < 8 then
         self.playerName = self.playerName .. love.keyboard.textInput:upper()
     end
 

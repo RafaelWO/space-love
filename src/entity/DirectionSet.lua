@@ -23,7 +23,7 @@ function DirectionSet:remove(key)
 end
 
 function DirectionSet:reset()
-    for direction, enabled in pairs(self.set) do
+    for direction, _ in pairs(self.set) do
         self.set[direction] = false
     end
 end
@@ -33,7 +33,7 @@ function DirectionSet:contains(key)
 end
 
 function DirectionSet:isEmpty()
-    for direction, enabled in pairs(self.set) do
+    for _, enabled in pairs(self.set) do
         if enabled then
             return false
         end

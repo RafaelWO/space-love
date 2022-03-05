@@ -5,7 +5,9 @@ function generateQuadsFromXml(sheetXml, atlas)
     local rootNode = document.children[1]
     local textures = {}
     for i, texture in pairs(rootNode.children) do
-        quad = love.graphics.newQuad(texture.attrs.x, texture.attrs.y, texture.attrs.width, texture.attrs.height, atlas:getDimensions())
+        quad = love.graphics.newQuad(
+            texture.attrs.x, texture.attrs.y, texture.attrs.width, texture.attrs.height, atlas:getDimensions()
+        )
         textureName = string.sub(texture.attrs.name, 1, string.len(texture.attrs.name) - 4)
         textures[textureName] = quad
     end
@@ -84,7 +86,7 @@ function getFrameNamesFromSheet(sheet, name)
     for frame, quad in pairs(gFrames['sheet']) do
         if string.match(frame, name) then
             table.insert(matchedNames, frame)
-        end 
+        end
     end
     return matchedNames
 end
@@ -132,9 +134,17 @@ function getExplosion(image, source)
     pSystem:setParticleLifetime(0.8, 0.8)
     pSystem:setLinearAcceleration(-100, -100, 100, 100)
     if source == "ship" then
-        pSystem:setColors(255/255, 255/255, 0, 255/255, 255/255, 153/255, 51/255, 255/255, 64/255, 64/255, 64/255, 0)
+        pSystem:setColors(
+            255/255, 255/255, 0, 255/255,
+            255/255, 153/255, 51/255, 255/255,
+            64/255, 64/255, 64/255, 0
+        )
     elseif source == "meteor" then
-        pSystem:setColors(100/255, 100/255, 100/255, 255/255, 180/255, 180/255, 180/255, 255/255, 64/255, 64/255, 64/255, 0)
+        pSystem:setColors(
+            100/255, 100/255, 100/255, 255/255,
+            180/255, 180/255, 180/255, 255/255,
+            64/255, 64/255, 64/255, 0
+        )
     end
     pSystem:setSizes(0.5, 0.7)
     return pSystem
@@ -149,7 +159,7 @@ function spairs(t, order)
     for k in pairs(t) do keys[#keys+1] = k end
 
     -- if order function given, sort by it by passing the table and keys a, b,
-    -- otherwise just sort the keys 
+    -- otherwise just sort the keys
     if order then
         table.sort(keys, function(a,b) return order(t, a, b) end)
     else

@@ -81,15 +81,21 @@ function Menu:render()
         else
             love.graphics.setColor(100/255, 100/255, 100/255, 255/255)
         end
-        
+
         love.graphics.printf(text, self.x, self.y + offsetY, VIRTUAL_WIDTH, 'center')
 
         if self.sideOptions[k] then
             offsetY = offsetY + self.sideOptionsRowOffset
 
-            love.graphics.draw(gTextures['arrow-left'], VIRTUAL_WIDTH / 2 - 84 - self.arrowWidth / 2, self.y + offsetY + 4, 0, self.arrowScale, self.arrowScale)
-            love.graphics.draw(gTextures['arrow-right'], VIRTUAL_WIDTH / 2 + 80 - self.arrowWidth / 2, self.y + offsetY + 4, 0, self.arrowScale, self.arrowScale)
-            
+            love.graphics.draw(
+                gTextures['arrow-left'], VIRTUAL_WIDTH / 2 - 84 - self.arrowWidth / 2,
+                self.y + offsetY + 4, 0, self.arrowScale, self.arrowScale
+            )
+            love.graphics.draw(
+                gTextures['arrow-right'], VIRTUAL_WIDTH / 2 + 80 - self.arrowWidth / 2,
+                self.y + offsetY + 4, 0, self.arrowScale, self.arrowScale
+            )
+
             -- Then print the option text
             if k == self.selected then
                 love.graphics.setColor(1, 1, 1, 1)

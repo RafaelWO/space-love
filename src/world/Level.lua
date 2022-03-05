@@ -5,7 +5,7 @@ function Level:init(params)
     self.meteors = {}
     self.particles = {}
     self.items = {}
-    
+
     self.player = Player (
         VIRTUAL_WIDTH / 2 - SHIP_DEFS[params.playerShipConfig.ship].width / 2,
         VIRTUAL_HEIGHT / 2 + 100,
@@ -20,7 +20,7 @@ function Level:init(params)
     self.timers = {}
     self.noPowerupCount = 0
     self.score = 0
-    self.scoreTimer = Timer.every(5, function() 
+    self.scoreTimer = Timer.every(5, function()
         self.score = self.score + 5
         Event.dispatch('score-changed', 5)
     end):group(self.timers)
@@ -32,7 +32,7 @@ function Level:init(params)
         maxAlpha = 25/255,
         mode = 'full'
     })
-    
+
     self.stage = 0
     self.stageDef = nil
     self.stageGoals = {
@@ -151,22 +151,22 @@ function Level:update(dt)
 
         if enemy.dead then
             self.spawner:spawnExplosion(enemy, EXPLOSION_BLAST_SHIP, 'short')
-            
+
             local enemyReward = 20 * enemy:getShipType() + 10 * enemy.lvl
             self.score = self.score + enemyReward
             Event.dispatch('score-changed', enemyReward)
 
             -- will be between [2; 40]
             local powerupProbability = enemy:getShipType() * enemy.lvl * 2
-            
+
             if math.random(POWERUP_PROB_MAX) <= powerupProbability or self.noPowerupCount >= NO_POWERUP_THRESH then
                 -- powerup star (spawn UFO) is available from stage 2
                 local powerupType = math.random(1, (self.stage >= 2 and 3 or 2))
 
                 if powerupType == 1 or self.noPowerupCount >= NO_POWERUP_THRESH then
                     self.spawner:spawnPowerup(
-                        'pill', 
-                        true, 
+                        'pill',
+                        true,
                         function()
                             gSounds['powerup-health']:stop()
                             gSounds['powerup-health']:play()
@@ -176,8 +176,8 @@ function Level:update(dt)
                     )
                 elseif powerupType == 2 then
                     self.spawner:spawnPowerup(
-                        'powerup-shield', 
-                        false, 
+                        'powerup-shield',
+                        false,
                         function()
                             self.player:shieldUp(5)
                         end,
@@ -185,8 +185,8 @@ function Level:update(dt)
                     )
                 elseif powerupType == 3 then
                     self.spawner:spawnPowerup(
-                        'powerup-star', 
-                        false, 
+                        'powerup-star',
+                        false,
                         function()
                             self.spawner:spawnUfo()
                         end,
@@ -197,7 +197,7 @@ function Level:update(dt)
             else
                 self.noPowerupCount = self.noPowerupCount + 1
             end
-            
+
             if DEBUG then
                 print("Powerup probability:", powerupProbability)
                 print("No powerup  (" .. self.noPowerupCount .. "/" .. NO_POWERUP_THRESH .. ")")
@@ -248,7 +248,10 @@ function Level:render()
     local scoreString = string.rep("0", 8 - tostring(self.score):len()) .. tostring(self.score)
     local scoreOffset = HUD_PADDING + (scoreString:len() * 20)
     for char in scoreString:gmatch"." do
-        love.graphics.draw(gTextures['sheet'], gFrames['sheet']['numeral' .. char], VIRTUAL_WIDTH - scoreOffset, HUD_PADDING)
+        love.graphics.draw(
+            gTextures['sheet'], gFrames['sheet']['numeral' .. char],
+            VIRTUAL_WIDTH - scoreOffset, HUD_PADDING
+        )
         scoreOffset = scoreOffset - 20
     end
 
@@ -274,7 +277,10 @@ function Level:render()
 
         for y = 50, (#self.enemies * 20 + 30), 20 do
             local idx = (y - 30) / 20
-            love.graphics.printf("Enemy #" .. idx .. " Health: " .. self.enemies[idx].health, VIRTUAL_WIDTH - 200, y + 50, VIRTUAL_WIDTH, 'left')
+            love.graphics.printf(
+                "Enemy #" .. idx .. " Health: " .. self.enemies[idx].health,
+                VIRTUAL_WIDTH - 200, y + 50, VIRTUAL_WIDTH, 'left'
+            )
         end
 
         -- Draw screen barriers (for enemies and ufo)
@@ -290,7 +296,7 @@ function Level:initEvents()
             if stage <= self.stage then
                 break
             end
-            
+
             if self.score >= goal then
                 self:changeStage(stage)
                 break

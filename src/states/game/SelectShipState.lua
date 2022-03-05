@@ -28,8 +28,8 @@ function SelectShipState:init(params)
             function()
                 self.tweening = true
                 Timer.tween(0.8, {
-                    [self.playerShip] = { 
-                        x = VIRTUAL_WIDTH / 2 - SHIP_DEFS[self.playerShip.ship].width / 2, 
+                    [self.playerShip] = {
+                        x = VIRTUAL_WIDTH / 2 - SHIP_DEFS[self.playerShip.ship].width / 2,
                         y = VIRTUAL_HEIGHT / 2 + 100
                     },
                     [self] = { blackAlpha = 1 }
@@ -117,7 +117,7 @@ function SelectShipState:getShipStats(name, doConversion)
             return value / 100
         elseif name == 'shotInterval' then
             return (1.1 -value) * 10
-        end 
+        end
     end
 
     return value
@@ -126,8 +126,8 @@ end
 function SelectShipState:shoot()
     if self.shotIntervalTimer > self.shotInterval then
         self.shotIntervalTimer = 0
-        
-        for i, offset in ipairs(self.laserOffsets) do 
+
+        for i, offset in ipairs(self.laserOffsets) do
             table.insert(self.lasers, Laser (
                 self.playerShip.x + offset.x,
                 self.playerShip.y + offset.y,
@@ -206,7 +206,7 @@ function SelectShipState:render()
     -- black rectangle for fade out (getting dark)
     love.graphics.setColor(0, 0, 0, self.blackAlpha)
     love.graphics.rectangle('fill', 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
-    
+
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(gTextures['sheet'], gFrames['sheet'][Player.getFrame(self.playerShip)],
         self.playerShip.x, self.playerShip.y)

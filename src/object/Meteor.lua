@@ -7,7 +7,7 @@ function Meteor:init(x, y, def, params)
     self.hitmargin = 2
     if string.match(self.frame, "_big") then
         -- hitbox for big meteors is smaller by 10 on each side
-        self.hitmargin = 10 
+        self.hitmargin = 10
     elseif string.match(self.frame, "_med") then
         self.hitmargin = 5
     end
@@ -52,7 +52,7 @@ function Meteor:getHitbox()
     local y = self.y + self.hitmargin
     local width = self.width - self.hitmargin * 2
     local height = self.height - self.hitmargin * 2
-    
+
     return { x = x, y = y, width = width, height = height }
 end
 
@@ -88,7 +88,7 @@ end
 function Meteor:overrideDef(def)
     local newDef = table.deepcopy(def)
     local color = math.random() < 0.5 and "Grey" or "Brown"
-    
+
     newDef.frame = newDef.frame:gsub("<color>", color):gsub("<type>", math.random(def.frame:match("big") and 4 or 2))
     return newDef
 end

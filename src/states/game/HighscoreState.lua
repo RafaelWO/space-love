@@ -1,5 +1,3 @@
-local utf8 = require("utf8")
-
 HighscoreState = Class{__includes = BaseState}
 
 function HighscoreState:init(params)
@@ -49,7 +47,7 @@ function HighscoreState:render()
     else
         love.graphics.printf("No scores found", 0, self.scoreBoardY, VIRTUAL_WIDTH, 'center')
     end
-    
+
     self.menu:render()
 end
 
@@ -62,7 +60,7 @@ function HighscoreState:readScores(limit)
             if row:gsub("%s+", "") == "" then
                 break
             end
-            local items = {} 
+            local items = {}
             for item in row:gmatch("([^,]+)") do
                 table.insert(items, item)
             end

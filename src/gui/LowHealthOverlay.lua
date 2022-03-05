@@ -83,7 +83,7 @@ function LowHealthOverlay:render()
                     }
                     -- Set alpha of colorized part
                     gradArgs[i][4] = self.alpha
-                    
+
                     -- Set other gradient color to be transparted, i.e. alpha = 0
                     if i == 1 then
                         gradArgs[2][4] = 0

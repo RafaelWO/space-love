@@ -22,10 +22,10 @@ function Shield:update(dt)
         newWidth = 144
         newHeight = 137
     end
-    
+
     if newWidth ~= self.width and newHeight ~= self.height then
         local xDiff = self.width - newWidth
-        local yDiff = self.height - newHeight
+
         self.width = newWidth
         self.height = newHeight
 
@@ -35,7 +35,7 @@ function Shield:update(dt)
 end
 
 function Shield:getHitboxes()
-    return { 
+    return {
         Hitbox(self.x + 30, self.y + 10, 84, 108),
         Hitbox(self.x + 15, self.y + 25, 114, 93),
         Hitbox(self.x + 5, self.y + 45, 134, 73),
