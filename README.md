@@ -1,5 +1,8 @@
 # Space-Love
 <p>
+    <a href="https://github.com/RafaelWO/space-love/actions/workflows/test.yml">
+        <img alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/workflow/status/RafaelWO/space-love/Luacheck/main?label=luacheck">
+    </a>
     <a href="https://github.com/RafaelWO/space-love/releases">
         <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/rafaelwo/space-love">
     </a>
