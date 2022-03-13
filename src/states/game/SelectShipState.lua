@@ -3,18 +3,8 @@ SelectShipState = Class{__includes = BaseState}
 function SelectShipState:init(params)
     self.name = "SelectShipState"
     self.background = params.background
-
-    local shipY = VIRTUAL_HEIGHT / 2 - 90
-    self.playerShip = {
-        x = VIRTUAL_WIDTH / 2 - SHIP_DEFS["playerShip1"].width / 2 - 120,
-        y = shipY,
-        ship = "playerShip1",
-        color = "Blue",
-        -- for shooting laser
-        type = "player",
-        laserType = "05"
-    }
-
+    self.shipY = VIRTUAL_HEIGHT / 2 - 90
+    self:loadShip()
     self.menu = Menu {
         y = VIRTUAL_HEIGHT / 2 + 100,
         texts = {
@@ -26,6 +16,7 @@ function SelectShipState:init(params)
             nil,
             nil,
             function()
+                love.filesystem.write(FILE_SHIP, lunajson.encode(self.playerShip))
                 self.tweening = true
                 Timer.tween(0.8, {
                     [self.playerShip] = {
@@ -51,6 +42,9 @@ function SelectShipState:init(params)
             nil
         }
     }
+    -- Set menu state to current player ship
+    self.menu:selectSideOption(1, Entity.getShipType(self.playerShip))
+    self.menu:selectSideOption(2, self.playerShip.color)
 
     self.tweening = false
     self.blackAlpha = 0
@@ -96,7 +90,7 @@ function SelectShipState:init(params)
     for name, stats in spairs(self.shipStats, function(t,a,b) return t[a].pos < t[b].pos end) do
         self.shipStatBars[name] = ProgressBar {
             x = VIRTUAL_WIDTH / 2 + 40,
-            y = shipY - 20 + yOffset,
+            y = self.shipY - 20 + yOffset,
             width = 150,
             height = 5,
             value = self:getShipStats(name, true),
@@ -210,4 +204,26 @@ function SelectShipState:render()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(gTextures['sheet'], gFrames['sheet'][Player.getFrame(self.playerShip)],
         self.playerShip.x, self.playerShip.y)
+end
+
+function SelectShipState:loadShip()
+    if love.filesystem.getInfo(FILE_SHIP) then
+        content, _ = love.filesystem.read(FILE_SHIP)
+        print(content)
+        self.playerShip = lunajson.decode(content)
+        printTable(self.playerShip)
+        self.playerShip.y = self.shipY
+        self.playerShip.x = VIRTUAL_WIDTH / 2 - SHIP_DEFS[self.playerShip.ship].width / 2 - 120
+    else
+        -- Default selected ship
+        self.playerShip = {
+            x = VIRTUAL_WIDTH / 2 - SHIP_DEFS["playerShip1"].width / 2 - 120,
+            y = self.shipY,
+            ship = "playerShip1",
+            color = "Blue",
+            -- for shooting laser
+            type = "player",
+            laserType = "05"
+        }
+    end
 end
