@@ -6,6 +6,7 @@ function GameOverState:init(params)
     self.name = "GameOverState"
     self.background = Background(MENU_BACKGROUND)
     self.score = params.score
+    self.shipType = params.shipType
     self.playerName = ""
     self.cursor = "_"
     self.cursorTimer = Timer.every(0.5, function()
@@ -83,7 +84,7 @@ function GameOverState:exit()
 end
 
 function GameOverState:submitScore()
-    data = self.playerName .. "," .. self.score .. "\n"
+    data = self.playerName .. "," .. self.shipType .. "," .. self.score .. "\n"
 
     writeSaveFile(FILE_HIGHSCORES, data, 'append')
 end
