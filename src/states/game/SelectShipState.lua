@@ -209,9 +209,7 @@ end
 function SelectShipState:loadShip()
     if love.filesystem.getInfo(FILE_SHIP) then
         content, _ = love.filesystem.read(FILE_SHIP)
-        print(content)
         self.playerShip = lunajson.decode(content)
-        printTable(self.playerShip)
         self.playerShip.y = self.shipY
         self.playerShip.x = VIRTUAL_WIDTH / 2 - SHIP_DEFS[self.playerShip.ship].width / 2 - 120
     else
