@@ -7,6 +7,7 @@ Event = require 'lib/knife.event'
 push = require 'lib/push'
 Timer = require 'lib/knife.timer'
 require 'lib/xmlparser'
+lunajson = require 'lib/lunajson'
 
 require 'src/Utils'
 require 'src/constants'

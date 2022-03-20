@@ -185,11 +185,11 @@ end
 
 
 function writeSaveFile(file, data, mode)
-    if mode == "append" and love.filesystem.getInfo(FILE_HIGHSCORES) then
-        success, message = love.filesystem.append(FILE_HIGHSCORES, data)
+    if mode == "append" and love.filesystem.getInfo(file) then
+        success, message = love.filesystem.append(file, data)
         fsType = "fs-append"
     else
-        success, message = love.filesystem.write(FILE_HIGHSCORES, data)
+        success, message = love.filesystem.write(file, data)
         fsType = "fs-write"
     end
 

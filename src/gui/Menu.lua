@@ -51,6 +51,25 @@ function Menu:getSelectedSideText(menuIdx)
     return self.sideOptions[menuIdx][self.sideOptionsSelected[menuIdx]]
 end
 
+function Menu:selectSideOption(optionIdx, textOrIdx)
+    local selectIdx = nil
+    if type(textOrIdx) == "number" then
+        selectIdx = textOrIdx
+    else
+        for i, label in ipairs(self.sideOptions[optionIdx]) do
+            if label == textOrIdx then
+                selectIdx = i
+                break
+            end
+        end
+    end
+    if selectIdx ~= nil then
+        self.sideOptionsSelected[optionIdx] = selectIdx
+    else
+        error("Could not find side option at position " .. optionIdx .. " with item '" .. textOrIdx .. "'.")
+    end
+end
+
 function Menu:update(dt)
     if love.keyboard.wasPressed('down') then
         self:next()
