@@ -342,7 +342,7 @@ end
 function Level:gameOver()
     gSounds['music-lvl' .. self.stage]:stop()
     gStateStack:pop()
-    gStateStack:push(GameOverState({score = self.score}))
+    gStateStack:push(GameOverState({score = self.score, shipType = self.player:getShipType()}))
 end
 
 function Level:changeStage(value)

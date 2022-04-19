@@ -41,6 +41,12 @@ HIGHSCORES_LIMIT = 10
 
 FILE_SHIP = "selected_ship"
 
+SHIPNAME_TYPE_MAP = {
+    "classic",
+    "shooter",
+    "sniper"
+}
+
 EXPLOSION_SHORT_COUNT = 17
 EXPLOSION_MEDIUM_COUNT = 13
 
