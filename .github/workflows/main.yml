@@ -62,6 +62,7 @@ jobs:
           # Version of LÖVE to be used in building the application
           love_version: '11.3'
           # Path to dependencies rockspec relative to GitHub workspace
+          dependencies: 'deps-1-1.rockspec'
 
       # Upload the built applications
       - uses: actions/upload-artifact@v2
