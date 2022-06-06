@@ -1,4 +1,4 @@
-package = "dependencies"
+package = "deps"
 version = "1-1"
 source = {
     url = 'none' -- local build
